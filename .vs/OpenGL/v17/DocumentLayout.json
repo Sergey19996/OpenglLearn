@@ -1,0 +1,198 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\C\u002B\u002B\\Learning\\OpenGL\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core2.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\fragment_core2.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\LEARNING\\OPENGL\\LINKING\\INCLUDE\\GLAD\\GLAD.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:LINKING\\INCLUDE\\GLAD\\GLAD.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\lib\\stb.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Linking\\lib\\stb.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\glad.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\glad.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp",
+              "RelativeDocumentMoniker": "src\\main.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp",
+              "RelativeToolTip": "src\\main.cpp",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAcwKUAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-10T17:07:50.21Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Shader.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp",
+              "RelativeDocumentMoniker": "src\\Shader.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp",
+              "RelativeToolTip": "src\\Shader.cpp",
+              "ViewState": "AgIAAA4AAAAAAAAAAADwvx8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-14T19:42:45.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Shader.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h",
+              "RelativeDocumentMoniker": "src\\Shader.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h",
+              "RelativeToolTip": "src\\Shader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-14T19:42:18.301Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "fragment_core2.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core2.glsl",
+              "RelativeDocumentMoniker": "Assets\\fragment_core2.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core2.glsl",
+              "RelativeToolTip": "Assets\\fragment_core2.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-14T15:17:43.973Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "fragment_core.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl",
+              "RelativeDocumentMoniker": "Assets\\fragment_core.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl",
+              "RelativeToolTip": "Assets\\fragment_core.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-12T20:04:18.79Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "vertex_core.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl",
+              "RelativeDocumentMoniker": "Assets\\vertex_core.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl",
+              "RelativeToolTip": "Assets\\vertex_core.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-12T19:49:45.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "stb.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\lib\\stb.cpp",
+              "RelativeDocumentMoniker": "Linking\\lib\\stb.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\lib\\stb.cpp",
+              "RelativeToolTip": "Linking\\lib\\stb.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-12T16:41:38.135Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "glad.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\include\\glad\\glad.h",
+              "RelativeDocumentMoniker": "Linking\\include\\glad\\glad.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\include\\glad\\glad.h",
+              "RelativeToolTip": "Linking\\include\\glad\\glad.h",
+              "ViewState": "AgIAAOgMAAAAAAAAAAAcwPoMAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-11T15:06:38.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "glad.c",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\glad.c",
+              "RelativeDocumentMoniker": "src\\glad.c",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\glad.c",
+              "RelativeToolTip": "src\\glad.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-12-10T18:46:03.352Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{68487888-204a-11d3-87eb-00c04f7971a5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{be4d7042-ba3f-11d2-840e-00c04f9902c1}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
