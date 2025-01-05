@@ -1,4 +1,8 @@
+D:\C++\Learning\OpenGL\src\io\Camera.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Camera.obj
 D:\C++\Learning\OpenGL\Linking\lib\stb.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\stb.obj
-D:\C++\Learning\OpenGL\src\Shader.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Shader.obj
+D:\C++\Learning\OpenGL\src\io\Joystick.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Joystick.obj
+D:\C++\Learning\OpenGL\src\io\Keyboard.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Keyboard.obj
+D:\C++\Learning\OpenGL\src\io\Mouse.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Mouse.obj
+D:\C++\Learning\OpenGL\src\graphics\shader.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\shader.obj
 D:\C++\Learning\OpenGL\src\glad.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\glad.obj
 D:\C++\Learning\OpenGL\src\main.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\main.obj

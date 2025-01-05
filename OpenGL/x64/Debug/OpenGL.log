@@ -1,6 +1,2 @@
-﻿  main.cpp
-D:\C++\Learning\OpenGL\src\main.cpp(141,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(149,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(30,10): warning C4101: 'infoLog': unreferenced local variable
-D:\C++\Learning\OpenGL\src\main.cpp(29,9): warning C4101: 'success': unreferenced local variable
+﻿  shader.cpp
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe

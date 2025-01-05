@@ -151,18 +151,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\io\Camera.cpp" />
     <ClCompile Include="Linking\lib\stb.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\io\Joystick.cpp" />
+    <ClCompile Include="src\io\Keyboard.cpp" />
+    <ClCompile Include="src\io\Mouse.cpp" />
+    <ClCompile Include="src\graphics\shader.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\io\screen.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\fragment_core.glsl" />
-    <None Include="Assets\fragment_core2.glsl" />
-    <None Include="Assets\vertex_core.glsl" />
+    <None Include="Assets\object.fs.glsl" />
+    <None Include="Assets\object.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\io\Camera.h" />
+    <ClInclude Include="src\io\Joystick.h" />
+    <ClInclude Include="src\io\Keyboard.h" />
+    <ClInclude Include="src\io\Mouse.h" />
+    <ClInclude Include="src\graphics\shader.h" />
+    <ClInclude Include="src\io\screen.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Rubbit.jpg" />
+    <Image Include="Assets\Skull.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

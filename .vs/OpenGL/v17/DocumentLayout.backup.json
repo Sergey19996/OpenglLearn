@@ -7,12 +7,44 @@
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Mouse.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Mouse.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Keyboard.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Joystick.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Keyboard.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Joystick.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -27,16 +59,16 @@
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\fragment_core2.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\LEARNING\\OPENGL\\LINKING\\INCLUDE\\GLAD\\GLAD.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:LINKING\\INCLUDE\\GLAD\\GLAD.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\lib\\stb.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Linking\\lib\\stb.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\glad.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\glad.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\include\\glad\\glad.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Linking\\include\\glad\\glad.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,12 +86,38 @@
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp",
               "RelativeDocumentMoniker": "src\\main.cpp",
-              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp",
-              "RelativeToolTip": "src\\main.cpp",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAcwKUAAABIAAAAAAAAAA==",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp*",
+              "RelativeToolTip": "src\\main.cpp*",
+              "ViewState": "AgIAACwBAAAAAAAAAAAtwEUBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-10T17:07:50.21Z",
               "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Camera.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp",
+              "RelativeDocumentMoniker": "src\\io\\Camera.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp",
+              "RelativeToolTip": "src\\io\\Camera.cpp",
+              "ViewState": "AgIAADAAAAAAAAAAAAAtwEcAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-05T16:43:54.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Camera.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h",
+              "RelativeDocumentMoniker": "src\\io\\Camera.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h",
+              "RelativeToolTip": "src\\io\\Camera.h",
+              "ViewState": "AgIAABMAAAAAAAAAAAAtwCgAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-05T16:32:37.472Z",
               "EditorCaption": ""
             },
             {
@@ -67,34 +125,134 @@
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Joystick.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.h",
+              "RelativeDocumentMoniker": "src\\io\\Joystick.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.h",
+              "RelativeToolTip": "src\\io\\Joystick.h",
+              "ViewState": "AgIAABUAAAAAAAAAAAAtwDUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-15T18:33:08.625Z"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Shader.cpp",
-              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp",
-              "RelativeDocumentMoniker": "src\\Shader.cpp",
-              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp",
-              "RelativeToolTip": "src\\Shader.cpp",
-              "ViewState": "AgIAAA4AAAAAAAAAAADwvx8AAAAAAAAAAAAAAA==",
+              "Title": "Mouse.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.cpp",
+              "RelativeDocumentMoniker": "src\\io\\Mouse.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.cpp",
+              "RelativeToolTip": "src\\io\\Mouse.cpp",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAtwDUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-14T19:42:45.249Z",
+              "WhenOpened": "2024-12-15T18:04:43.677Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "Mouse.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.h",
+              "RelativeDocumentMoniker": "src\\io\\Mouse.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.h",
+              "RelativeToolTip": "src\\io\\Mouse.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-15T17:53:03.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Keyboard.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.cpp",
+              "RelativeDocumentMoniker": "src\\io\\Keyboard.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.cpp",
+              "RelativeToolTip": "src\\io\\Keyboard.cpp",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAAcAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-15T15:51:35.209Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Keyboard.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.h",
+              "RelativeDocumentMoniker": "src\\io\\Keyboard.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.h",
+              "RelativeToolTip": "src\\io\\Keyboard.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-15T15:43:53.806Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "Shader.h",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h",
               "RelativeDocumentMoniker": "src\\Shader.h",
               "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h",
               "RelativeToolTip": "src\\Shader.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAtwBwAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-14T19:42:18.301Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-14T19:42:18.301Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "vertex_core.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl",
+              "RelativeDocumentMoniker": "Assets\\vertex_core.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl",
+              "RelativeToolTip": "Assets\\vertex_core.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-12T19:49:45.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "fragment_core.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl",
+              "RelativeDocumentMoniker": "Assets\\fragment_core.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl",
+              "RelativeToolTip": "Assets\\fragment_core.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-12T20:04:18.79Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Joystick.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.cpp",
+              "RelativeDocumentMoniker": "src\\io\\Joystick.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.cpp",
+              "RelativeToolTip": "src\\io\\Joystick.cpp",
+              "ViewState": "AgIAABQAAAAAAAAAAAAtwDUAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-15T18:38:26.242Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Shader.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp",
+              "RelativeDocumentMoniker": "src\\Shader.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp",
+              "RelativeToolTip": "src\\Shader.cpp",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAtwHYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-14T19:42:45.249Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "fragment_core2.glsl",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core2.glsl",
               "RelativeDocumentMoniker": "Assets\\fragment_core2.glsl",
@@ -102,38 +260,11 @@
               "RelativeToolTip": "Assets\\fragment_core2.glsl",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-12-14T15:17:43.973Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-14T15:17:43.973Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "fragment_core.glsl",
-              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl",
-              "RelativeDocumentMoniker": "Assets\\fragment_core.glsl",
-              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl",
-              "RelativeToolTip": "Assets\\fragment_core.glsl",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-12-12T20:04:18.79Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "vertex_core.glsl",
-              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl",
-              "RelativeDocumentMoniker": "Assets\\vertex_core.glsl",
-              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl",
-              "RelativeToolTip": "Assets\\vertex_core.glsl",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-12-12T19:49:45.254Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "stb.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\lib\\stb.cpp",
               "RelativeDocumentMoniker": "Linking\\lib\\stb.cpp",
@@ -145,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 16,
               "Title": "glad.h",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\include\\glad\\glad.h",
               "RelativeDocumentMoniker": "Linking\\include\\glad\\glad.h",
@@ -153,12 +284,11 @@
               "RelativeToolTip": "Linking\\include\\glad\\glad.h",
               "ViewState": "AgIAAOgMAAAAAAAAAAAcwPoMAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-11T15:06:38.706Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-11T15:06:38.706Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "glad.c",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\glad.c",
               "RelativeDocumentMoniker": "src\\glad.c",
