@@ -151,6 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\material.cpp" />
+    <ClCompile Include="src\graphics\mesh.cpp" />
+    <ClCompile Include="src\graphics\model.cpp" />
     <ClCompile Include="src\io\Camera.cpp" />
     <ClCompile Include="Linking\lib\stb.cpp" />
     <ClCompile Include="src\io\Joystick.cpp" />
@@ -160,18 +163,26 @@
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\io\screen.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\graphics\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\lamp.fs.glsl" />
     <None Include="Assets\object.fs.glsl" />
     <None Include="Assets\object.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\material.h" />
+    <ClInclude Include="src\graphics\mesh.h" />
+    <ClInclude Include="src\graphics\model.h" />
+    <ClInclude Include="src\graphics\models\cube.hpp" />
+    <ClInclude Include="src\graphics\models\lamp.hpp" />
     <ClInclude Include="src\io\Camera.h" />
     <ClInclude Include="src\io\Joystick.h" />
     <ClInclude Include="src\io\Keyboard.h" />
     <ClInclude Include="src\io\Mouse.h" />
     <ClInclude Include="src\graphics\shader.h" />
     <ClInclude Include="src\io\screen.h" />
+    <ClInclude Include="src\graphics\texture.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Rubbit.jpg" />

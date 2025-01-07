@@ -1,3 +1,6 @@
+D:\C++\Learning\OpenGL\src\graphics\material.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\material.obj
+D:\C++\Learning\OpenGL\src\graphics\mesh.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\mesh.obj
+D:\C++\Learning\OpenGL\src\graphics\model.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\model.obj
 D:\C++\Learning\OpenGL\src\io\Camera.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Camera.obj
 D:\C++\Learning\OpenGL\Linking\lib\stb.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\stb.obj
 D:\C++\Learning\OpenGL\src\io\Joystick.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Joystick.obj
@@ -5,4 +8,6 @@ D:\C++\Learning\OpenGL\src\io\Keyboard.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Deb
 D:\C++\Learning\OpenGL\src\io\Mouse.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\Mouse.obj
 D:\C++\Learning\OpenGL\src\graphics\shader.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\shader.obj
 D:\C++\Learning\OpenGL\src\glad.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\glad.obj
+D:\C++\Learning\OpenGL\src\io\screen.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\screen.obj
 D:\C++\Learning\OpenGL\src\main.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\main.obj
+D:\C++\Learning\OpenGL\src\graphics\texture.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\texture.obj

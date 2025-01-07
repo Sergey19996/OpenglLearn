@@ -15,16 +15,19 @@
 #include <glm/gtc/matrix_transform.hpp>  // glm::translate, glm::rotate, glm::scale и glm::perspective).
 
 #include "graphics/shader.h"
+#include "graphics/texture.h"
 #include "io/Keyboard.h"
 #include "io/Mouse.h"
 #include "io/Joystick.h"
 #include "io/Camera.h"
+#include "io/screen.h"
+#include "graphics/models/cube.hpp"
+#include "graphics/models/lamp.hpp"
 
-// Функция обратного вызова для обработки изменения размеров окна
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 
 // ввод клавиш
-void processInput(GLFWwindow* window, float fdeltatime);
+void processInput(float fdeltatime);
 
 float merge = 0.5f;
 
@@ -42,6 +45,9 @@ int activeCam = 0;
 
 
  unsigned int SCR_WIDTH = 800, SCR_HEIGHT = 600;
+
+ Screen screen;
+
 float theta = 45.0f;
 
 Joystick mainJ(0);
@@ -64,17 +70,13 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Специфическая настройка для macOS
 #endif
 
-    // Создание окна
-    GLFWwindow* Window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "FatBoys", NULL, NULL);
-    if (Window == NULL) // Проверка, удалось ли создать окно
-    {
+    if (!screen.init()) {
+
         std::cout << "Not Open Window" << std::endl; // Вывод сообщения об ошибке
         glfwTerminate(); // Завершаем GLFW, если окно не было создано
         return -1;
-    }
 
-    // Установка контекста OpenGL для созданного окна
-    glfwMakeContextCurrent(Window);
+    }
 
     // Загрузка всех функций OpenGL с помощью GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -84,25 +86,9 @@ int main()
         return -1;
     }
 
-    // Установка области отрисовки (всего окна по умолчанию)
-    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT); // Параметры: x, y, ширина, высота
+    screen.setParameters();
 
-    // Регистрация функции обратного вызова для изменения размеров окна
-    glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
-
-    // Установка обработчика событий клавиатуры (callback-функции)
-    glfwSetKeyCallback(Window, keyboard::keyCallback);
-
-    glfwSetCursorPosCallback(Window, Mouse::cursorPosCallback);
-    glfwSetMouseButtonCallback( Window, Mouse::mouseButtonCallback);
-    glfwSetScrollCallback(Window, Mouse::mouseWheelCallback);
-
-
-    glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // скрыть курсор 
-
-
-    glEnable(GL_DEPTH_TEST);   // включаем тест глубины 
-
+    glEnable(GL_DEPTH_TEST); // для буфера глубины, что бы корректно отрисовывать элементы, без перекрытия
     /*
  shaders
  */
@@ -110,149 +96,13 @@ int main()
 
 
     Shader shader("Assets/object.vs.glsl", "Assets/object.fs.glsl");
-  //  Shader shader2("Assets/vertex_core.glsl", "Assets/fragment_core.glsl");
+    Shader lampShader("Assets/object.vs.glsl", "Assets/lamp.fs.glsl");
 
-    //Vertex array object
-    float vertices[] = {
-
-        //position           //texCoords
-      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-       0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-      -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-      -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-       0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-       0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-       0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-       0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-
-    //VAO, VBO
-    unsigned VAO, VBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-
-   
-
-
-    //bind VAO
-    glBindVertexArray(VAO);
-
-    //bind VBO
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-   
-
-    //set atribute pointer 
-
-    //positions  Указываем, что атрибут 0 (позиции) это 3 компонента типа float
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);  // устанавливаем атрибутный слой 0
-    glEnableVertexAttribArray(0); // Включаем атрибут 0 (позиции) 
-
-   //texture coordinate  //index 2 , send 2 elements(x,y)  8 * sizeof(float) - это пробел между пред и след значениями в матрице
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    //Textures
-
-    unsigned int texture1,texture2;
-
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1);// к текстурному слоту GL_TEXTURE0 с помощью glBindTexture.
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //S=X 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //T=Y 
-  //  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT); //R=Z
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  // настройки для растягивания картинки (линейно просчитываем пиксели
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); // настройки для сужения картинки (используем соседние, пикселит при сжатии)
-
-    // Load Image
-    int width, Height, nChannels;
-    unsigned char* data = stbi_load("Assets/Skull.png", &width, &Height, &nChannels, 0);  //читаем данные из текстуры 
-
-    if (data) {
-
-        if (nChannels ==3)
-        {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data); //Создает двумерную текстуру с указанными размерами и данными пикселей, передаваемыми в data
-
-        }
-        else  // Alpha channel in texture 
-        {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Стандартная функция смешивания для прозрачных объектов
-        }
-        //Мип-маппинг — это метод использования нескольких версий текстуры с разным уровнем детализации
-        glGenerateMipmap(GL_TEXTURE_2D);
-        // в зависимости от расстояния до камеры.
-    }
-    else
-    {
-        std::cout << "Failed to load Texture" << std::endl; 
-    }
-
-    stbi_image_free(data);  //освобождаем данные 
-
-    glGenTextures(1, &texture2);
-    glBindTexture(GL_TEXTURE_2D, texture2);// к текстурному слоту GL_TEXTURE0 с помощью glBindTexture.
-
-
-    data = stbi_load("Assets/Rubbit.jpg", &width, &Height, &nChannels, 0);  //читаем данные из текстуры 
-
-    if (data) {
-
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data); //Создает двумерную текстуру с указанными размерами и данными пикселей, передаваемыми в data
-        glGenerateMipmap(GL_TEXTURE_2D);  // Генерация мип-маппинга
-        //Мип-маппинг — это метод использования нескольких версий текстуры с разным уровнем детализации
-        // в зависимости от расстояния до камеры.
-    }
-    else
-    {
-        std::cout << "Failed to load Texture" << std::endl;
-    }
-
-
-    shader.activate();
-    shader.setInt("texture1", 0); //GL_TEXTURE0   текстура должна быть использована из текстурного слота 0.
-    shader.setInt("texture2", 1);
-    shader.setValue("blend", merge);
-
+  
+    Cube Cube (Material::gold,glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(1.0f));
+    Cube.init();
+    Lamp lamp(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.0f,-0.0f,-3.25f),glm::vec3(2.0f));
+    lamp.init();
 
     float lastTime = glfwGetTime();
     float deltaTime = 0.0f;
@@ -271,91 +121,80 @@ int main()
 
   
     // Главный цикл рендеринга
-    while (!glfwWindowShouldClose(Window)) // Выполняем цикл, пока окно не закрыто
+    while (!screen.shouldClose()) // Выполняем цикл, пока окно не закрыто
     {
+
+        merge += deltaTime;
+      
+
 
         // Получаем время между кадрами
         float currentTime = glfwGetTime();
         deltaTime = currentTime - lastTime;
         lastTime = currentTime;
 
-
+       
         //input Tracking
-        processInput(Window, deltaTime);
+        processInput(deltaTime);
 
         //render
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        screen.update();
 
-        glActiveTexture(GL_TEXTURE0); // выбраем текстурный блок, который будет использоваться для дальнейших операций с текстурами. 31 max
-        glBindTexture(GL_TEXTURE_2D, texture1); //вязывает конкретную текстуру с выбранным текстурным блоком.
         
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2);
-
-        //draw shapes 
-        glBindVertexArray(VAO);
-      
-
-
-        merge += deltaTime;
-        float merge2 = 0.5f * sin(merge) + 0.5f;
 
 
 
 
-        shader.setValue("blend", merge2);     // позволяет нам смешивать цвета 
-
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        shader.bind();
+        shader.set3Float("light.position", lamp.pos);
+        shader.set3Float("viewPos", cameras[activeCam].cameraPos);
+        shader.set3Float("light.ambient", lamp.ambient);
+        shader.set3Float("light.diffuse", lamp.diffuse);
+        shader.set3Float("light.specular", lamp.specular);
 
         //create transformation on the screen
-        glm::mat4 model = glm::mat4(1.0f);
+      
         glm::mat4 view = glm::mat4(1.0f);
         glm::mat4 projection = glm::mat4(1.0f);
 
-        model = glm::rotate(model, currentTime * glm::radians(-55.0f), glm::vec3(0.5f));
+       
         view = cameras[activeCam].getViewMatrix();
+                                       //fov                                           aspect ration                   near pl/far plane
         projection = glm::perspective(glm::radians(cameras[activeCam].getZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    
-         shader.activate();
-         shader.setMat4("model", model);
-         shader.setMat4("view", view);
+     
+         shader.bind();
+       
+         shader.setMat4("view", view);  //model матрица в modele типа cube
          shader.setMat4("projection", projection);
    
-      
-        glBindVertexArray(0);
+         Cube.render(shader);   //  <--тут матрица model
+         lampShader.activate();
+         lampShader.setMat4("view", view);
+         lampShader.setMat4("projection", projection);
+         lamp.render(lampShader);
 
-       
-        glfwSwapBuffers(Window);  // Отправка нового кадра на экран (обмен буферов)
-        glfwPollEvents();    // Обработка событий (ввод с клавиатуры, мыши и т.д.)
+
+        // sen new frame to window
+        screen.newFrame();
     }
 
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-        
+
+    Cube.CleanUp();
+    lamp.CleanUp();
     // Завершение работы GLFW, освобождение ресурсов
     glfwTerminate();
 
     return 0;
 }
 
-// Определение функции обратного вызова для изменения размеров окна
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    // Обновление области отрисовки под новый размер окна
-    glViewport(0, 0, width, height); // Параметры: x, y, новая ширина, новая высота
 
-    //когда мы скейлим экран отрисовки 
-    SCR_WIDTH = width;
-    SCR_HEIGHT = height;
-
-}
-void processInput(GLFWwindow* window, float fDeltaTime)
+void processInput(float fDeltaTime)
 {
 
     if (keyboard::KeyWentUp((GLFW_KEY_ESCAPE)))
     {
-        glfwSetWindowShouldClose(window, true);
+        screen.setShouldClose(true);
+       // glfwSetWindowShouldClose(window, true);
     }
 
     if (keyboard::KeyWentDown((GLFW_KEY_F)))

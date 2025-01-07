@@ -7,12 +7,92 @@
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\models\\cube.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\models\\cube.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\models\\lamp.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\models\\lamp.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\material.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\material.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\object.fs.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\object.fs.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\lamp.fs.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\lamp.fs.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\shader.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\shader.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\shader.h||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\shader.h||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\object.vs.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\object.vs.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\model.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\model.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Camera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\material.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\material.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\texture.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\texture.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\screen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\screen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\model.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\graphics\\model.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Joystick.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Keyboard.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Keyboard.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\screen.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\screen.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -23,40 +103,8 @@
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Mouse.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Keyboard.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Joystick.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Keyboard.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\io\\Joystick.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:src\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core2.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|solutionrelative:Assets\\fragment_core2.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E1ECBB4E-EE38-4F07-8889-6A04B7D0920B}|OpenGL.vcxproj|D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\lib\\stb.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -69,6 +117,26 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\include\\glad\\glad.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Linking\\include\\glad\\glad.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\vertex_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\fragment_core.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core2.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\fragment_core2.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -86,38 +154,12 @@
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp",
               "RelativeDocumentMoniker": "src\\main.cpp",
-              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp*",
-              "RelativeToolTip": "src\\main.cpp*",
-              "ViewState": "AgIAACwBAAAAAAAAAAAtwEUBAAAHAAAAAAAAAA==",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\main.cpp",
+              "RelativeToolTip": "src\\main.cpp",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-10T17:07:50.21Z",
               "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Camera.cpp",
-              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp",
-              "RelativeDocumentMoniker": "src\\io\\Camera.cpp",
-              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp",
-              "RelativeToolTip": "src\\io\\Camera.cpp",
-              "ViewState": "AgIAADAAAAAAAAAAAAAtwEcAAABBAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-05T16:43:54.087Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Camera.h",
-              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h",
-              "RelativeDocumentMoniker": "src\\io\\Camera.h",
-              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h",
-              "RelativeToolTip": "src\\io\\Camera.h",
-              "ViewState": "AgIAABMAAAAAAAAAAAAtwCgAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-05T16:32:37.472Z",
               "EditorCaption": ""
             },
             {
@@ -130,19 +172,252 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "object.vs.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\object.vs.glsl",
+              "RelativeDocumentMoniker": "Assets\\object.vs.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\object.vs.glsl",
+              "RelativeToolTip": "Assets\\object.vs.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-06T19:15:52.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "shader.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\shader.h",
+              "RelativeDocumentMoniker": "src\\graphics\\shader.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\shader.h",
+              "RelativeToolTip": "src\\graphics\\shader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-06T12:23:38.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "object.fs.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\object.fs.glsl",
+              "RelativeDocumentMoniker": "Assets\\object.fs.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\object.fs.glsl",
+              "RelativeToolTip": "Assets\\object.fs.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-06T19:15:56.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "shader.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\shader.cpp",
+              "RelativeDocumentMoniker": "src\\graphics\\shader.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\shader.cpp",
+              "RelativeToolTip": "src\\graphics\\shader.cpp",
+              "ViewState": "AgIAABAAAAAAAAAAAAAmwCgAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-06T12:23:38.237Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "lamp.fs.glsl",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\lamp.fs.glsl",
+              "RelativeDocumentMoniker": "Assets\\lamp.fs.glsl",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\lamp.fs.glsl",
+              "RelativeToolTip": "Assets\\lamp.fs.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-07T21:26:03.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "cube.hpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\models\\cube.hpp",
+              "RelativeDocumentMoniker": "src\\graphics\\models\\cube.hpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\models\\cube.hpp",
+              "RelativeToolTip": "src\\graphics\\models\\cube.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-06T19:49:53.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "material.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\material.cpp",
+              "RelativeDocumentMoniker": "src\\graphics\\material.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\material.cpp",
+              "RelativeToolTip": "src\\graphics\\material.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-07T21:05:22.739Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "lamp.hpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\models\\lamp.hpp",
+              "RelativeDocumentMoniker": "src\\graphics\\models\\lamp.hpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\models\\lamp.hpp",
+              "RelativeToolTip": "src\\graphics\\models\\lamp.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-07T21:11:37.814Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "model.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\model.cpp",
+              "RelativeDocumentMoniker": "src\\graphics\\model.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\model.cpp",
+              "RelativeToolTip": "src\\graphics\\model.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-06T19:47:10.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "mesh.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\mesh.h",
+              "RelativeDocumentMoniker": "src\\graphics\\mesh.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\mesh.h",
+              "RelativeToolTip": "src\\graphics\\mesh.h",
+              "ViewState": "AgIAABAAAAAAAAAAAAAmwCUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-06T12:53:04.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 10,
+              "Title": "mesh.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\mesh.cpp",
+              "RelativeDocumentMoniker": "src\\graphics\\mesh.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\mesh.cpp",
+              "RelativeToolTip": "src\\graphics\\mesh.cpp",
+              "ViewState": "AgIAACsAAAAAAAAAAADwv0IAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-06T13:48:21.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Camera.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp",
+              "RelativeDocumentMoniker": "src\\io\\Camera.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.cpp",
+              "RelativeToolTip": "src\\io\\Camera.cpp",
+              "ViewState": "AgIAADwAAAAAAAAAAADwv1YAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-05T16:43:54.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Camera.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h",
+              "RelativeDocumentMoniker": "src\\io\\Camera.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Camera.h",
+              "RelativeToolTip": "src\\io\\Camera.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-05T16:32:37.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "texture.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\texture.cpp",
+              "RelativeDocumentMoniker": "src\\graphics\\texture.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\texture.cpp",
+              "RelativeToolTip": "src\\graphics\\texture.cpp",
+              "ViewState": "AgIAACYAAAAAAAAAAAAmwB0AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-06T11:41:52.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "material.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\material.h",
+              "RelativeDocumentMoniker": "src\\graphics\\material.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\material.h",
+              "RelativeToolTip": "src\\graphics\\material.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-07T21:04:47.617Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "texture.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\texture.h",
+              "RelativeDocumentMoniker": "src\\graphics\\texture.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\texture.h",
+              "RelativeToolTip": "src\\graphics\\texture.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-06T11:20:31.052Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "screen.cpp",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\screen.cpp",
+              "RelativeDocumentMoniker": "src\\io\\screen.cpp",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\screen.cpp",
+              "RelativeToolTip": "src\\io\\screen.cpp",
+              "ViewState": "AgIAACcAAAAAAAAAAAAmwDwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-06T10:25:26.069Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "model.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\model.h",
+              "RelativeDocumentMoniker": "src\\graphics\\model.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\graphics\\model.h",
+              "RelativeToolTip": "src\\graphics\\model.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-06T12:52:51.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
               "Title": "Joystick.h",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.h",
               "RelativeDocumentMoniker": "src\\io\\Joystick.h",
               "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.h",
               "RelativeToolTip": "src\\io\\Joystick.h",
-              "ViewState": "AgIAABUAAAAAAAAAAAAtwDUAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-12-15T18:33:08.625Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 23,
               "Title": "Mouse.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.cpp",
               "RelativeDocumentMoniker": "src\\io\\Mouse.cpp",
@@ -150,12 +425,11 @@
               "RelativeToolTip": "src\\io\\Mouse.cpp",
               "ViewState": "AgIAAAkAAAAAAAAAAAAtwDUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-15T18:04:43.677Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T18:04:43.677Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 24,
               "Title": "Mouse.h",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Mouse.h",
               "RelativeDocumentMoniker": "src\\io\\Mouse.h",
@@ -163,36 +437,47 @@
               "RelativeToolTip": "src\\io\\Mouse.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-15T17:53:03.169Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T17:53:03.169Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 20,
               "Title": "Keyboard.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.cpp",
               "RelativeDocumentMoniker": "src\\io\\Keyboard.cpp",
               "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.cpp",
               "RelativeToolTip": "src\\io\\Keyboard.cpp",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAAAcAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-15T15:51:35.209Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 21,
               "Title": "Keyboard.h",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.h",
               "RelativeDocumentMoniker": "src\\io\\Keyboard.h",
               "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Keyboard.h",
               "RelativeToolTip": "src\\io\\Keyboard.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-12-15T15:43:53.806Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 22,
+              "Title": "screen.h",
+              "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\screen.h",
+              "RelativeDocumentMoniker": "src\\io\\screen.h",
+              "ToolTip": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\screen.h",
+              "RelativeToolTip": "src\\io\\screen.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-06T10:17:05.285Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
               "Title": "Shader.h",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.h",
               "RelativeDocumentMoniker": "src\\Shader.h",
@@ -204,7 +489,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 30,
               "Title": "vertex_core.glsl",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\vertex_core.glsl",
               "RelativeDocumentMoniker": "Assets\\vertex_core.glsl",
@@ -216,7 +501,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 31,
               "Title": "fragment_core.glsl",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core.glsl",
               "RelativeDocumentMoniker": "Assets\\fragment_core.glsl",
@@ -228,7 +513,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 25,
               "Title": "Joystick.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\io\\Joystick.cpp",
               "RelativeDocumentMoniker": "src\\io\\Joystick.cpp",
@@ -240,7 +525,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 32,
               "Title": "Shader.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\Shader.cpp",
               "RelativeDocumentMoniker": "src\\Shader.cpp",
@@ -252,7 +537,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 33,
               "Title": "fragment_core2.glsl",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Assets\\fragment_core2.glsl",
               "RelativeDocumentMoniker": "Assets\\fragment_core2.glsl",
@@ -264,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 26,
               "Title": "stb.cpp",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\lib\\stb.cpp",
               "RelativeDocumentMoniker": "Linking\\lib\\stb.cpp",
@@ -276,7 +561,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 28,
               "Title": "glad.h",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\Linking\\include\\glad\\glad.h",
               "RelativeDocumentMoniker": "Linking\\include\\glad\\glad.h",
@@ -288,7 +573,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 27,
               "Title": "glad.c",
               "DocumentMoniker": "D:\\C\u002B\u002B\\Learning\\OpenGL\\src\\glad.c",
               "RelativeDocumentMoniker": "src\\glad.c",

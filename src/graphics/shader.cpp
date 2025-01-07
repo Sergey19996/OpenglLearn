@@ -35,9 +35,16 @@ void Shader::generate(const char* vertexShaderPath, const char* fragShaderPath)
     glDeleteShader(fragmentShader);
 }
 
+void Shader::bind()
+{
+	glUseProgram(id);  //устанавливает шейдер текщим opengl  
+    //мы объедиг€ем все шейдеры в одну программу, и та ищем уже Uniform переменные 
+}
+
 void Shader::activate()
 {
-	glUseProgram(id);  //устанавливает шейдер текщим opengl
+    glUseProgram(id);
+
 }
 
 std::string Shader::loadShadersSrc(const char* filepath)
@@ -99,6 +106,21 @@ GLuint Shader::compileShader(const char* filepath, GLenum type)
 
 
 	return ret;
+}
+
+void Shader::setFloat(const std::string& name, float value)
+{
+    glUniform1f(glGetUniformLocation(id, name.c_str()), value);
+}
+
+void Shader::set3Float(const std::string& name, glm::vec3 v)
+{
+    set3Float(name,v.x, v.y, v.z);
+}
+
+void Shader::set3Float(const std::string& name, float v1, float v2, float v3)
+{
+    glUniform3f(glGetUniformLocation(id, name.c_str()), v1, v2, v3);
 }
 
 void Shader::setMat4(const std::string& name, glm::mat4 val)

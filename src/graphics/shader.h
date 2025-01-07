@@ -20,6 +20,8 @@ public:
 	Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
 
 	void generate(const char* vertexShaderPath, const char* fragShaderPath);
+	void bind();
+
 	void activate();
 
 	//utility fucntions
@@ -28,6 +30,9 @@ public:
 
 
 	//uinform functions
+	void setFloat(const std::string& name, float value);
+	void set3Float(const std::string& name, glm::vec3 v);
+	void set3Float(const std::string& name, float v1, float v2, float v3);
 	void setMat4(const std::string& name, glm::mat4 val);
 	void setInt(const std::string& name, int valuse);
 	void setValue(const std::string& name,float value);

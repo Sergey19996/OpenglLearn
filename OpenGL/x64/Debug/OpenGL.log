@@ -1,2 +1,9 @@
-﻿  shader.cpp
+﻿  main.cpp
+D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\main.cpp(107,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\C++\Learning\OpenGL\src\main.cpp(132,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\C++\Learning\OpenGL\src\main.cpp(58,10): warning C4101: 'infoLog': unreferenced local variable
+D:\C++\Learning\OpenGL\src\main.cpp(57,9): warning C4101: 'success': unreferenced local variable
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe

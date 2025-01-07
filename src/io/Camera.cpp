@@ -75,6 +75,15 @@ float Camera::getZoom()
 glm::mat4 Camera::getViewMatrix()
 {
 	return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	//forward = normalize(cameraPos - target); // или -cameraFront
+	//right = normalize(cross(cameraUp, forward));
+	//up = cross(forward, right);
+	/*glm::mat4 ViewMatrix = {
+	right.x,   up.x,   -forward.x,  0.0f,
+	right.y,   up.y,   -forward.y,  0.0f,
+	right.z,   up.z,   -forward.z,  0.0f,
+   -dot(right, cameraPos), -dot(up, cameraPos), dot(forward, cameraPos), 1.0f
+	};*/
 }
 
 void Camera::updateCameraVectors()
