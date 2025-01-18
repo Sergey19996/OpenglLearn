@@ -1,0 +1,11 @@
+Model Information:
+* title:	Female Char
+* source:	https://sketchfab.com/3d-models/female-char-b5b7119266c6494cbebd3de51a4e6435
+* author:	meva (https://sketchfab.com/meva)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Female Char" (https://sketchfab.com/3d-models/female-char-b5b7119266c6494cbebd3de51a4e6435) by meva (https://sketchfab.com/meva) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

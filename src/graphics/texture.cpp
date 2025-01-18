@@ -1,37 +1,35 @@
 #include "texture.h"
 #include <iostream>
 
-int texture::currId = 0;
+
 
 texture::texture()
 {
 }
 
-texture::texture(const char* path, const char* name, bool defaultParam) : path(path), name(name), id(currId++)
+texture::texture(std::string dir, std::string path, aiTextureType type):dir(dir),path(path),type(type)
 {
-	generate();
-
-	if (defaultParam) {
-		setFilters(GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR);
-		setWrap(GL_REPEAT);
-
-
-	}
+	generate();  // генерирует текстуру с id
 }
+
+
 
 void texture::generate()
 {
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_2D, tex);
+	glGenTextures(1, &id);
+
 
 
 }
 
 void texture::load(bool flip)
 {
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(flip);
 
-	unsigned char* data = stbi_load(path, &width, &height, &nChannels, 0);
+
+	int width, height, nChannels;
+
+	unsigned char* data = stbi_load((dir + "/" + path).c_str(), & width, &height, &nChannels, 0);
 
 	GLenum colorMode = GL_RGB;
 
@@ -41,7 +39,7 @@ void texture::load(bool flip)
 		break;
 	case 4:
 		colorMode = GL_RGBA; // Четырёхканальное изображение (RGB + альфа-канал)
-		HasAlpha = true;  //удалить в скором времени 
+	
 		break;
 	}
 	if (data) {
@@ -49,6 +47,12 @@ void texture::load(bool flip)
 		glTexImage2D(GL_TEXTURE_2D, 0, colorMode, width, height, 0, colorMode, GL_UNSIGNED_BYTE, data); //Загружаем данные изображения в GPU.
 		glGenerateMipmap(GL_TEXTURE_2D); 
 		//Мипмапы — это уменьшенные копии текстуры для улучшения производительности при рендеринге объектов на расстоянии.
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  //установки на повторение текстур
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); //MIN_FILTER определяет, как текстура выглядит на расстоянии или при уменьшении её размера.
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //MAG_FILTER важен, когда текстура увеличивается, например, при приближении камеры к объекту.
+
 	}
 	else
 	{
@@ -56,44 +60,6 @@ void texture::load(bool flip)
 	}
 
 	stbi_image_free(data);
-}
-
-void texture::setFilters(GLenum all)
-{
-	setFilters(all, all);
-
-}
-
-void texture::setFilters(GLenum mag, GLenum min)
-{
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag); //MAG_FILTER важен, когда текстура увеличивается, например, при приближении камеры к объекту.
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min); //MIN_FILTER определяет, как текстура выглядит на расстоянии или при уменьшении её размера.
-}
-
-void texture::setWrap(GLenum all)
-{
-	setWrap(all, all);
-}
-
-void texture::setWrap(GLenum s, GLenum t)
-//Варианты значений s и t :
-//GL_REPEAT — повторение текстуры.
-//
-//Изображение бесконечно повторяется по краям.
-//Подходит для плиточных текстур.
-//GL_MIRRORED_REPEAT — зеркальное повторение.
-//
-//Текстура повторяется с чередованием зеркального отображения.
-//Уменьшает видимость швов.
-//GL_CLAMP_TO_EDGE — текстура "тянется" на крайний пиксель.
-//
-//Часто используется для скайбоксов и 2D - спрайтов, чтобы избежать артефактов по краям.
-//GL_CLAMP_TO_BORDER — пиксели вне текстуры окрашиваются в цвет границы(GL_TEXTURE_BORDER_COLOR).
-//
-//Полезно для текстур с чёткими рамками или для изолирования объектов.
-{
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, s);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t);
 }
 
 void texture::bind()

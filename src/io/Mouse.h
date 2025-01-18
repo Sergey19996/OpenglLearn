@@ -3,6 +3,7 @@
 
 #include <glad/glad.h> // Для загрузки функций OpenGL
 #include <GLFW/glfw3.h> // Библиотека для работы с окнами и ввода/вывода
+#include "Camera.h"
 
 class Mouse {
 public:
@@ -16,6 +17,8 @@ public:
 
 	static double getDX();
 	static double getDY();
+
+
 
 
 	static double getScrollDX();
@@ -39,6 +42,10 @@ private:
 
 	static double dx;
 	static double dy;
+
+	static double scrollDx;
+	static double scrollDy;
+
 
 	static double scrollDX;
 	static double scrollDY;

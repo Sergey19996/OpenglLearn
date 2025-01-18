@@ -6,8 +6,9 @@
 #include <fstream> //классы std::ifstream (чтение) и std::ofstream (запись).
 #include <sstream> //std::stringstream, std::istringstream и std::ostringstream для преобразования текста в данные.
 #include <streambuf> //низкоуровневый интерфейс к буферам ввода/вывода могут быть связаны с файлами или строками.
-#include <string>
 
+#include <string>
+#include <stack>
 #include<stb/stb_image.h>  //download png files  PNG, JPEG, BMP, TGA и другие
 
 #include <glm/glm.hpp> // glm::vec2, glm::vec3, glm::mat4) и базовые математические операции.
@@ -20,111 +21,129 @@
 #include "io/Mouse.h"
 #include "io/Joystick.h"
 #include "io/Camera.h"
-#include "io/screen.h"
 #include "graphics/models/cube.hpp"
 #include "graphics/models/lamp.hpp"
+#include "graphics/models/gun.hpp"
+#include "graphics/models/Sphere.hpp"
+#include "graphics/models/box.hpp"
+#include "graphics//light.h"
+#include "graphics/model.h"
+#include "physics/environment.h"
 
+#include "algorithms/States.hpp"
+#include "scene.h"
 
-
+Scene scene;
 // ввод клавиш
 void processInput(float fdeltatime);
 
-float merge = 0.5f;
+Camera cam;
 
 glm::mat4 transform = glm::mat4(1.0f);
 
-Camera cameras[2] = {
 
-    Camera(glm::vec3(0.0f,0.0f,3.0f)),
-    Camera(glm::vec3(10.0f,10.0f,10.0f))
-};
-
-int activeCam = 0;
-
-//Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 
  unsigned int SCR_WIDTH = 800, SCR_HEIGHT = 600;
 
- Screen screen;
+ 
 
 float theta = 45.0f;
+bool flashlight = true;
 
-Joystick mainJ(0);
+Sphere sphere(10);
 
 int main()
 {
-    int success;
-    char infoLog[512];
+    //          version 3.3 opengl
+    scene = Scene(3,3,"Fat Boys", 800, 600);
+    if (!scene.init()) {
 
-
-    // Инициализация GLFW
-    glfwInit(); // Запускает библиотеку GLFW, возвращает false, если инициализация не удалась
-
-    // Настройка параметров окна через glfwWindowHint
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // Устанавливаем версию OpenGL: 3.x (старшая часть)
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); // Устанавливаем версию OpenGL: 3.3 (младшая часть)
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Используем core profile (без устаревших функций OpenGL)
-
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Специфическая настройка для macOS
-#endif
-
-    if (!screen.init()) {
-
-        std::cout << "Not Open Window" << std::endl; // Вывод сообщения об ошибке
-        glfwTerminate(); // Завершаем GLFW, если окно не было создано
-        return -1;
-
-    }
-
-    // Загрузка всех функций OpenGL с помощью GLAD
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize glad" << std::endl; // Сообщение об ошибке, если загрузка не удалась
+        std::cout << "Couldn't open window" << std::endl;
         glfwTerminate();
         return -1;
     }
 
-    screen.setParameters();
+    scene.cameras.push_back(&cam);
+    scene.activeCamera = 0;
+ //shaders ============================
+    Shader lampShader("Assets/instanced/instanced.vs.glsl", "Assets/lamp.fs.glsl");
+    Shader shader("Assets/instanced/instanced.vs.glsl", "Assets/object.fs.glsl");
+    Shader boxShader("Assets/instanced/box.vs.glsl", "Assets/instanced/box.fs.glsl");
+  //Models ==================================
+    Lamp lamp(4);
+    scene.registerModel(&lamp);
+    scene.registerModel(&sphere);
+   
+    //load all model data
+    scene.loadModels();
 
-    glEnable(GL_DEPTH_TEST); // для буфера глубины, что бы корректно отрисовывать элементы, без перекрытия
-    /*
- shaders
- */
 
 
+    //                 direction                   amb                 diff          spec
+    DirLight dirLight = { glm::vec3(-0.2f, -1.0f, -0.3f),
+        glm::vec4(0.1f,0.1f,0.1f,1.0f),
+        glm::vec4(0.4f,0.4f,0.4f,1.0f),
+        glm::vec4(0.75f,0.75f,0.75f,1.0f) };
+    scene.dirLight = &dirLight;
 
-    Shader shader("Assets/object.vs.glsl", "Assets/object.fs.glsl");
-    Shader lampShader("Assets/object.vs.glsl", "Assets/lamp.fs.glsl");
+    glm::vec3 pointLightPositions[] = {
+            glm::vec3(0.7f,  0.2f,  2.0f),
+            glm::vec3(2.3f, -3.3f, -4.0f),
+            glm::vec3(-4.0f,  2.0f, -12.0f),
+            glm::vec3(0.0f,  0.0f, -3.0f)
+    };
+
+    glm::vec4 ambient = glm::vec4(0.05f, 0.05f, 0.05f, 1.0f);
+    glm::vec4 diffuse = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
+    glm::vec4 specular = glm::vec4(1.0f);
+    float k0 = 1.0f;
+    float k1 = 0.09f;
+    float k2 = 0.032f;
+
+    PointLight pointLights[4];  // создаётся 4 света 
 
   
-    Cube Cube (Material::gold,glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(1.0f));
-    Cube.init();
-    Lamp lamp(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.0f,-0.0f,-3.25f),glm::vec3(2.0f));
-    lamp.init();
+   
+    for (unsigned int i = 0; i < 4; i++) {
+        pointLights[i] = {pointLightPositions[i],    //устанавливаются значения 
+            k0,k1,k2,
+            ambient,diffuse,specular
+        };
+        scene.generateInstance(lamp.id, glm::vec3(0.25f), 0.25f, pointLightPositions[i]);
+
+        scene.pointLights.push_back(&pointLights[i]);    // устонавливаются ссылки для рендера света
+        States::activate(&scene.activePointLights, i);  // в inte  на 32 света (32 bit) устанавливает 1 
+
+    }
+
+
+
+    SpotLight spotLight = {
+        cam.cameraPos,cam.cameraFront,
+        glm::cos(glm::radians(12.5f)),glm::cos(glm::radians(20.0f)), //малый большой круги cut 
+        1.0f,0.07f,0.032f,   // коэфиенты для затухания фанаря 
+        glm::vec4(0.0f,0.0f,0.0f,1.0f),glm::vec4(1.0f),glm::vec4(1.0f,1.0f,1.0f,1.0f)
+
+    };
+    scene.spotLights.push_back(&spotLight);
+    scene.activeSpotLights = 1; // 0b001
+
+    //instanciate instances
+    scene.initInstances();
+
+
 
     float lastTime = glfwGetTime();
     float deltaTime = 0.0f;
 
 
 
-    mainJ.update();
-    if (mainJ.isPresent()) {
-        std::cout << mainJ.getName() << " is present" << std::endl;
-
-    }
-    else
-    {
-        std::cout << "not present" << std::endl;
-    }
-
   
     // Главный цикл рендеринга
-    while (!screen.shouldClose()) // Выполняем цикл, пока окно не закрыто
+    while (!scene.shouldClose()) // Выполняем цикл, пока окно не закрыто
     {
-
-        merge += deltaTime;
+       
       
 
 
@@ -134,131 +153,101 @@ int main()
         lastTime = currentTime;
 
        
+        scene.update();
         //input Tracking
+
         processInput(deltaTime);
 
         //render
-        screen.update();
-
-        
+        //screen.update();
 
 
+        //remove launch objects if too far
 
+        std::stack<unsigned int> removeObjects;
+        for (int i = 0; i < sphere.currentNoInstances; i++) {
+            if (glm::length(cam.cameraPos - sphere.instances[i].pos) > 100.0f) {
+                removeObjects.push(i);
 
-        shader.bind();
-        shader.set3Float("light.position", lamp.pos);
-        shader.set3Float("viewPos", cameras[activeCam].cameraPos);
-        shader.set3Float("light.ambient", lamp.ambient);
-        shader.set3Float("light.diffuse", lamp.diffuse);
-        shader.set3Float("light.specular", lamp.specular);
+            }
+        }
+        while (removeObjects.size() != 0){
+            sphere.removeInstance(removeObjects.top());
+            removeObjects.pop();
+        }
+        //render launch objects
+        if (sphere.currentNoInstances > 0) {
+        scene.renderShader(shader);
+        scene.renderInstances(sphere.id, shader, deltaTime);
+        }
 
-        //create transformation on the screen
-      
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 projection = glm::mat4(1.0f);
-
-       
-        view = cameras[activeCam].getViewMatrix();
-                                       //fov                                           aspect ration                   near pl/far plane
-        projection = glm::perspective(glm::radians(cameras[activeCam].getZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-     
-         shader.bind();
-       
-         shader.setMat4("view", view);  //model матрица в modele типа cube
-         shader.setMat4("projection", projection);
-   
-         Cube.render(shader);   //  <--тут матрица model
-         lampShader.activate();
-         lampShader.setMat4("view", view);
-         lampShader.setMat4("projection", projection);
-         lamp.render(lampShader);
+        //render lamps
+        scene.renderShader(lampShader);
+        scene.renderInstances(lamp.id, lampShader, deltaTime);
 
 
         // sen new frame to window
-        screen.newFrame();
+
+       // screen.newFrame();
+        scene.newFrame();
+       
     }
-
-
-    Cube.CleanUp();
-    lamp.CleanUp();
+   
+  
+  
     // Завершение работы GLFW, освобождение ресурсов
-    glfwTerminate();
+    scene.cleanUp();
 
     return 0;
 }
+void launchItem(float fdeltatime) {
+    glm::vec3 fixpos = { cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z - 0.25f };
+    std::string id = scene.generateInstance(sphere.id, glm::vec3(0.05f), 1.0f, fixpos);
+    if (id != "") {
+        //instance generated
+        sphere.instances[scene.instances[id].second].transferEnergy(100.0f, cam.cameraFront);
+        sphere.instances[scene.instances[id].second].applyAcceleration(Environment::gravityAcc);
 
+    }
+
+}
 
 void processInput(float fDeltaTime)
 {
+    scene.processInput(fDeltaTime);
+
+    //update flash light
+    if (States::isIndexActive(&scene.activeSpotLights, 0)) {
+        scene.spotLights[0]->position = scene.getActiveCamera()->cameraPos;
+        scene.spotLights[0]->direction = scene.getActiveCamera()->cameraFront;
+    }
+
 
     if (keyboard::KeyWentUp((GLFW_KEY_ESCAPE)))
     {
-        screen.setShouldClose(true);
+        scene.setShouldCloses(true);
+       // screen.setShouldClose(true);
        // glfwSetWindowShouldClose(window, true);
     }
 
     if (keyboard::KeyWentDown((GLFW_KEY_F)))
     {
-        merge += 0.05f;
-        if (merge > 1.0f)
+        flashlight = !flashlight;
+
+    };
+
+    if (keyboard::KeyWentDown((GLFW_KEY_Q)))
+    {
+        launchItem(fDeltaTime);
+
+    };
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (keyboard::KeyWentDown((GLFW_KEY_1 + i)))
         {
-            merge = 1.0f;
-        }
-
-    }
-
-    if (keyboard::KeyWentDown((GLFW_KEY_G)))
-    {
-        merge -= 0.05f;
-        if (merge < 0.0f)
-        {
-            merge = 0.0f;
+            States::toggleIndex(&scene.activePointLights, i);
+            
         }
     }
-
-    //move camera
-    if (keyboard::Key(GLFW_KEY_W)) {
-        cameras[activeCam].updateCameraPos(CameraDirection::FORWARD, fDeltaTime);
-
-
-        
-    }
-    if (keyboard::Key(GLFW_KEY_S)) {
-        cameras[activeCam].updateCameraPos(CameraDirection::BACKWARD, fDeltaTime);
-
-     
-    }
-    if (keyboard::Key(GLFW_KEY_A)) {
-        cameras[activeCam].updateCameraPos(CameraDirection::LEFT, fDeltaTime);
-      
-    }
-    if (keyboard::Key(GLFW_KEY_D)) {
-        cameras[activeCam].updateCameraPos(CameraDirection::RIGHT, fDeltaTime);
-     
-    }
-    if (keyboard::Key(GLFW_KEY_SPACE)) {
-        cameras[activeCam].updateCameraPos(CameraDirection::UP, fDeltaTime);
-    }
-    if (keyboard::Key(GLFW_KEY_LEFT_SHIFT)) {
-        cameras[activeCam].updateCameraPos(CameraDirection::DOWN, fDeltaTime);
-    }
-
-
-    double dx = Mouse::getDX(), dy = Mouse::getDY();
-    if (dx != 0 || dy != 0)
-    {
-        cameras[activeCam].updateCameraDirection(dx, dy);
-    }
-
-
-    double scrollDy = Mouse::getScrollDY();
-    if (scrollDy != 0)
-    {
-        cameras[activeCam].updateCameraZoom(scrollDy);
-    }
-
-    if (keyboard::KeyWentDown(GLFW_KEY_TAB)) {
-        activeCam += (activeCam == 0) ? 1 : -1;
-    }
-   
 }

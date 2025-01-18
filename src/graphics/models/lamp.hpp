@@ -2,7 +2,7 @@
 #define LAMP_HPP
 
 #include "cube.hpp"
-
+#include "../light.h"
 
 class Lamp : public Cube {
 
@@ -10,30 +10,27 @@ public :
 	glm::vec3 lightColor;
 
 
-	//light strength values
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
+
+	
+	Lamp(unsigned int maxNoInstances, glm::vec3 lightColor = glm::vec3(1.0f)):
+	Cube(maxNoInstances){
+		id = "lamp";
+		this->lightColor = lightColor;
 
 
-	Lamp(glm::vec3 lightcolor, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 pos, glm::vec3 size)
-		:lightColor(lightcolor), ambient(ambient), diffuse(diffuse), specular(specular), 
-		Cube(Material::white_plastic, pos, size) {}
+	}
 
-
-	void render(Shader shader) {
+	void render(Shader shader, float deltaTime,Scene* scene, bool setModel = true) {
 		//set light color
 		shader.set3Float("lightColor", lightColor);
 
 
-		Cube::render(shader);
+		Cube::render(shader, deltaTime,scene, setModel);
 
 
 	}
 
 };
-
-
 
 
 #endif // ! LAMP_HPP

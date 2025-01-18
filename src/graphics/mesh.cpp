@@ -30,96 +30,137 @@ std::vector<Vertex> Vertex::genList(float* vertices, int noVertices)
     return ret;
 }
 
-Mesh::Mesh()
-{
+
+
+// default constructor
+Mesh::Mesh() {}
+
+// initialize as textured object
+Mesh::Mesh(BoundingRegion br, std::vector<texture> textures)
+    : br(br), textures(textures), noTex(false) {}
+
+// initialize as material object
+Mesh::Mesh(BoundingRegion br, aiColor4D diff, aiColor4D spec)
+    : br(br),diffuse(diff), specular(spec), noTex(true) {}
+
+// load vertex and index data
+void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _indices) {
+    this->vertices = _vertices;
+    this->indices = _indices;
+
+    // bind VAO
+    VAO.generate();
+    VAO.bind();
+
+    // generate/set EBO
+    VAO["EBO"] = BufferObject(GL_ELEMENT_ARRAY_BUFFER);
+    VAO["EBO"].generate();
+    VAO["EBO"].bind();
+    VAO["EBO"].setData<GLuint>(this->indices.size(), &this->indices[0], GL_STATIC_DRAW);
+
+    // load data into vertex buffers
+    VAO["VBO"] = BufferObject(GL_ARRAY_BUFFER);
+    VAO["VBO"].generate();
+    VAO["VBO"].bind();
+    VAO["VBO"].setData<Vertex>(this->vertices.size(), &this->vertices[0], GL_STATIC_DRAW);
+
+    // set the vertex attribute pointers
+    VAO["VBO"].bind();
+    // vertex Positions
+    VAO["VBO"].setAttPointer<GLfloat>(0, 3, GL_FLOAT, 8, 0);
+    // normal ray
+    VAO["VBO"].setAttPointer<GLfloat>(1, 3, GL_FLOAT, 8, 3);
+    // vertex texture coords
+    VAO["VBO"].setAttPointer<GLfloat>(2, 3, GL_FLOAT, 8, 6);
+
+    VAO["VBO"].clear();
+
+    ArrayObject::clear();
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<texture> textures)
-    :vertices(vertices),indices(indices),textures(textures)
+void Mesh::render(Shader shader,unsigned int noInstances)
 {
-    setup();
-}
+    if (noTex) {
+        //materials
+        shader.set4Float("material.diffuse", diffuse);
+        shader.set4Float("material.specular", specular);
+        shader.setInt("noTex", 1); // true в фрагмент шейдер 
 
-void Mesh::render(Shader shader)
-{//textures
-    for (unsigned int i = 0; i < textures.size(); i++) //Цикл проходит по всем текстурам, привязанным к мешу.
-    {
-        shader.setInt(textures[i].name, textures[i].id); //устанавливает текстурный юнит
-        glActiveTexture(GL_TEXTURE0 + i); //активирует текстурный юнит
-        textures[i].bind(); // привязывает текстуру к активному текстурному юниту.
-
-        if (textures[i].checkAlpha())   // пока не умеем груировать их в разные масивы делаем так с альфа каналом на текстурах 
-        {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        }
-        else
-        {
-            glDisable(GL_BLEND);
-        }
     }
-    glBindVertexArray(VAO);
+    else
+    {
 
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);  //рисует меш с использованием индексов из EBO :
-    glBindVertexArray(0); //отвязывает VAO, чтобы случайно не изменить его.
+        //textures
+        unsigned int diffuseIdx = 0;
+        unsigned int specularIdx = 0;
+        for (unsigned int i = 0; i < textures.size(); i++)
+        {  // activate texture
+            glActiveTexture(GL_TEXTURE0 + i);
 
-    glActiveTexture(GL_TEXTURE0); //Сброс активного текстурного юнита на GL_TEXTURE0 по завершении отрисовки.
+            //retrieve texture info
+            std::string name;
+            switch (textures[i].type) {
+            case aiTextureType_DIFFUSE:
+                name = "diffuse" + std::to_string(diffuseIdx++);
+                break;
+            case aiTextureType_SPECULAR:
+                name = "specular" + std::to_string(specularIdx++);
+                break;
+            }
+
+            //set the shader value
+            shader.setInt(name, i);
+            //bind texture
+            textures[i].bind();
+        }
+
+        shader.setInt("noTex", 0); // false для ресета  
+    }
+    VAO.bind();
+    VAO.draw(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, noInstances);
+    ArrayObject::clear();
+
+    glActiveTexture(GL_TEXTURE0);
+    
 }
 
-void Mesh::cleanup()
-{
-    glDeleteVertexArrays(1, &VAO); // 1. удаление VAO (Vertex Array Object)
-    glDeleteBuffers(1, &VBO);      // 2. удаление VBO (Vertex Buffer Object)
-    glDeleteBuffers(1, &EBO);      // 3. удаление EBO (Element Buffer Object)
-}
 
 void Mesh::setup()
 {
-    glGenVertexArrays(1, &VAO); // 1. Создание VAO (Vertex Array Object) хранит ссылки на VBO и EBO
-    glGenBuffers(1, &VBO);      // 2. Создание VBO (Vertex Buffer Object)  хранит сами вертексы (их коордитаны в мире и координаты текстуры)
-    glGenBuffers(1, &EBO);      // 3. Создание EBO (Element Buffer Object) Хранит индексы, как эффективно отрисовывать треугольники
+ 
 
-    glBindVertexArray(VAO);     // 4. Привязка VAO (делаем его активным)
+  //  glBindVertexArray(0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);  // 5. Привязка VBO как текущего буфера массива
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
-    // 6. Заполнение VBO данными о вершинах (копируем данные из вектора vertices в видеопамять)
+    //bind VAO
+    VAO.generate();
+    VAO.bind();
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);   // 7. Привязка EBO как текущего буфера элементов
-    //После привязки, индексы из EBO будут использоваться при отрисовке (glDrawElements).
-
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-    // 8. Заполнение EBO данными о вершинах (копируем данные из вектора indices в видеопамять)
+    //generate/set EBO
+    VAO["EBO"] = BufferObject(GL_ELEMENT_ARRAY_BUFFER);
+    VAO["EBO"].generate();
+    VAO["EBO"].bind();
+    VAO["EBO"].setData<GLuint>(indices.size(), &indices[0], GL_STATIC_DRAW);  // нужео компилятору сказать GLuint а не unsigned int 
 
 
-    //set vertex attribute pointers
-    //vertex.position
-    glEnableVertexAttribArray(0); //Включает атрибут вершины с индексом 0.
+    //generate /set VBO
+    VAO["VBO"] = BufferObject(GL_ARRAY_BUFFER);
+    VAO["VBO"].generate();
+    VAO["VBO"].bind();
+    VAO["VBO"].setData<Vertex>(vertices.size(), &vertices[0], GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,pos));
-   /* 0 – индекс атрибута(layout(location = 0) в вершинном шейдере).
-        3 – количество компонентов на вершину(x, y, z – трехмерные координаты).
-        GL_FLOAT – тип данных(float).
-        GL_FALSE – данные не нормализуются(передаются как есть).
-        sizeof(Vertex) – шаг(stride) между вершинами(размер всей структуры Vertex).*/
-    //(void*)0 – смещение начала данных (позиция вершины начинается с самого начала структуры Vertex).
-    
-    //vertex.normal;
-    glEnableVertexAttribArray(1); //Включает атрибут вершины с индексом 1.
+    //set vertex attrib pointer
+    //vertex positions      3vert + 3norm+ 2tex = 8 stride
+    VAO["VBO"].setAttPointer<GLfloat>(0, 3, GL_FLOAT, 8,0);
+    //normal 
+    VAO["VBO"].setAttPointer<GLfloat>(1, 3, GL_FLOAT, 8, 3);
+    //textures coord                 |ind||siz||type|stride|offset|    
+    VAO["VBO"].setAttPointer<GLfloat>(2, 2, GL_FLOAT, 8, 6);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    //vertex.texcoord
-    glEnableVertexAttribArray(2);  //Включает атрибут вершины с индексом 2.
+    VAO["VBO"].clear();
 
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
-  /*  1 – индекс атрибута(layout(location = 1) в шейдере).
-        2 – количество компонентов(u, v – 2D текстурные координаты).
-        GL_FLOAT – тип данных(float).
-        GL_FALSE – без нормализации.
-        sizeof(Vertex) – шаг между вершинами(размер структуры Vertex).
-        offsetof(Vertex, texCoord) – смещение до текстурных координат внутри структуры Vertex.*/
-
-
-    glBindVertexArray(0);
-
+    ArrayObject::clear();
+}
+void Mesh::cleanup()
+{
+    VAO.cleanUp();
 }

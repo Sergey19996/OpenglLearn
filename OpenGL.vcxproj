@@ -130,7 +130,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW\glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW\glfw3.lib;assimp\assimp-vc143-mtd.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,6 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\algorithms\octree.cpp" />
+    <ClCompile Include="src\algorithms\bounds.cpp" />
+    <ClCompile Include="src\graphics\light.cpp" />
     <ClCompile Include="src\graphics\material.cpp" />
     <ClCompile Include="src\graphics\mesh.cpp" />
     <ClCompile Include="src\graphics\model.cpp" />
@@ -161,32 +164,51 @@
     <ClCompile Include="src\io\Mouse.cpp" />
     <ClCompile Include="src\graphics\shader.cpp" />
     <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\io\screen.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
+    <ClCompile Include="src\physics\environment.cpp" />
+    <ClCompile Include="src\physics\rigidbody.cpp" />
+    <ClCompile Include="src\scene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\instanced\box.fs.glsl" />
     <None Include="Assets\lamp.fs.glsl" />
     <None Include="Assets\object.fs.glsl" />
     <None Include="Assets\object.vs.glsl" />
+    <None Include="src\algorithms\list.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\algorithms\octree.h" />
+    <ClInclude Include="src\algorithms\bounds.h" />
+    <ClInclude Include="src\algorithms\States.hpp" />
+    <ClInclude Include="src\graphics\glmemory.hpp" />
+    <ClInclude Include="src\graphics\light.h" />
     <ClInclude Include="src\graphics\material.h" />
     <ClInclude Include="src\graphics\mesh.h" />
     <ClInclude Include="src\graphics\model.h" />
+    <ClInclude Include="src\graphics\models\box.hpp" />
     <ClInclude Include="src\graphics\models\cube.hpp" />
+    <ClInclude Include="src\graphics\models\gun.hpp" />
     <ClInclude Include="src\graphics\models\lamp.hpp" />
+    <ClInclude Include="src\graphics\models\Sphere.hpp" />
     <ClInclude Include="src\io\Camera.h" />
     <ClInclude Include="src\io\Joystick.h" />
     <ClInclude Include="src\io\Keyboard.h" />
     <ClInclude Include="src\io\Mouse.h" />
     <ClInclude Include="src\graphics\shader.h" />
-    <ClInclude Include="src\io\screen.h" />
     <ClInclude Include="src\graphics\texture.h" />
+    <ClInclude Include="src\physics\environment.h" />
+    <ClInclude Include="src\physics\rigidbody.h" />
+    <ClInclude Include="src\scene.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Rubbit.jpg" />
     <Image Include="Assets\Skull.png" />
+    <Image Include="Assets\Skull_Specular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\instanced\instanced.vs.glsl" />
+    <Text Include="Assets\instanced\box.vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

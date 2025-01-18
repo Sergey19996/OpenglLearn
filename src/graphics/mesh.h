@@ -8,8 +8,9 @@
 
 #include "shader.h"
 #include "texture.h"
-
-
+#include "models/box.hpp"
+#include "../algorithms/bounds.h"
+#include "glmemory.hpp"
 struct Vertex
 {
 	glm::vec3 pos;
@@ -22,26 +23,43 @@ struct Vertex
 };
 typedef struct Vertex Vertex;
 
+
+
 class Mesh {
 public:
+	BoundingRegion br;
+
+
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	unsigned int VAO;
+	ArrayObject VAO;  // обвёртка над VAO (arrayobject) 
 
 	std::vector<texture> textures;
+	aiColor4D diffuse;
+	aiColor4D specular;
 
-
+	// default constructor 
 	Mesh();
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<texture> textures);
 
+	// initialize as textured object
+	Mesh(BoundingRegion br, std::vector<texture> textures = {});
 
-	void render(Shader shader);
+	// initialize as material object
+	Mesh(BoundingRegion br, aiColor4D diff, aiColor4D spec);
+
+	// load vertex and index data
+	void loadData(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+
+	
+	void render(Shader shader, unsigned int noInstances);
 
 	void cleanup();
 
 private:
 
 	unsigned int VBO, EBO;
+
+	bool noTex;
 
 	void setup();
 

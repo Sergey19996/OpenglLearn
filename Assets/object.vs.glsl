@@ -15,11 +15,11 @@ uniform mat4 view;
 uniform mat4 projection;
 
 void main(){
-FragPos = vec3(model* vec4(aPos,1.0));   //переводит из локальных (от пивота) в мировые координаты точки 
+FragPos = vec3(model* vec4(aPos,1.0));   //переводит из локальных (от пивота) в мировые координаты точки  (model =матрицы, Apos - позвертексов
 
 Normal =mat3(transpose(inverse(model)))*aNormal; //  перевод нормалей из локальных в мировые 
 
-gl_Position = projection * view *  vec4(FragPos, 1.0); // Устанавливаем положение вершины
+gl_Position = projection * view * vec4(FragPos, 1.0); // Устанавливаем положение вершины
 TexCoord =aTexCoord; 
 
 

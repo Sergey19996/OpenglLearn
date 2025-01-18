@@ -29,7 +29,7 @@ public:
 	float speed;
 	float zoom;
 
-	Camera(glm::vec3 position);
+	Camera(glm::vec3 position = glm::vec3(0.0f));
 
 	void updateCameraDirection(double dx, double dy);
 	void updateCameraPos(CameraDirection dir, double dt);
@@ -39,6 +39,8 @@ public:
 
 
 	glm::mat4 getViewMatrix();
+
+	
 
 private:
 	void updateCameraVectors();

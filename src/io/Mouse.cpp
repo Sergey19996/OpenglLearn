@@ -34,6 +34,8 @@ void Mouse::cursorPosCallback(GLFWwindow* window, double _x, double _y)
 	lastX = x;         // Обновляем последнее положение X
 	lastY = y;         // Обновляем последнее положение Y
 
+
+	
 }
 
 void Mouse::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
