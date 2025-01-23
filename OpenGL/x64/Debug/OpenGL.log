@@ -1,20 +1,29 @@
-﻿  main.cpp
+﻿  octree.cpp
 D:\C++\Learning\OpenGL\src\graphics\glmemory.hpp(98,46): warning C4312: 'type cast': conversion from 'GLint' to 'void *' of greater size
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/algorithms/octree.cpp')
   
 D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(63,48): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/algorithms/octree.cpp')
   
 D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(69,50): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/algorithms/octree.cpp')
   
 D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/algorithms/octree.cpp')
   
-D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'src/main.cpp')
+D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(105,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(195,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(219,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\C++\Learning\OpenGL\src\algorithms\list.hpp(9,43): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
+  (compiling source file 'src/algorithms/octree.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\list.hpp(9,43):
+      the template instantiation context (the oldest one first) is
+          D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(147,51):
+          see reference to function template instantiation 'int List::getIndexOf<BoundingRegion>(std::vector<BoundingRegion,std::allocator<BoundingRegion>>,T)' being compiled
+          with
+          [
+              T=BoundingRegion
+          ]
   
-D:\C++\Learning\OpenGL\src\main.cpp(137,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(151,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(168,27): warning C4018: '<': signed/unsigned mismatch
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe

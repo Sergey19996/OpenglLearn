@@ -144,6 +144,9 @@
     <ClInclude Include="src\algorithms\octree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\algorithms\Trie.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Skull.png">

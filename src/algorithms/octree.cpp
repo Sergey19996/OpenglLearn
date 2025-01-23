@@ -80,6 +80,18 @@ Octree::node::node(BoundingRegion bounds, std::vector<BoundingRegion> objectList
     objects.insert(objects.end(), objectList.begin(), objectList.end());
 }
 
+void Octree::node::addToPending(RigidBody* instance, trie::Trie<Model*> models){
+    //get all bounding regions of model
+    for (BoundingRegion br : models[instance->modelId]->boundingRegions) {
+        br.instance = instance;
+        br.transform();  // пересчитывает позиции согласно скейло и смещению 
+        queue.push(br);
+
+    }
+
+
+}
+
 void Octree::node::build()
 {
     if (treeBuilt && treeReady) {
@@ -150,68 +162,102 @@ void Octree::node::build()
 }
 void Octree::node::update()
 {
+
+    // Если дерево построено и готово
     if (treeBuilt && treeReady) {
-        // Если дерево построено и готово, начинаем обновление.
-
-        // Создаем список для хранения объектов, которые переместились со своего предыдущего положения.
-        std::vector<BoundingRegion> movedObjects(objects.size());
-        // TODO: Реализация логики определения перемещенных объектов.
-
-        // Удаляем "мертвые" объекты, которые больше не существуют.
-        for (int i = 0, listSize = objects.size(); i < listSize; i++) {
-            // Удалить объект, если он находится в списке удаленных объектов.
-            // TODO: Реализация проверки "мертвых" объектов.
-        }
-
-        // Если у узла есть дочерние узлы, обновляем их.
-        if (children != nullptr) {
-            // Перебираем все активные октанты (дочерние узлы).
-            for (unsigned char flags = activeOctants, i = 0; flags > 0; flags >>= 1, i++) {
-                // Проверяем, активен ли текущий октант.
-                if (States::isIndexActive(&flags, 0)) {
-                    // Если октант активен и существует соответствующий дочерний узел.
-                    if (children[i] != nullptr) {
-                        // TODO: Реализация обновления дочернего узла.
-                    }
+        // Если узел пуст и не имеет дочерних узлов
+        if (objects.size() == 0) {
+            if (!hasChildren) {
+                // Если узел только начал проверяться на удаление
+                if (currentLifespan == -1) {
+                    // Инициализация времени жизни узла
+                    currentLifespan = maxLifespan;
+                }
+                else if (currentLifespan > 0) {
+                    // Уменьшение времени жизни узла
+                    currentLifespan--;
                 }
             }
         }
+        else {
+            // Если узел содержит объекты
+            if (currentLifespan != -1) {
+                // Если время жизни узла меньше или равно 64, продлить срок
+                if (maxLifespan <= 64) {
+                    maxLifespan <<= 2; // Увеличение maxLifespan в 4 раза
+                }
+                currentLifespan = -1; // Сброс времени жизни
+            }
+        }
 
-        // Обрабатываем объекты, которые переместились в новое место.
-        BoundingRegion movedObj;
-        while (movedObjects.size() != 0)
-        {
-            // Получаем первый перемещенный объект.
-            movedObj = movedObjects[0];
-            node* current = this; // Начинаем с текущего узла.
+        // Создаем список для хранения объектов, которые переместились со своего предыдущего положения
+        std::stack<std::pair<int, BoundingRegion>> movedObjects;
+        for (int i = 0, listSize = objects.size(); i < listSize; i++) {
+            if (States::isActive(&objects[i].instance->state, INSTANCE_MOVED)) {
+                objects[i].transform(); // Пересчет позиции BoundingBox с учетом положения и масштаба
+                movedObjects.push({ i, objects[i] });
+            }
+        }
 
-            // Поднимаемся вверх по дереву, пока не найдем узел, который полностью включает объект.
-            while (!current->region.containsRegion(movedObj))
-            {
-                if (current->parent != nullptr) {
-                    current = current->parent; // Переходим к родительскому узлу.
+        // Удаление "мертвых" ветвей
+        unsigned char flags = activeOctants;
+        for (int i = 0; flags > 0; flags >>= 1, i++) {
+            if (States::isIndexActive(&flags, 0) && children[i]->currentLifespan == 0) {
+                if (children[i]->objects.size() > 0) {
+                    // Ветвь мертва, но содержит объекты — сброс времени жизни
+                    children[i]->currentLifespan = -1;
                 }
                 else {
-                    break; // Если достигли корня дерева, выходим из цикла.
+                    // Ветвь мертва, очищаем её
+                    children[i] = nullptr;
+                    States::deactivateIndex(&activeOctants, i);
+                }
+            }
+        }
+
+        // Удаление "мертвых" объектов
+        for (int i = 0, listSize = objects.size(); i < listSize; i++) {
+            if (States::isActive(&objects[i].instance->state, INSTANCE_DEAD)) {
+                objects.erase(objects.begin() + i);
+                i--;       // Уменьшаем индекс для корректной обработки
+                listSize--; // Обновляем размер списка
+            }
+        }
+
+        // Если у узла есть дочерние узлы, обновляем их
+        if (children != nullptr) {
+            for (unsigned char flags = activeOctants, i = 0; flags > 0; flags >>= 1, i++) {
+                if (States::isIndexActive(&flags, 0) && children[i] != nullptr) {
+                    children[i]->update(); // Обновляем дочерний узел
+                }
+            }
+        }
+
+        // Обработка перемещенных объектов
+        BoundingRegion movedObj;
+        while (!movedObjects.empty()) {
+            movedObj = movedObjects.top().second; // Получаем верхний объект из стека
+            node* current = this;
+
+            // Поднимаемся вверх по дереву, пока не найдем подходящий узел
+            while (!current->region.containsRegion(movedObj)) {
+                if (current->parent != nullptr) {
+                    current = current->parent;
+                }
+                else {
+                    break; // Достигли корня дерева
                 }
             }
 
-            // Удаляем первый объект из списка перемещенных объектов.
-            movedObjects.erase(movedObjects.begin());
-
-            // Удаляем объект из текущего узла.
-            objects.erase(objects.begin() + List::getIndexOf<BoundingRegion>(objects, movedObj));
-
-            // Вставляем объект в найденный подходящий узел.
+            // Удаляем объект из текущего узла и перемещаем в найденный узел
+            objects.erase(objects.begin() + movedObjects.top().first);
+            movedObjects.pop();
             current->insert(movedObj);
-
-            // TODO: Реализация обнаружения столкновений, если требуется.
         }
-
     }
     else {
-        // Если дерево еще не готово, обрабатываем ожидающие объекты.
-        if (queue.size() > 0) {
+        // Если дерево еще не готово, обрабатываем ожидающие объекты
+        if (!queue.empty()) {
             processPending();
         }
     }

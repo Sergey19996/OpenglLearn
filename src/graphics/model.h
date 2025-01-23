@@ -36,8 +36,11 @@ public:
 	BoundTypes boundType;
 
 	std::vector<Mesh> meshes;
-	std::vector<RigidBody> instances;
+	std::vector<BoundingRegion> boundingRegions;
+	std::vector<RigidBody*> instances;
 
+
+	
 	unsigned int maxNoInstances;
 	unsigned int currentNoInstances;
 
@@ -50,7 +53,7 @@ public:
 	//initialize method
 	virtual void init();
 
-	unsigned int generateInstance(glm::vec3 size, float mass, glm::vec3 pos);
+RigidBody* generateInstance(glm::vec3 size, float mass, glm::vec3 pos);
 
 	void initInstances();
 
@@ -64,6 +67,9 @@ public:
 	void CleanUp();
 
 	void removeInstance(unsigned int idx);
+
+	void removeInstance(std::string instanced);
+
 	unsigned int getIdx(std::string id);
 
 

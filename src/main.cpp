@@ -164,16 +164,13 @@ int main()
 
         //remove launch objects if too far
 
-        std::stack<unsigned int> removeObjects;
+      
         for (int i = 0; i < sphere.currentNoInstances; i++) {
-            if (glm::length(cam.cameraPos - sphere.instances[i].pos) > 100.0f) {
-                removeObjects.push(i);
+            if (glm::length(cam.cameraPos - sphere.instances[i]->pos) > 100.0f) {
+                scene.markForDeletion(sphere.instances[i]->instanceId);  
+
 
             }
-        }
-        while (removeObjects.size() != 0){
-            sphere.removeInstance(removeObjects.top());
-            removeObjects.pop();
         }
         //render launch objects
         if (sphere.currentNoInstances > 0) {
@@ -187,6 +184,7 @@ int main()
 
 
         // sen new frame to window
+        scene.clearDeadInstances();
 
        // screen.newFrame();
         scene.newFrame();
@@ -202,11 +200,13 @@ int main()
 }
 void launchItem(float fdeltatime) {
     glm::vec3 fixpos = { cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z - 0.25f };
-    std::string id = scene.generateInstance(sphere.id, glm::vec3(0.05f), 1.0f, fixpos);
-    if (id != "") {
+
+   RigidBody* rb = scene.generateInstance(sphere.id, glm::vec3(0.05f), 1.0f, fixpos);  // передаем индекс сферы, где она хранится в octree в сцене
+    std::cout << rb << std::endl;
+    if (rb) {
         //instance generated
-        sphere.instances[scene.instances[id].second].transferEnergy(100.0f, cam.cameraFront);
-        sphere.instances[scene.instances[id].second].applyAcceleration(Environment::gravityAcc);
+       rb->transferEnergy(100.0f, cam.cameraFront);
+       rb->applyAcceleration(Environment::gravityAcc);
 
     }
 

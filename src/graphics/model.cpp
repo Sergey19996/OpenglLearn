@@ -17,15 +17,15 @@ void Model::init()
 	
 }
 
-unsigned int Model::generateInstance(glm::vec3 size, float mass, glm::vec3 pos)
+RigidBody* Model::generateInstance(glm::vec3 size, float mass, glm::vec3 pos)
 {
 	if (currentNoInstances >= maxNoInstances) {
 		//all slots filled
-		return -1;
+		return nullptr;
 
 	}
-	instances.push_back(RigidBody(&id, size, mass, pos));
-	return currentNoInstances++;  // мы возвращаем значенеие только потом возвращение увеличится
+	instances.push_back(new RigidBody(id, size, mass, pos));
+	return instances[currentNoInstances++];  // мы возвращаем значенеие только потом возвращение увеличится
 	return 0;
 }
 
@@ -40,8 +40,8 @@ void Model::initInstances(){
 	if (States::isActive(&switches, CONST_INSTANCES)) {
 		//set data pointers
 		for (unsigned int i = 0; i < currentNoInstances; i++) {
-			positions.push_back(instances[i].pos);
-			sizes.push_back(instances[i].size);
+			positions.push_back(instances[i]->pos);
+			sizes.push_back(instances[i]->size);
 
 		}
 		if (positions.size() > 0) {
@@ -99,11 +99,17 @@ void Model::render(Shader shader, float deltaTime, Scene* scene, bool  setModel)
 		for (int i = 0; i < currentNoInstances; i++) {
 			if (doUpdate) {
 				//update Rigid Body
-				instances[i].update(deltaTime);
+				instances[i]->update(deltaTime);
+				States::activate(&instances[i]->state, INSTANCE_MOVED);
 
 			}
-			positions.push_back(instances[i].pos);
-			sizes.push_back(instances[i].size);
+			else
+			{
+				States::deactivate(&instances[i]->state, INSTANCE_MOVED);
+
+			}
+			positions.push_back(instances[i]->pos);
+			sizes.push_back(instances[i]->size);
 
 		}
 
@@ -139,9 +145,18 @@ void Model::removeInstance(unsigned int idx){
 
 }
 
+void Model::removeInstance(std::string instanced)
+{
+	int idx = getIdx(instanced);
+	if (idx != -1) {
+		instances.erase(instances.begin() + idx);
+		currentNoInstances--;
+	}
+}
+
 unsigned int Model::getIdx(std::string id){
 	for (int i = 0; i < currentNoInstances; i++) {
-		if (instances[i] == id) {  // из за перегруженого оператора == мы можем сразу написать rigidbody == string 
+		if (instances[i]->instanceId == id) {  // из за перегруженого оператора == мы можем сразу написать rigidbody == string 
 			return i;
 		}
 	}
@@ -166,7 +181,9 @@ void Model::processNode(aiNode* node, const aiScene* scene) //Метод обрабатывает
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(processMesh(mesh, scene));
+		Mesh newMesh = processMesh(mesh, scene);
+		meshes.push_back(newMesh);
+		boundingRegions.push_back(newMesh.br);
 	}
 
 	//process all child nodes
@@ -239,12 +256,16 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) { //Метод вертексы ,
 	if (boundType == BoundTypes::AABB) {
 		//assign max and min
 		br.max = max;
+		br.ogMax = max;
 		br.min = min;
+		br.ogMin = min;
 
 	}
 	else
 	{	//calculate max distance from center
 		br.center = BoundingRegion(min, max).calculateCenter();
+		br.ogCenter = br.center;
+
 		float MaxRadiusSquare = 0.0f;
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 		{
@@ -263,6 +284,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) { //Метод вертексы ,
 
 		}
 		br.radius = sqrt(MaxRadiusSquare);
+		br.ogRadius = br.radius;
 
 	}
 

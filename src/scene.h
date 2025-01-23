@@ -16,14 +16,17 @@
 #include "io/Mouse.h"
 
 #include "algorithms/States.hpp"
+#include "algorithms/Trie.hpp"
 
 class Model;
 
 class Scene {
 public:
 
-	std::map<std::string, Model*>models;
-	std::map<std::string, std::pair<std::string, unsigned int>> instances;
+	trie::Trie<Model*>models;
+	trie::Trie<RigidBody*> instances;
+
+	std::vector<RigidBody*> instancesToDelete;
 
 
 	//Callbacks
@@ -76,12 +79,17 @@ public:
 
 	//model Instance methods
 	void registerModel(Model* model);
-	std::string generateInstance(std::string modelId, glm::vec3 size, float mass, glm::vec3 pos);
+	RigidBody* generateInstance(std::string modelId, glm::vec3 size, float mass, glm::vec3 pos);
 
 	void initInstances();
 	void loadModels();
 
 	void removeInstance(std::string instanceId);
+
+	void markForDeletion(std::string instanceId);
+	void clearDeadInstances();
+
+
 	 std::string currenId;
 	 std::string generateId();
 

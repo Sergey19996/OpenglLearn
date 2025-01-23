@@ -1,6 +1,7 @@
 #ifndef BOUNDS_H  
 #define BOUNDS_H
 #include <glm/glm.hpp>
+#include "../physics/rigidbody.h"
 
 enum class BoundTypes : unsigned char{
 	AABB = 0x00, // как char храним так как 8 бит  в 0x00 = 0  axis - aligned bounding box
@@ -12,15 +13,25 @@ class  BoundingRegion
 {
 public:
 	BoundTypes type;
+	RigidBody* instance;
+
+
 
 	//sphere values
 	glm::vec3 center;
 	float radius;
+	
+	glm::vec3 ogCenter;
+	float ogRadius;
+
 
 
 	//bounding box
 	glm::vec3 min;
 	glm::vec3 max;
+
+	glm::vec3 ogMin;
+	glm::vec3 ogMax;
 
 	//constructors
 	   // Оператор сравнения для сравнения объектов BoundingRegion
@@ -38,8 +49,14 @@ public:
 	//initialize as  AABB
 	BoundingRegion(glm::vec3 min, glm::vec3 max);
 
+	//transform for instance
+	void transform();
+
+
+
 
 	//calculating values for the region
+
 	glm::vec3 calculateCenter();
 	glm::vec3 calculateDimensions();
 

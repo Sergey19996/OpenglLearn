@@ -10,8 +10,8 @@
 #include "list.hpp"
 #include "States.hpp"
 #include "bounds.h"
-
-
+#include "Trie.hpp"
+#include "../graphics/model.h"
 namespace Octree{
 	enum class Octant : unsigned char {
 		O1 =0x01, //  ==0b00000001
@@ -52,10 +52,18 @@ namespace Octree{
 		bool treeReady = false;
 		bool treeBuilt = false;
 		
+		short maxLifespan = 8;
+		short currentLifespan = -1;
 
 		node();
+
+		//initialize with bounds (no objects yet)
 		node(BoundingRegion bounds);
+
+		
 		node(BoundingRegion bounds, std::vector<BoundingRegion>objectList);
+
+		void addToPending(RigidBody* instance, trie::Trie<Model*> models);
 
 		void build();
 
