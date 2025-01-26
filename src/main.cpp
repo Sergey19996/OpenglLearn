@@ -33,6 +33,8 @@
 #include "algorithms/States.hpp"
 #include "scene.h"
 
+#include <ft2build.h>
+
 Scene scene;
 // ввод клавиш
 void processInput(float fdeltatime);
@@ -74,7 +76,9 @@ int main()
     Lamp lamp(4);
     scene.registerModel(&lamp);
     scene.registerModel(&sphere);
-   
+    Box box;
+    box.init();
+
     //load all model data
     scene.loadModels();
 
@@ -137,14 +141,14 @@ int main()
     float lastTime = glfwGetTime();
     float deltaTime = 0.0f;
 
-
+    scene.prepare(box); // для octree 
 
   
     // Главный цикл рендеринга
     while (!scene.shouldClose()) // Выполняем цикл, пока окно не закрыто
     {
        
-      
+    
 
 
         // Получаем время между кадрами
@@ -179,15 +183,22 @@ int main()
         }
 
         //render lamps
-        scene.renderShader(lampShader);
+        scene.renderShader(lampShader,false);
         scene.renderInstances(lamp.id, lampShader, deltaTime);
 
+
+        //render boxes
+        scene.renderShader(boxShader, false);
+        box.render(boxShader);
+
+
+        // screen.newFrame();
+        scene.newFrame(box);
 
         // sen new frame to window
         scene.clearDeadInstances();
 
-       // screen.newFrame();
-        scene.newFrame();
+      
        
     }
    
@@ -201,11 +212,11 @@ int main()
 void launchItem(float fdeltatime) {
     glm::vec3 fixpos = { cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z - 0.25f };
 
-   RigidBody* rb = scene.generateInstance(sphere.id, glm::vec3(0.05f), 1.0f, fixpos);  // передаем индекс сферы, где она хранится в octree в сцене
+   RigidBody* rb = scene.generateInstance(sphere.id, glm::vec3(0.01f), 1.0f, fixpos);  // передаем индекс сферы, где она хранится в octree в сцене
     std::cout << rb << std::endl;
     if (rb) {
         //instance generated
-       rb->transferEnergy(100.0f, cam.cameraFront);
+       rb->transferEnergy(1000.0f, cam.cameraFront);
        rb->applyAcceleration(Environment::gravityAcc);
 
     }

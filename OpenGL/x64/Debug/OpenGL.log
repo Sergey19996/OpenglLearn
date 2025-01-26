@@ -1,29 +1,95 @@
-﻿  octree.cpp
+﻿  main.cpp
 D:\C++\Learning\OpenGL\src\graphics\glmemory.hpp(98,46): warning C4312: 'type cast': conversion from 'GLint' to 'void *' of greater size
-  (compiling source file 'src/algorithms/octree.cpp')
+  (compiling source file 'src/main.cpp')
   
 D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(63,48): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/algorithms/octree.cpp')
+  (compiling source file 'src/main.cpp')
   
 D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(69,50): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/algorithms/octree.cpp')
+  (compiling source file 'src/main.cpp')
   
 D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/algorithms/octree.cpp')
+  (compiling source file 'src/main.cpp')
   
-D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(105,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(195,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(219,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\C++\Learning\OpenGL\src\algorithms\list.hpp(9,43): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
-  (compiling source file 'src/algorithms/octree.cpp')
-      D:\C++\Learning\OpenGL\src\algorithms\list.hpp(9,43):
+D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\main.cpp(141,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\C++\Learning\OpenGL\src\main.cpp(155,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\C++\Learning\OpenGL\src\main.cpp(172,27): warning C4018: '<': signed/unsigned mismatch
+  scene.cpp
+D:\C++\Learning\OpenGL\src\graphics\glmemory.hpp(98,46): warning C4312: 'type cast': conversion from 'GLint' to 'void *' of greater size
+  (compiling source file 'src/scene.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(63,48): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/scene.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(69,50): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/scene.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/scene.cpp')
+  
+D:\C++\Learning\OpenGL\src\scene.cpp(10,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\C++\Learning\OpenGL\src\scene.cpp(208,24): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\C++\Learning\OpenGL\src\scene.cpp(222,28): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(102,24): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/scene.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(102,24):
       the template instantiation context (the oldest one first) is
-          D:\C++\Learning\OpenGL\src\algorithms\octree.cpp(147,51):
-          see reference to function template instantiation 'int List::getIndexOf<BoundingRegion>(std::vector<BoundingRegion,std::allocator<BoundingRegion>>,T)' being compiled
+          D:\C++\Learning\OpenGL\src\scene.h(33,25):
+          see reference to class template instantiation 'trie::Trie<RigidBody *>' being compiled
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(88,8):
+          while compiling class template member function 'bool trie::Trie<RigidBody *>::insert(std::string,T)'
           with
           [
-              T=BoundingRegion
+              T=RigidBody *
           ]
+              D:\C++\Learning\OpenGL\src\scene.cpp(292,19):
+              see the first reference to 'trie::Trie<RigidBody *>::insert' in 'Scene::generateInstance'
   
+D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(78,22): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/scene.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(78,22):
+      the template instantiation context (the oldest one first) is
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(67,3):
+          while compiling class template member function 'trie::Trie<RigidBody *>::Trie(trie::charset)'
+              D:\C++\Learning\OpenGL\src\scene.cpp(31,1):
+              see the first reference to 'trie::Trie<RigidBody *>::Trie' in 'Scene::Scene'
+  
+D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(49,23): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/scene.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(49,23):
+      the template instantiation context (the oldest one first) is
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(170,8):
+          while compiling class template member function 'void trie::Trie<Model *>::traverse(void (__cdecl *)(T))'
+          with
+          [
+              T=Model *
+          ]
+              D:\C++\Learning\OpenGL\src\scene.cpp(250,17):
+              see the first reference to 'trie::Trie<Model *>::traverse' in 'Scene::cleanUp'
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(172,5):
+          see reference to class template instantiation 'trie::node<T>' being compiled
+          with
+          [
+              T=Model *
+          ]
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(42,8):
+          while compiling class template member function 'void trie::node<T>::traverse(void (__cdecl *)(T),unsigned int)'
+          with
+          [
+              T=Model *
+          ]
+              D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(172,19):
+              see the first reference to 'trie::node<T>::traverse' in 'trie::Trie<Model *>::traverse'
+          with
+          [
+              T=Model *
+          ]
+              D:\C++\Learning\OpenGL\src\scene.cpp(250,17):
+              see the first reference to 'trie::Trie<Model *>::traverse' in 'Scene::cleanUp'
+  
+  Generating Code...
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe

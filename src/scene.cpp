@@ -91,10 +91,20 @@ bool Scene::init()
 	//set rendering parametres
 	glEnable(GL_DEPTH_TEST); // doesn't show vertices not visible to camera
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //disable cursor
+
+	/*
+	* init octree
+	*/
+	octree = new Octree::node(BoundingRegion(glm::vec3(-16.0f), glm::vec3(16.0f)));
+
 	return true;
 
-
 	//return false;
+}
+//prepare for main loop (after object generation, etc)
+void Scene::prepare(Box& box){
+	octree->update(box);
+
 }
 
 void Scene::processInput(float dt)
@@ -165,8 +175,17 @@ void Scene::update()
 
 }
 
-void Scene::newFrame()
-{  // send new frame to window
+void Scene::newFrame(Box& box)
+{  //process pending
+	box.positions.clear();
+	box.sizes.clear();
+
+	octree->processPending();
+	octree->update(box);
+
+	
+	
+	// send new frame to window
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 
@@ -229,6 +248,9 @@ void Scene::renderInstances(std::string modelId, Shader shader, float dt){
 
 void Scene::cleanUp(){
 	models.traverse([](Model* model)->void { model->CleanUp();});
+
+	octree->destroy();
+
 	glfwTerminate();
 }
 
@@ -266,7 +288,9 @@ RigidBody* Scene::generateInstance(std::string modelId, glm::vec3 size, float ma
 		//successfuly generated
 		std::string id = generateId();  // Генерация Id для Rigidbody
 		rb->instanceId = id;    //присваиваем её 
+		//insert into trie
 		instances.insert(id, rb);
+		octree->addToPending(rb, models); //добавление экземпляра RigidBody (жёсткого тела) в структуру данных, которая отслеживает объекты в пространстве
 		return rb;
 
 		  

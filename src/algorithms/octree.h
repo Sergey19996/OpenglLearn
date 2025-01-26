@@ -12,6 +12,13 @@
 #include "bounds.h"
 #include "Trie.hpp"
 #include "../graphics/model.h"
+
+
+
+class Model;
+class BoundingRegion;
+class Box;
+
 namespace Octree{
 	enum class Octant : unsigned char {
 		O1 =0x01, //  ==0b00000001
@@ -31,7 +38,7 @@ namespace Octree{
 
 
 	//calculate bounds of specified quadrant in bounding region
-	void calculateBounds(BoundingRegion* out, Octant octant, BoundingRegion parentRegion);
+	void calculateBounds(BoundingRegion& out, Octant octant, BoundingRegion parentRegion);
 
 	class node {
 	public:
@@ -65,13 +72,26 @@ namespace Octree{
 
 		void addToPending(RigidBody* instance, trie::Trie<Model*> models);
 
+		//build tree (called during initialization)
 		void build();
 
-		void update();
+		// update objects in tree (called during each iteration of main loop
+		void update(Box& box);
 
+		//process pending queue // ожидаемая очередь
 		void processPending();
 
+		//dynamicly insert object into node
 		bool insert(BoundingRegion obj);
+
+		//check collisions with all objects in node
+		void checkCollisionsSelf(BoundingRegion obj);
+
+		//check collisiont with all objects in child node
+		void checkCollisionsChildren(BoundingRegion obj);
+
+
+
 
 		void destroy();
 

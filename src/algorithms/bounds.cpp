@@ -1,4 +1,8 @@
 #include "bounds.h"
+#include "octree.h"
+
+
+
 // Конструктор для инициализации типа региона
 BoundingRegion::BoundingRegion(BoundTypes type) : type(type) {}
 
@@ -114,43 +118,34 @@ bool BoundingRegion::intersectsWith(BoundingRegion br)
         //failed to prove wrong on each axes
         return true;
     }
-    else if (type == BoundTypes::SPHERE && br.type ==BoundTypes::SPHERE)
+    else if (type == BoundTypes::SPHERE && br.type == BoundTypes::SPHERE)
     {  // both spheres
         return glm::length(center - br.center) < (radius + br.radius);
     }
-    else if(type == BoundTypes::SPHERE)
+    else if (type == BoundTypes::SPHERE)
     {  //this is a sphere  br is a box
-        
+
         //determinate if sphere is above top, below bottom,etc
         // find the distance(squared) to the closet plane
         float distSquared = 0.0f;
-        for (int i = 0; i < 3; i++)
-        {
-            if (center[i] < br.min[i]) {  //Центр сферы находится "за границей" коробки, перед её минимальной гранью.
-                // Центр сферы за пределами минимальной границы коробки по оси i.
-                distSquared += (br.min[i] - center[i]) * (br.min[i] - center[i]);
-
-            }
-            else if (center[i] > br.max[i])
-            {   // Центр сферы за пределами максимальной границы коробки по оси i.
-                distSquared += (center[i] - br.max[i]) * (center[i] - br.max[i]);
-
-            }
-            // Если центр сферы между min и max, ничего не добавляем.
+        for (int i = 0; i < 3; i++) {
+            //determine closest side
+            float closestPt = std::max(br.min[i], std::min(center[i], br.max[i]));
+            //add distance
+            distSquared += (closestPt - center[i]) * (closestPt - center[i]);
 
         }
-        return distSquared < (radius * radius);  // Если квадрат расстояния меньше квадрата радиуса, сфера пересекает коробку.
+
+        return distSquared < (radius * radius);
+
+     
     }
     else
     {//this is a box , br is a sphere
-        //call algorithm for br (defined in preceding if block)
-        return br.intersectsWith(*this);  //просто свичаем как будто бы мы сфера а br box
+      // call algorithm for br (defined in preceding else of block)
+        return br.intersectsWith(*this);
 
     }
-
-
-    //failed to prove wrong on each axis
-	return false;
 }
 
 bool BoundingRegion::operator==(BoundingRegion br){
