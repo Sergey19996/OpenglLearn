@@ -6,7 +6,7 @@ unsigned int Scene::srcHeight = 0;
 
 
 
-std::string Scene::generateId(){
+std::string Scene::generateId() {
 	for (int i = currenId.length() - 1; i >= 0; i--) {
 		if ((int)currenId[i] != (int)'z') {
 			currenId[i] = (char)(((int)currenId[i]) + 1);  // берем curridпо индексу,переводим в инт добавляем 1 и переводим обратно в чар 
@@ -32,7 +32,7 @@ Scene::Scene() :currenId("aaaaaaaa")
 }
 
 Scene::Scene(int glfwVersionMajor, int glfwVersionMinor, const char* title, unsigned int srcWidth, unsigned int srcHeight)
-	:glfwVersionMajor(glfwVersionMajor),glfwVersionMinor(glfwVersionMinor),titles(title),activeCamera(-1),activePointLights(0),activeSpotLights(0),
+	:glfwVersionMajor(glfwVersionMajor), glfwVersionMinor(glfwVersionMinor), titles(title), activeCamera(-1), activePointLights(0), activeSpotLights(0),
 	currenId("aaaaaaaa")
 {
 	Scene::srcWidth = srcWidth;
@@ -48,7 +48,7 @@ bool Scene::init()
 	//set version
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glfwVersionMajor);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glfwVersionMinor);
-	glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef _APPLE_
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -90,12 +90,34 @@ bool Scene::init()
 
 	//set rendering parametres
 	glEnable(GL_DEPTH_TEST); // doesn't show vertices not visible to camera
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glfwSwapInterval(0);  // для вертикальной синхронизации
+
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //disable cursor
 
 	/*
 	* init octree
 	*/
 	octree = new Octree::node(BoundingRegion(glm::vec3(-16.0f), glm::vec3(16.0f)));
+
+
+	//initialize freetype library
+	if (FT_Init_FreeType(&ft)){
+		std::cout << "could not init FreeType library" << std::endl;
+
+		return false;
+	}
+
+	//insert font
+	fonts.insert("comic", TextRenderer(32));
+	if (!fonts["comic"].loadFont(ft, "Assets/fonts/comic.ttf")) {
+		std::cout << "could not load font " << std::endl;
+		return false;
+	}
+
+	FT_Done_FreeType(ft);
 
 	return true;
 
@@ -158,6 +180,9 @@ void Scene::processInput(float dt)
 			(float)srcWidth /(float)srcHeight,                                     // aspect ration
 			0.1f, 100.0f                                                           // near and far bounds
 			);
+
+		textProjection = glm::ortho(0.0f, (float)srcWidth, 0.0f, (float)srcHeight);
+
 
 		//set pos ath the end
 		cameraPos = cameras[activeCamera]->cameraPos;
@@ -246,9 +271,30 @@ void Scene::renderInstances(std::string modelId, Shader shader, float dt){
 
 }
 
+void Scene::renderText(std::string font, Shader shader, std::string text, float x, float y, glm::vec2 scale, glm::vec3 color){
+	shader.activate();
+	shader.setMat4("projection", textProjection);
+
+	fonts[font].render(shader, text, x, y, scale, color);
+
+
+}
+
 void Scene::cleanUp(){
 	models.traverse([](Model* model)->void { model->CleanUp();});
 
+	//clean modedls and instances
+	models.cleanup();
+	instances.cleanup();
+
+	//clean fonts
+	fonts.traverse([](TextRenderer tr)-> void {
+		tr.cleanUp();
+		});
+	fonts.cleanup();
+
+
+	
 	octree->destroy();
 
 	glfwTerminate();

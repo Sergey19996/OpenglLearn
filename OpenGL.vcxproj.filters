@@ -69,6 +69,9 @@
     <ClCompile Include="src\algorithms\octree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\object.fs.glsl" />
@@ -76,6 +79,8 @@
     <None Include="Assets\lamp.fs.glsl" />
     <None Include="Assets\instanced\box.fs.glsl" />
     <None Include="src\algorithms\list.hpp" />
+    <None Include="Assets\text.fs.glsl" />
+    <None Include="Assets\text.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">
@@ -145,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\algorithms\Trie.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

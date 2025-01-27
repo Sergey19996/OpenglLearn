@@ -58,7 +58,7 @@ Sphere sphere(10);
 int main()
 {
     //          version 3.3 opengl
-    scene = Scene(3,3,"Fat Boys", 800, 600);
+    scene = Scene(3,3,"Fat Boys", SCR_WIDTH, SCR_HEIGHT);
     if (!scene.init()) {
 
         std::cout << "Couldn't open window" << std::endl;
@@ -72,6 +72,7 @@ int main()
     Shader lampShader("Assets/instanced/instanced.vs.glsl", "Assets/lamp.fs.glsl");
     Shader shader("Assets/instanced/instanced.vs.glsl", "Assets/object.fs.glsl");
     Shader boxShader("Assets/instanced/box.vs.glsl", "Assets/instanced/box.fs.glsl");
+    Shader textShader("Assets/text.vs.glsl", "Assets/text.fs.glsl");
   //Models ==================================
     Lamp lamp(4);
     scene.registerModel(&lamp);
@@ -143,6 +144,8 @@ int main()
 
     scene.prepare(box); // для octree 
 
+
+    scene.VariableLog["time"] = (double)0.0;
   
     // Главный цикл рендеринга
     while (!scene.shouldClose()) // Выполняем цикл, пока окно не закрыто
@@ -155,6 +158,8 @@ int main()
         float currentTime = glfwGetTime();
         deltaTime = currentTime - lastTime;
         lastTime = currentTime;
+        scene.VariableLog["time"] += deltaTime;
+        scene.VariableLog["fps"] = 1 / deltaTime;
 
        
         scene.update();
@@ -192,6 +197,10 @@ int main()
         box.render(boxShader);
 
 
+        scene.renderText("comic", textShader, "Hello, Opengl!", 50.0f, 50.f, glm::vec2(1.0f), glm::vec3(0.5f,0.6f,1.0f));
+        scene.renderText("comic", textShader, "Fat Boyes!", SCR_WIDTH-200.0f, 0+70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
+
+        scene.renderText("comic", textShader, "fps: " + scene.VariableLog["fps"].dump(), SCR_WIDTH - 200.0f, SCR_HEIGHT - 70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
         // screen.newFrame();
         scene.newFrame(box);
 

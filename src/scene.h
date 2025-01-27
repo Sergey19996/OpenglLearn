@@ -6,12 +6,15 @@
 #include <vector>
 #include <map>
 #include <glm/glm.hpp>
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 
 #include "graphics/light.h"
 #include "graphics/shader.h"
 #include "graphics/model.h"
 #include "graphics/models/box.hpp"
-
+#include "graphics/text.h"
 
 #include "io/Camera.h"
 #include "io/Keyboard.h"
@@ -20,6 +23,9 @@
 #include "algorithms/States.hpp"
 #include "algorithms/Trie.hpp"
 #include "algorithms/octree.h"
+
+#include <jsoncpp/json.hpp>
+
 
 namespace Octree {
 	class node;
@@ -34,7 +40,17 @@ public:
 
 	std::vector<RigidBody*> instancesToDelete;
 
+	//pointer to root node in octree
 	Octree::node* octree;
+
+	//map for logged variable
+	jsoncpp::json VariableLog;
+
+	//freetype library
+	FT_Library ft;
+	trie::Trie<TextRenderer> fonts;
+
+
 
 	//Callbacks
 	
@@ -68,6 +84,9 @@ public:
 
 	void renderInstances(std::string modelId, Shader shader, float dt);
 
+	//render text
+	void renderText(std::string font, Shader shader, std::string text, float x, float y, glm::vec2 scale, glm::vec3 color);
+
 
 	//cleanup method
 	void cleanUp();
@@ -98,6 +117,7 @@ public:
 	void clearDeadInstances();
 
 
+
 	 std::string currenId;
 	 std::string generateId();
 
@@ -121,7 +141,9 @@ public:
 	unsigned int activeCamera;
 	glm::mat4 view;
 	glm::mat4 projection;
+	glm::mat4 textProjection;
 	glm::vec3 cameraPos;
+
 
 protected:
 	//window objects

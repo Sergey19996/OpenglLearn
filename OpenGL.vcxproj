@@ -147,7 +147,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW\glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype\freetype.lib;GLFW\glfw3.lib;assimp\assimp-vc143-mt.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -169,12 +169,15 @@
     <ClCompile Include="src\physics\environment.cpp" />
     <ClCompile Include="src\physics\rigidbody.cpp" />
     <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\graphics\text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\instanced\box.fs.glsl" />
     <None Include="Assets\lamp.fs.glsl" />
     <None Include="Assets\object.fs.glsl" />
     <None Include="Assets\object.vs.glsl" />
+    <None Include="Assets\text.fs.glsl" />
+    <None Include="Assets\text.vs.glsl" />
     <None Include="src\algorithms\list.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +204,7 @@
     <ClInclude Include="src\physics\environment.h" />
     <ClInclude Include="src\physics\rigidbody.h" />
     <ClInclude Include="src\scene.h" />
+    <ClInclude Include="src\graphics\text.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Rubbit.jpg" />
