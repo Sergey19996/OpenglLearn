@@ -1,4 +1,78 @@
-﻿  scene.cpp
+﻿  cubemap.cpp
+D:\C++\Learning\OpenGL\src\graphics\glmemory.hpp(103,46): warning C4312: 'type cast': conversion from 'GLint' to 'void *' of greater size
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(63,48): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(69,50): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(68,49): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(91,76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(196,33): warning C4244: '+=': conversion from 'const float' to 'int', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(241,35): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(242,35): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(259,34): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(300,25): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'src/graphics/cubemap.cpp')
+  
+  main.cpp
+D:\C++\Learning\OpenGL\src\graphics\glmemory.hpp(103,46): warning C4312: 'type cast': conversion from 'GLint' to 'void *' of greater size
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(63,48): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(69,50): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(68,49): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(91,76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(196,33): warning C4244: '+=': conversion from 'const float' to 'int', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(241,35): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(242,35): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(259,34): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(300,25): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\main.cpp(153,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\C++\Learning\OpenGL\src\main.cpp(169,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\C++\Learning\OpenGL\src\main.cpp(191,27): warning C4018: '<': signed/unsigned mismatch
+  scene.cpp
 D:\C++\Learning\OpenGL\src\graphics\glmemory.hpp(103,46): warning C4312: 'type cast': conversion from 'GLint' to 'void *' of greater size
   (compiling source file 'src/scene.cpp')
   
@@ -108,8 +182,8 @@ D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(234,22): warning C4018: '<': sign
               see the first reference to 'trie::Trie<TextRenderer>::cleanup' in 'Scene::cleanUp'
   
   Generating code
-  2 of 2202 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    8 functions had inline decision re-evaluated but remain unchanged
+  667 of 2266 functions (29.4%) were compiled, the rest were copied from previous compilation.
+    64 functions were new in current compilation
+    303 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Release\OpenGL.exe

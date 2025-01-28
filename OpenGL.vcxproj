@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\cubemap.cpp" />
     <ClCompile Include="src\algorithms\octree.cpp" />
     <ClCompile Include="src\algorithms\bounds.cpp" />
     <ClCompile Include="src\graphics\light.cpp" />
@@ -176,11 +177,15 @@
     <None Include="Assets\lamp.fs.glsl" />
     <None Include="Assets\object.fs.glsl" />
     <None Include="Assets\object.vs.glsl" />
+    <None Include="Assets\skybox\skybox.fs.glsl" />
+    <None Include="Assets\skybox\skybox.vs.glsl" />
+    <None Include="Assets\skybox\sky.fs.glsl" />
     <None Include="Assets\text.fs.glsl" />
     <None Include="Assets\text.vs.glsl" />
     <None Include="src\algorithms\list.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\cubemap.h" />
     <ClInclude Include="src\algorithms\octree.h" />
     <ClInclude Include="src\algorithms\bounds.h" />
     <ClInclude Include="src\algorithms\States.hpp" />
@@ -210,6 +215,13 @@
     <Image Include="Assets\Rubbit.jpg" />
     <Image Include="Assets\Skull.png" />
     <Image Include="Assets\Skull_Specular.png" />
+    <Image Include="Assets\skybox\back.png" />
+    <Image Include="Assets\skybox\bottom.png" />
+    <Image Include="Assets\skybox\front.png" />
+    <Image Include="Assets\skybox\left.png" />
+    <Image Include="Assets\skybox\right.png" />
+    <Image Include="Assets\skybox\skybox_template.png" />
+    <Image Include="Assets\skybox\top.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\instanced\instanced.vs.glsl" />

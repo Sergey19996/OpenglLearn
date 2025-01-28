@@ -72,6 +72,9 @@
     <ClCompile Include="src\graphics\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\cubemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\object.fs.glsl" />
@@ -81,6 +84,9 @@
     <None Include="src\algorithms\list.hpp" />
     <None Include="Assets\text.fs.glsl" />
     <None Include="Assets\text.vs.glsl" />
+    <None Include="Assets\skybox\skybox.vs.glsl" />
+    <None Include="Assets\skybox\skybox.fs.glsl" />
+    <None Include="Assets\skybox\sky.fs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">
@@ -155,6 +161,9 @@
     <ClInclude Include="src\graphics\text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\cubemap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Skull.png">
@@ -164,6 +173,27 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\Skull_Specular.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\skybox\back.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\skybox\bottom.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\skybox\front.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\skybox\left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\skybox\right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\skybox\skybox_template.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\skybox\top.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

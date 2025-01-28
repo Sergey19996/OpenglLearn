@@ -7,6 +7,8 @@
 #include <sstream> //std::stringstream, std::istringstream и std::ostringstream для преобразования текста в данные.
 #include <streambuf> //низкоуровневый интерфейс к буферам ввода/вывода могут быть связаны с файлами или строками.
 
+#include "graphics/cubemap.h"
+
 #include <string>
 #include <stack>
 #include<stb/stb_image.h>  //download png files  PNG, JPEG, BMP, TGA и другие
@@ -55,6 +57,8 @@ bool flashlight = true;
 
 Sphere sphere(10);
 
+
+
 int main()
 {
     //          version 3.3 opengl
@@ -73,6 +77,18 @@ int main()
     Shader shader("Assets/instanced/instanced.vs.glsl", "Assets/object.fs.glsl");
     Shader boxShader("Assets/instanced/box.vs.glsl", "Assets/instanced/box.fs.glsl");
     Shader textShader("Assets/text.vs.glsl", "Assets/text.fs.glsl");
+    Shader skyBoxShader("Assets/skybox/skybox.vs.glsl","Assets/skybox/skybox.fs.glsl");
+
+    skyBoxShader.activate();
+    skyBoxShader.set3Float("min", 0.047f, 0.016f, 0.239f);
+    skyBoxShader.set3Float("max", 0.945f, 1.000f, 0.682f);
+    //skybox
+    Cubemap skybox;
+    skybox.init();
+    skybox.loadTextures("Assets/skybox");
+
+
+
   //Models ==================================
     Lamp lamp(4);
     scene.registerModel(&lamp);
@@ -160,7 +176,7 @@ int main()
         lastTime = currentTime;
         scene.VariableLog["time"] += deltaTime;
         scene.VariableLog["fps"] = 1 / deltaTime;
-
+        
        
         scene.update();
         //input Tracking
@@ -169,8 +185,9 @@ int main()
 
         //render
         //screen.update();
-
-
+       
+        //render skybox
+        
         //remove launch objects if too far
 
       
@@ -181,37 +198,57 @@ int main()
 
             }
         }
+
         //render launch objects
         if (sphere.currentNoInstances > 0) {
         scene.renderShader(shader);
         scene.renderInstances(sphere.id, shader, deltaTime);
         }
 
+      
+
         //render lamps
         scene.renderShader(lampShader,false);
         scene.renderInstances(lamp.id, lampShader, deltaTime);
 
-
+      
         //render boxes
         scene.renderShader(boxShader, false);
         box.render(boxShader);
 
+       
+
+
+        
+        skybox.render(skyBoxShader, &scene);
+       
 
         scene.renderText("comic", textShader, "Hello, Opengl!", 50.0f, 50.f, glm::vec2(1.0f), glm::vec3(0.5f,0.6f,1.0f));
         scene.renderText("comic", textShader, "Fat Boyes!", SCR_WIDTH-200.0f, 0+70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
 
         scene.renderText("comic", textShader, "fps: " + scene.VariableLog["fps"].dump(), SCR_WIDTH - 200.0f, SCR_HEIGHT - 70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
-        // screen.newFrame();
+        scene.renderText("comic", textShader, "fps: " + scene.VariableLog["time"].dump(), SCR_WIDTH - 200.0f, SCR_HEIGHT - 100.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
+
+       
+       
+
+
+
+
+       
         scene.newFrame(box);
 
         // sen new frame to window
         scene.clearDeadInstances();
 
       
+
+      
+
        
     }
    
-  
+    skybox.cleanUp();
   
     // Завершение работы GLFW, освобождение ресурсов
     scene.cleanUp();
