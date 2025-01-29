@@ -133,7 +133,7 @@ public:
 	unsigned int activeSpotLights;
 	//direction light
 	DirLight* dirLight;
-	bool dirLightActive;
+	bool dirLightActive = true;
 
 
 	//Camers

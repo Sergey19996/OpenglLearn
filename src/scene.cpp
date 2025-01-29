@@ -93,7 +93,7 @@ bool Scene::init()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glfwSwapInterval(0);  // для вертикальной синхронизации
+	glfwSwapInterval(1);  // для вертикальной синхронизации
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //disable cursor
 
@@ -119,6 +119,9 @@ bool Scene::init()
 
 	FT_Done_FreeType(ft);
 
+	//setup lighting variable
+	VariableLog["useBlinn"] = true;
+	VariableLog["useGamma"] = false;
 	return true;
 
 	//return false;
@@ -187,6 +190,18 @@ void Scene::processInput(float dt)
 		//set pos ath the end
 		cameraPos = cameras[activeCamera]->cameraPos;
 
+		//update blinn parameter if necessary
+		if (keyboard::KeyWentDown(GLFW_KEY_K)) {
+
+			VariableLog["useBlinn"] = !VariableLog["useBlinn"].val<bool>();
+
+		}
+
+		//update gamma parametr
+		if (keyboard::KeyWentDown(GLFW_KEY_G)) {
+			VariableLog["useGamma"] = !VariableLog["useGamma"].val<bool>();
+		}
+
 	}
 
 
@@ -234,20 +249,20 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 		unsigned int noActiveLights = 0;
 		for (unsigned int i = 0; i < noLight; i++)
 		{
-			if (States::isActive(&activePointLights, i))
+			if (States::isIndexActive(&activePointLights, i))
 			{  // чекаем биты в activePointLights, если 1 то, active
 				pointLights[i]->render(shader, noActiveLights);
 				noActiveLights ++;
+			
 			}
 		}
 		shader.setInt("noPointLights", noActiveLights);
-
-
+		
 		//spot lights
 		noLight = spotLights.size();
 		noActiveLights = 0;
 		for (unsigned int i = 0; i < noLight; i++){
-			if (States::isActive(&activeSpotLights, i)) {
+			if (States::isIndexActive(&activeSpotLights, i)) {
 				// чекаем биты в activeSpotLights, если 1 то, active
 				spotLights[i]->render(shader, noActiveLights);
 				noActiveLights++;
@@ -258,9 +273,12 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 		shader.setInt("noSpotLights", noActiveLights);
 
 		//direction light
+		shader.setBool("useDirLight", dirLightActive);
+		if (dirLightActive) {
 		dirLight->render(shader);
-
-
+		}
+		shader.setBool("useBlinn", VariableLog["useBlinn"].val<bool>());
+		shader.setBool("useGamma", VariableLog["useGamma"].val<bool>());
 	}
 
 }

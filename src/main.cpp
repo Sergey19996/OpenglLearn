@@ -93,8 +93,14 @@ int main()
     Lamp lamp(4);
     scene.registerModel(&lamp);
     scene.registerModel(&sphere);
+
+    Cube cube(1);
+    scene.registerModel(&cube);
+
     Box box;
     box.init();
+
+
 
     //load all model data
     scene.loadModels();
@@ -107,7 +113,7 @@ int main()
         glm::vec4(0.4f,0.4f,0.4f,1.0f),
         glm::vec4(0.75f,0.75f,0.75f,1.0f) };
     scene.dirLight = &dirLight;
-
+  
     glm::vec3 pointLightPositions[] = {
             glm::vec3(0.7f,  0.2f,  2.0f),
             glm::vec3(2.3f, -3.3f, -4.0f),
@@ -124,7 +130,7 @@ int main()
 
     PointLight pointLights[4];  // создаётся 4 света 
 
-  
+  //  SpotLight light;
    
     for (unsigned int i = 0; i < 4; i++) {
         pointLights[i] = {pointLightPositions[i],    //устанавливаются значения 
@@ -149,6 +155,9 @@ int main()
     };
     scene.spotLights.push_back(&spotLight);
     scene.activeSpotLights = 1; // 0b001
+
+
+    scene.generateInstance(cube.id, glm::vec3(20.0f, 0.1f, 20.0f), 100.0f, glm::vec3(0.0f, -3.0f, 0.0f));
 
     //instanciate instances
     scene.initInstances();
@@ -199,13 +208,14 @@ int main()
             }
         }
 
+        scene.renderShader(shader);
         //render launch objects
         if (sphere.currentNoInstances > 0) {
-        scene.renderShader(shader);
         scene.renderInstances(sphere.id, shader, deltaTime);
         }
+        scene.renderInstances(cube.id, shader, deltaTime);
+     
 
-      
 
         //render lamps
         scene.renderShader(lampShader,false);
@@ -223,12 +233,13 @@ int main()
         skybox.render(skyBoxShader, &scene);
        
 
+        glDepthFunc(GL_ALWAYS);  // change depth function so depth test passes when values are equal to depth buffer's content
         scene.renderText("comic", textShader, "Hello, Opengl!", 50.0f, 50.f, glm::vec2(1.0f), glm::vec3(0.5f,0.6f,1.0f));
         scene.renderText("comic", textShader, "Fat Boyes!", SCR_WIDTH-200.0f, 0+70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
 
         scene.renderText("comic", textShader, "fps: " + scene.VariableLog["fps"].dump(), SCR_WIDTH - 200.0f, SCR_HEIGHT - 70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
         scene.renderText("comic", textShader, "fps: " + scene.VariableLog["time"].dump(), SCR_WIDTH - 200.0f, SCR_HEIGHT - 100.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
-
+        glDepthFunc(GL_LESS);  // change depth function so depth test passes when values are equal to depth buffer's content
        
        
 
@@ -290,6 +301,13 @@ void processInput(float fDeltaTime)
     if (keyboard::KeyWentDown((GLFW_KEY_F)))
     {
         flashlight = !flashlight;
+        if (flashlight) {
+            scene.activeSpotLights = 1;
+        }
+        else
+        {
+            scene.activeSpotLights = 0;
+        }
 
     };
 
@@ -306,5 +324,8 @@ void processInput(float fDeltaTime)
             States::toggleIndex(&scene.activePointLights, i);
             
         }
+    }
+    if (keyboard::KeyWentDown((GLFW_KEY_T))) {
+        scene.dirLightActive = !scene.dirLightActive;
     }
 }

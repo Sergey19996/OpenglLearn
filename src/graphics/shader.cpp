@@ -168,3 +168,8 @@ void Shader::setValue(const std::string& name, float value)
 {
     glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }
+
+void Shader::setBool(const std::string& name, bool value)
+{
+    glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
+}

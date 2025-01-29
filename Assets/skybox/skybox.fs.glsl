@@ -14,6 +14,7 @@ uniform vec3 max;
 void main()
 {    
     FragColor = texture(skybox, TexCoords);
+
 //
 //    
 //float pi = atan(1.0) * 4;  // более точная запись pi

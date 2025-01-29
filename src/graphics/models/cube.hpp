@@ -74,8 +74,11 @@ public:
         tex1Spec.load();*/
 
         BoundingRegion br(glm::vec3(-0.5f), glm::vec3(0.5f));
+        
+        aiColor4D diff(Material::red_plastic.diffuse.r, Material::red_plastic.diffuse.g, Material::red_plastic.diffuse.b, 1.0f);
+        aiColor4D spec(Material::red_plastic.specular.r, Material::red_plastic.specular.g, Material::red_plastic.specular.b, 1.0f);
 
-        Mesh ret(br, {});
+        Mesh ret(br,diff,spec);
         ret.loadData(Vertex::genList(vertices, noVertices), indices);
         meshes.push_back(ret);
         boundingRegions.push_back(br);
