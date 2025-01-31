@@ -7,6 +7,11 @@ texture::texture()
 {
 }
 
+texture::texture(std::string name) :name(name), type(aiTextureType_NONE)
+{
+	generate();
+}
+
 texture::texture(std::string dir, std::string path, aiTextureType type):dir(dir),path(path),type(type)
 {
 	generate();  // генерирует текстуру с id

@@ -173,6 +173,10 @@
     <ClCompile Include="src\graphics\text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\buffer.fs.glsl" />
+    <None Include="Assets\buffer.vs.glsl" />
+    <None Include="Assets\outline.fs.glsl" />
+    <None Include="Assets\outline.vs.glsl" />
     <None Include="Assets\instanced\box.fs.glsl" />
     <None Include="Assets\lamp.fs.glsl" />
     <None Include="Assets\object.fs.glsl" />
@@ -199,6 +203,7 @@
     <ClInclude Include="src\graphics\models\cube.hpp" />
     <ClInclude Include="src\graphics\models\gun.hpp" />
     <ClInclude Include="src\graphics\models\lamp.hpp" />
+    <ClInclude Include="src\graphics\models\plane.hpp" />
     <ClInclude Include="src\graphics\models\Sphere.hpp" />
     <ClInclude Include="src\io\Camera.h" />
     <ClInclude Include="src\io\Joystick.h" />

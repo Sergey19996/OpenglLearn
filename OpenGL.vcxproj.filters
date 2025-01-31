@@ -87,6 +87,10 @@
     <None Include="Assets\skybox\skybox.vs.glsl" />
     <None Include="Assets\skybox\skybox.fs.glsl" />
     <None Include="Assets\skybox\sky.fs.glsl" />
+    <None Include="Assets\outline.fs.glsl" />
+    <None Include="Assets\outline.vs.glsl" />
+    <None Include="Assets\buffer.fs.glsl" />
+    <None Include="Assets\buffer.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">
@@ -162,6 +166,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\cubemap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\models\plane.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

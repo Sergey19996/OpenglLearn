@@ -10,6 +10,10 @@ class texture
 {
 public:
 	texture();
+
+	texture(std::string name);
+
+
 	texture(std::string dir, std::string path, aiTextureType type);
 
 	void generate();
@@ -19,6 +23,7 @@ public:
 	
 	unsigned int id;
 	aiTextureType type;
+	std::string name;
 	std::string dir;
 	std::string path;
 

@@ -10,6 +10,6 @@ uniform vec3 texColor;  // сюда приходит цвет color.x, color.y, color,z
 
 void main (){
 vec4 sampled = vec4(1.0,1.0,1.0,texture(Character,TexCoord).r); // по текстурным координатам берётся пиксель буквы и записвается в альфа канал - красный канал
- FragColor = vec4(texColor,1.0f)*sampled;   //sample отвечает за прозрачность, если 0 то, цвета не будет, если 1, то пиксель заполняем                                              
+ FragColor = vec4(texColor,1.0f)*sampled;   //sampled отвечает за прозрачность, если 0 то, цвета не будет, если 1, то пиксель заполняем                                              
 
 }

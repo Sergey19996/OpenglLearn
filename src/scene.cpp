@@ -88,10 +88,23 @@ bool Scene::init()
 	//mouse scroll
 	glfwSetScrollCallback(window, Mouse::mouseWheelCallback);
 
+
+
 	//set rendering parametres
+
+
+	//depth testing
 	glEnable(GL_DEPTH_TEST); // doesn't show vertices not visible to camera
+
+	//blending for text  textures 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//stencil testing
+	glEnable(GL_STENCIL_TEST);
+	//keep fragments if either stencil or depth = fails, replace if they both pass
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
 
 	glfwSwapInterval(1);  // для вертикальной синхронизации
 
@@ -122,6 +135,7 @@ bool Scene::init()
 	//setup lighting variable
 	VariableLog["useBlinn"] = true;
 	VariableLog["useGamma"] = false;
+	VariableLog["displayOutlines"] = false;
 	return true;
 
 	//return false;
@@ -177,6 +191,11 @@ void Scene::processInput(float dt)
 			cameras[activeCamera]->updateCameraPos(CameraDirection::DOWN, dt);
 		}
 
+		//update outline parametr if necessary
+		if (keyboard::KeyWentDown(GLFW_KEY_O)) {
+			VariableLog["displayOutlines"] = !VariableLog["displayOutlines"].val<bool>();
+		}
+
 		//set matrices
 		view = cameras[activeCamera]->getViewMatrix();
 		projection = glm::perspective(glm::radians(cameras[activeCamera]->getZoom()), //Fov
@@ -210,7 +229,7 @@ void Scene::processInput(float dt)
 void Scene::update()
 {
 	glClearColor(bg[0], bg[1], bg[2], bg[3]);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 
 }
@@ -284,6 +303,7 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 }
 
 void Scene::renderInstances(std::string modelId, Shader shader, float dt){
+	shader.activate();
 	models[modelId]->render(shader, dt, this);
 
 
