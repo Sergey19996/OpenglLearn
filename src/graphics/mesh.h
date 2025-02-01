@@ -10,7 +10,7 @@
 #include "texture.h"
 #include "models/box.hpp"
 #include "../algorithms/bounds.h"
-#include "glmemory.hpp"
+#include "vertexmemory.hpp"
 struct Vertex
 {
 	glm::vec3 pos;
@@ -48,7 +48,7 @@ public:
 	Mesh(BoundingRegion br, aiColor4D diff, aiColor4D spec);
 
 	// load vertex and index data
-	void loadData(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+	void loadData(std::vector<Vertex> vertices, std::vector<unsigned int> indices, bool pad =false);
 
 	
 	void render(Shader shader, unsigned int noInstances);

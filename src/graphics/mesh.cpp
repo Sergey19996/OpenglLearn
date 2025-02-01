@@ -44,7 +44,8 @@ Mesh::Mesh(BoundingRegion br, aiColor4D diff, aiColor4D spec)
     : br(br),diffuse(diff), specular(spec), noTex(true) {}
 
 // load vertex and index data
-void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _indices) {
+void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, bool pad) {
+
     this->vertices = _vertices;
     this->indices = _indices;
 
@@ -62,7 +63,13 @@ void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _in
     VAO["VBO"] = BufferObject(GL_ARRAY_BUFFER);
     VAO["VBO"].generate();
     VAO["VBO"].bind();
-    VAO["VBO"].setData<Vertex>(this->vertices.size(), &this->vertices[0], GL_STATIC_DRAW);
+
+   unsigned int size = this->vertices.size();
+    if (pad && size) {
+        size++;
+    }
+
+    VAO["VBO"].setData<Vertex>(size, &this->vertices[0], GL_STATIC_DRAW);
 
     // set the vertex attribute pointers
     VAO["VBO"].bind();
@@ -167,4 +174,8 @@ void Mesh::setup()
 void Mesh::cleanup()
 {
     VAO.cleanUp();
+
+    for (texture t : textures) {
+        t.cleanup();
+    }
 }

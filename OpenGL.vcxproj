@@ -173,6 +173,8 @@
     <ClCompile Include="src\graphics\text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\depth.fs.glsl" />
+    <None Include="Assets\depth.vs.glsl" />
     <None Include="Assets\buffer.fs.glsl" />
     <None Include="Assets\buffer.vs.glsl" />
     <None Include="Assets\outline.fs.glsl" />
@@ -194,7 +196,8 @@
     <ClInclude Include="src\algorithms\bounds.h" />
     <ClInclude Include="src\algorithms\States.hpp" />
     <ClInclude Include="src\algorithms\Trie.hpp" />
-    <ClInclude Include="src\graphics\glmemory.hpp" />
+    <ClInclude Include="src\graphics\framememory.hpp" />
+    <ClInclude Include="src\graphics\vertexmemory.hpp" />
     <ClInclude Include="src\graphics\light.h" />
     <ClInclude Include="src\graphics\material.h" />
     <ClInclude Include="src\graphics\mesh.h" />

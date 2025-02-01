@@ -15,6 +15,7 @@
 #include "graphics/model.h"
 #include "graphics/models/box.hpp"
 #include "graphics/text.h"
+#include "graphics/framememory.hpp"
 
 #include "io/Camera.h"
 #include "io/Keyboard.h"
@@ -49,6 +50,9 @@ public:
 	//freetype library
 	FT_Library ft;
 	trie::Trie<TextRenderer> fonts;
+
+
+	FramebufferObject defaultFBO;
 
 
 

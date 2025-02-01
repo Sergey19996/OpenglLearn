@@ -37,6 +37,9 @@ Scene::Scene(int glfwVersionMajor, int glfwVersionMinor, const char* title, unsi
 {
 	Scene::srcWidth = srcWidth;
 	Scene::srcHeight = srcHeight;
+	defaultFBO = FramebufferObject(srcWidth, srcHeight, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+
 	setWindowColor(0.1f, 0.15f, 0.15f, 1.0f);
 
 }
@@ -229,7 +232,7 @@ void Scene::processInput(float dt)
 void Scene::update()
 {
 	glClearColor(bg[0], bg[1], bg[2], bg[3]);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	defaultFBO.clear();
 
 
 }

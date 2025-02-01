@@ -26,7 +26,7 @@ public:
 		BoundingRegion br(glm::vec3(-0.5f, -0.5f, 0.0f), (0.5f, 0.5f, 0.0f));  // min max
 
 		Mesh ret(br, { tex });
-		ret.loadData(Vertex::genList(quadVertices, noVertices), indices);
+		ret.loadData(Vertex::genList(quadVertices, noVertices), indices, true);
 
 		meshes.push_back(ret);
 		boundingRegions.push_back(br);

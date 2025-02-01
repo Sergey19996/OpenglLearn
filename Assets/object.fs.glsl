@@ -117,16 +117,16 @@ result.rgb = pow(result.rgb,vec3(1.0/gamma));
 }
 
 // depth testing
-float near = 0.1;
-float far  = 100.0;
-float z = gl_FragCoord.z * 2.0 - 1.0;  // Преобразование в NDC  c [0,1] => [-1,1]
-
-float linearDepth = (2.0 * near * far) / (z * (far - near) - (far + near)); // Линейная глубина
-float factor = (near + linearDepth) / (near - far);  // Приведение к диапазону [0,1]
-
-result.rgb *= (1.0 - factor); // Затемнение в зависимости от глубины
-
-
+//float near = 0.1;
+//float far  = 100.0;
+//float z = gl_FragCoord.z * 2.0 - 1.0;  // Преобразование в NDC  c [0,1] => [-1,1]
+//
+//float linearDepth = (2.0 * near * far) / (z * (far - near) - (far + near)); // Линейная глубина
+//float factor = (near + linearDepth) / (near - far);  // Приведение к диапазону [0,1]
+//
+//result.rgb *= (1.0 - factor); // Затемнение в зависимости от глубины
+//
+//
 
 
 

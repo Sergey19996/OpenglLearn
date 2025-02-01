@@ -31,6 +31,8 @@
 #include "graphics//light.h"
 #include "graphics/model.h"
 #include "graphics/models/plane.hpp"
+#include "graphics/framememory.hpp"
+
 
 #include "physics/environment.h"
 
@@ -64,7 +66,7 @@ Sphere sphere(10);
 int main()
 {
     //          version 3.3 opengl
-    scene = Scene(3,3,"Fat Boys", SCR_WIDTH, SCR_HEIGHT);
+    scene = Scene(3, 3, "Fat Boys", SCR_WIDTH, SCR_HEIGHT);
     if (!scene.init()) {
 
         std::cout << "Couldn't open window" << std::endl;
@@ -74,26 +76,26 @@ int main()
 
     scene.cameras.push_back(&cam);
     scene.activeCamera = 0;
- //shaders ============================
+    //shaders ============================
     Shader lampShader("Assets/instanced/instanced.vs.glsl", "Assets/lamp.fs.glsl");
     Shader shader("Assets/instanced/instanced.vs.glsl", "Assets/object.fs.glsl");
     Shader boxShader("Assets/instanced/box.vs.glsl", "Assets/instanced/box.fs.glsl");
     Shader textShader("Assets/text.vs.glsl", "Assets/text.fs.glsl");
-    Shader skyBoxShader("Assets/skybox/skybox.vs.glsl","Assets/skybox/skybox.fs.glsl");
+    Shader skyBoxShader("Assets/skybox/skybox.vs.glsl", "Assets/skybox/skybox.fs.glsl");
     Shader outlineShader("Assets/outline.vs.glsl", "Assets/outline.fs.glsl");
     Shader bufferShader("Assets/buffer.vs.glsl", "Assets/buffer.fs.glsl");
 
-    skyBoxShader.activate();
-    skyBoxShader.set3Float("min", 0.047f, 0.016f, 0.239f);
-    skyBoxShader.set3Float("max", 0.945f, 1.000f, 0.682f);
+  //  skyBoxShader.activate();
+  //  skyBoxShader.set3Float("min", 0.047f, 0.016f, 0.239f);
+  //  skyBoxShader.set3Float("max", 0.945f, 1.000f, 0.682f);
     //skybox
-    Cubemap skybox;
-    skybox.init();
-    skybox.loadTextures("Assets/skybox");
+  //  Cubemap skybox;
+  //  skybox.init();
+   // skybox.loadTextures("Assets/skybox");
 
 
 
-  //Models ==================================
+    //Models ==================================
     Lamp lamp(4);
     scene.registerModel(&lamp);
     scene.registerModel(&sphere);
@@ -104,41 +106,26 @@ int main()
     Box box;
     box.init();
 
-    //FBO   FRAME BAFFER OBJECT
+    //FBO
     const GLuint BUFFER_WIDTH = 800, BUFFER_HEIGHT = 600;
-    GLuint fbo;
-    glGenFramebuffers(1, &fbo);
+    FramebufferObject FBO(BUFFER_WIDTH, BUFFER_HEIGHT, GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    FBO.generate();
+    FBO.bind();
+    texture bufferTex("bufferTex");
 
-
-    //initialize texture
-    texture bufferTex("bufferTex");  //тут и генерация 
-
-    //setup texture values
     bufferTex.bind();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, BUFFER_WIDTH, BUFFER_HEIGHT, 0, GL_DEPTH_COMPONENT,GL_FLOAT, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    bufferTex.allocate(GL_RGB, BUFFER_WIDTH,BUFFER_HEIGHT,GL_UNSIGNED_BYTE);
+    texture::setParams();
 
-    //attach texture to the FBO
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, bufferTex.id, 0);
 
-    //render buffer to store color buffer unformatted
-    GLuint rbo;
-    glGenRenderbuffers(1, &rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-
-    //allocate memory for rbo 
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB, BUFFER_WIDTH, BUFFER_HEIGHT);
-    //attach renderbuffer to the FBO
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rbo);
+    FBO.attachTexture(GL_COLOR_ATTACHMENT0, bufferTex);
+    FBO.allocateAndAttachRBO(GL_DEPTH_STENCIL_ATTACHMENT, GL_DEPTH24_STENCIL8);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
         std::cout << "erros with framebuffer" << std::endl;
     }
 
+    scene.defaultFBO.bind(); //rebind default framebuffer
 
     //setup plane to display texture
     Plane map;
@@ -152,7 +139,7 @@ int main()
 
 
 
-    glBindBuffer(GL_FRAMEBUFFER, 0); //rebind default framebuffer
+
   //  glDeleteFramebuffers(1, &fbo);
 
 
@@ -229,12 +216,12 @@ int main()
     //instanciate instances
     scene.initInstances();
 
+    scene.prepare(box); // для octree 
 
 
     float lastTime = glfwGetTime();
     float deltaTime = 0.0f;
 
-    scene.prepare(box); // для octree 
 
 
     scene.VariableLog["time"] = (double)0.0;
@@ -258,15 +245,13 @@ int main()
         //input Tracking
 
         processInput(deltaTime);
-
+        
         //render scene to the custom framebuffer
-        glViewport(0, 0, BUFFER_WIDTH, BUFFER_HEIGHT);
-        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
+        FBO.activate();
+   
         //render
         //screen.update();
-
+            
           //render lamps
         scene.renderShader(lampShader, false);
         scene.renderInstances(lamp.id, lampShader, deltaTime);
@@ -350,8 +335,7 @@ int main()
         //render texture
 
        //rebind default frameBuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, 800, 600);
+        scene.defaultFBO.activate();
        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -373,8 +357,8 @@ int main()
        
     }
    
-    skybox.cleanUp();
-  
+  //  skybox.cleanUp();
+    FBO.cleanup();
     // Завершение работы GLFW, освобождение ресурсов
     scene.cleanUp();
 

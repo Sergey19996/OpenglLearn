@@ -91,6 +91,8 @@
     <None Include="Assets\outline.vs.glsl" />
     <None Include="Assets\buffer.fs.glsl" />
     <None Include="Assets\buffer.vs.glsl" />
+    <None Include="Assets\depth.fs.glsl" />
+    <None Include="Assets\depth.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">
@@ -147,7 +149,7 @@
     <ClInclude Include="src\algorithms\bounds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\glmemory.hpp">
+    <ClInclude Include="src\graphics\vertexmemory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\algorithms\States.hpp">
@@ -169,6 +171,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\models\plane.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\framememory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
