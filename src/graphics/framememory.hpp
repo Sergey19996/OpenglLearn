@@ -48,6 +48,12 @@ public:
 	void generate() {
 		glGenFramebuffers(1, &val);
 	}
+	void disableColorBuffer() {
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+	}
+
+
 	void bind() {
 		glBindFramebuffer(GL_FRAMEBUFFER, val);
 	}

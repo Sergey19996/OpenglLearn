@@ -77,22 +77,24 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\object.fs.glsl" />
-    <None Include="Assets\object.vs.glsl" />
-    <None Include="Assets\lamp.fs.glsl" />
-    <None Include="Assets\instanced\box.fs.glsl" />
+    <None Include="Assets\shaders\object.fs.glsl" />
+    <None Include="Assets\shaders\object.vs.glsl" />
+    <None Include="Assets\shaders\lamp.fs.glsl" />
+    <None Include="Assets\shaders\instanced\box.fs.glsl" />
     <None Include="src\algorithms\list.hpp" />
-    <None Include="Assets\text.fs.glsl" />
-    <None Include="Assets\text.vs.glsl" />
+    <None Include="Assets\shaders\text.fs.glsl" />
+    <None Include="Assets\shaders\text.vs.glsl" />
     <None Include="Assets\skybox\skybox.vs.glsl" />
     <None Include="Assets\skybox\skybox.fs.glsl" />
     <None Include="Assets\skybox\sky.fs.glsl" />
-    <None Include="Assets\outline.fs.glsl" />
-    <None Include="Assets\outline.vs.glsl" />
-    <None Include="Assets\buffer.fs.glsl" />
-    <None Include="Assets\buffer.vs.glsl" />
-    <None Include="Assets\depth.fs.glsl" />
-    <None Include="Assets\depth.vs.glsl" />
+    <None Include="Assets\shaders\outline.fs.glsl" />
+    <None Include="Assets\shaders\outline.vs.glsl" />
+    <None Include="Assets\shaders\buffer.fs.glsl" />
+    <None Include="Assets\shaders\buffer.vs.glsl" />
+    <None Include="Assets\shaders\depth.fs.glsl" />
+    <None Include="Assets\shaders\depth.vs.glsl" />
+    <None Include="Assets\shaders\shadows\shadow.fs.glsl" />
+    <None Include="Assets\shaders\shadows\directionalshadow.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">
@@ -178,13 +180,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\Skull.png">
+    <Image Include="Assets\textures\Skull.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Assets\Rubbit.jpg">
+    <Image Include="Assets\textures\Rubbit.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Assets\Skull_Specular.png">
+    <Image Include="Assets\textures\Skull_Specular.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\skybox\back.png">
@@ -210,7 +212,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Assets\instanced\instanced.vs.glsl" />
-    <Text Include="Assets\instanced\box.vs.glsl" />
+    <Text Include="Assets\shaders\instanced\instanced.vs.glsl" />
+    <Text Include="Assets\shaders\instanced\box.vs.glsl" />
   </ItemGroup>
 </Project>

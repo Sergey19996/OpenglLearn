@@ -86,6 +86,9 @@ public:
 	//set uniform shader variables;
 	void renderShader(Shader shader, bool applyLighting = true);
 
+	void renderDirLightShader(Shader shader);
+
+
 	void renderInstances(std::string modelId, Shader shader, float dt);
 
 	//render text

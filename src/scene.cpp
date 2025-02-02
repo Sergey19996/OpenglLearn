@@ -98,6 +98,7 @@ bool Scene::init()
 
 	//depth testing
 	glEnable(GL_DEPTH_TEST); // doesn't show vertices not visible to camera
+	//glDepthFunc(GL_ALWAYS);
 
 	//blending for text  textures 
 	glEnable(GL_BLEND);
@@ -266,6 +267,11 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 
 	//lightning
 	if (applyLighting) {
+		unsigned int textureIdx = 31;
+
+		if (dirLightActive) {
+			dirLight->render(shader, textureIdx--);
+		}
 		//point light
 		unsigned int noLight = pointLights.size();
 		unsigned int noActiveLights = 0;
@@ -296,12 +302,16 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 
 		//direction light
 		shader.setBool("useDirLight", dirLightActive);
-		if (dirLightActive) {
-		dirLight->render(shader);
-		}
+		
 		shader.setBool("useBlinn", VariableLog["useBlinn"].val<bool>());
 		shader.setBool("useGamma", VariableLog["useGamma"].val<bool>());
 	}
+
+}
+
+void Scene::renderDirLightShader(Shader shader){
+	shader.activate();
+	shader.setMat4("lightSpaceMatrix", dirLight->lightSpaceMatrix); // замена projections ( теперь смотрит от света) 
 
 }
 
