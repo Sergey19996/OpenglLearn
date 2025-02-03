@@ -79,7 +79,7 @@ vec4 calcPointLight(int idx,vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap);
 
 vec4 calcSpotLight(int idx,vec3 norm,vec3 viewDir,vec4 diffMap,vec4 specMap);    
 
-float calckDirlightShadow();
+float calckDirlightShadow(vec3 norm, vec3 lightDir);
 
 ///
 void main(){                           
@@ -156,7 +156,7 @@ vec4 diffuse = dirLight.diffuse * (diff * diffMap); // если в diff свет не попод
 
 //specular
 vec4 specular = vec4(0.0,0.0,0.0,1.0);
-if(diff >0){
+if(diff > 0){
 
 
 float dotProd = 0.0f;
@@ -182,12 +182,12 @@ specular = dirLight.specular*(spec * specMap);
 //float spec = pow(max(dot(viewDir,reflectDir),0.0), material.shininess * 128); // используем reflectDir и камеру для отображение зеркальности
 //vec4 specular = dirLight.specular*(spec * specMap);
 
-float shadow = calckDirlightShadow();
+float shadow = calckDirlightShadow(norm,lightDir);
 
 return vec4(ambient + (1.0-shadow) * (diffuse + specular));
 
 }
-float calckDirlightShadow(){
+float calckDirlightShadow(vec3 norm, vec3 lightDir){
  //                             Projection                   //FragPos only model matrix 
 	vec4 FragPosLightSpace = dirLight.lightSpaceMatrix * vec4(FragPos,1.0); 
 
@@ -197,15 +197,35 @@ float calckDirlightShadow(){
 	//NDC to depth range
 	projCoords = projCoords * 0.5 + 0.5; // [-1 ; 1] => [0,1]
 
+	//if too far from light, do not return any shadow 
+	if(projCoords.z > 1.0){
+	 return 0.0;
+	}
+
 	//get closest depth in depth buffer
 	float closestDepth = texture(dirLight.depthBuffer, projCoords.xy).r;
 
 	//get depth of fragment
 	float currentDepth = projCoords.z;
 
-	//if depth is greateer (further), return 1\
+	//calculate bias
+	float maxBias = 0.05;
+	float minBias = 0.005;
+	float bias = max(maxBias * (1.0 - dot(norm,lightDir)),minBias);
 
-	return currentDepth > closestDepth ? 1.0 : 0.0;
+	//PCF
+	float shadowSum = 0.0;
+	vec2 texelSize = 1.0/textureSize(dirLight.depthBuffer,0);
+	for(int y = -1; y <= 1; y++){
+		for (int x = -1; x<= 1; x++){
+		float pcfDepth = texture(dirLight.depthBuffer,projCoords.xy + vec2(x,y) * texelSize).r;
+		shadowSum +=currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+		}
+	}
+
+	//return average 
+	return shadowSum /9.0;
+
 }
 
 

@@ -96,7 +96,11 @@ public:
 		//alocate
 		tex.bind();
 		tex.allocate(format, width, height, type);
-		texture::setParams();
+		texture::setParams(GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_BORDER, GL_CLAMP_TO_BORDER);
+
+		float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };   // для продления тени за bounding box dirlight
+		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
 
 
 		//attach
