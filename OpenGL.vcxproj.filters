@@ -94,7 +94,7 @@
     <None Include="Assets\shaders\depth.fs.glsl" />
     <None Include="Assets\shaders\depth.vs.glsl" />
     <None Include="Assets\shaders\shadows\shadow.fs.glsl" />
-    <None Include="Assets\shaders\shadows\directionalshadow.vs.glsl" />
+    <None Include="Assets\shaders\shadows\shadow.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">

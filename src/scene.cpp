@@ -292,7 +292,7 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 		for (unsigned int i = 0; i < noLight; i++){
 			if (States::isIndexActive(&activeSpotLights, i)) {
 				// чекаем биты в activeSpotLights, если 1 то, active
-				spotLights[i]->render(shader, noActiveLights);
+				spotLights[i]->render(shader, noActiveLights, textureIdx--);
 				noActiveLights++;
 
 
@@ -313,6 +313,11 @@ void Scene::renderDirLightShader(Shader shader){
 	shader.activate();
 	shader.setMat4("lightSpaceMatrix", dirLight->lightSpaceMatrix); // замена projections ( теперь смотрит от света) 
 
+}
+
+void Scene::renderSpotLightShader(Shader shader, unsigned int idx){
+	shader.activate();
+	shader.setMat4("lightSpaceMatrix", spotLights[idx]->lightSpaceMatrix);
 }
 
 void Scene::renderInstances(std::string modelId, Shader shader, float dt){

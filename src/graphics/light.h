@@ -62,8 +62,10 @@ struct DirLight {
 
 struct SpotLight {
 
-	glm::vec3 direction;
 	glm::vec3 position;
+	glm::vec3 direction;
+
+	glm::vec3 up;
 
 	float cutOff;
 	float outerCutOff;
@@ -79,7 +81,28 @@ struct SpotLight {
 	glm::vec4 diffuse;
 	glm::vec4 specular;
 
-	void render(Shader shader,int idx);
+
+	//bounds for the shadow
+	float nearPlane;
+	float farPlane;
+
+	//light space transformation matrix
+	glm::mat4 lightSpaceMatrix;
+
+	//FBO for shadows
+	FramebufferObject shadowFBO;
+
+	//constructor
+	SpotLight(glm::vec3 position, glm::vec3 direction, glm::vec3 up,
+		float cutoff, float outerCutOff,
+		float k0, float k1, float k2,
+		glm::vec4 ambient, glm::vec4 diffuse, glm::vec4 specular,
+		float nearPlane, float farPlane);
+
+	void render(Shader shader,int idx, unsigned int textureIdx);
+
+	//update light space matri
+	void updateMatrices();
 };
 
 

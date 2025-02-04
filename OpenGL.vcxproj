@@ -184,7 +184,7 @@
     <None Include="Assets\shaders\object.fs.glsl" />
     <None Include="Assets\shaders\object.vs.glsl" />
     <None Include="Assets\shaders\shadows\shadow.fs.glsl" />
-    <None Include="Assets\shaders\shadows\directionalshadow.vs.glsl" />
+    <None Include="Assets\shaders\shadows\shadow.vs.glsl" />
     <None Include="Assets\skybox\skybox.fs.glsl" />
     <None Include="Assets\skybox\skybox.vs.glsl" />
     <None Include="Assets\skybox\sky.fs.glsl" />

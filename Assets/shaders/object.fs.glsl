@@ -48,6 +48,9 @@ float k0;
 float k1;
 float k2;
 
+float nearPlane;
+float farPlane;
+
 
 float cutOff;
 float outerCutOff;
@@ -56,6 +59,9 @@ float outerCutOff;
 vec4 ambient;
 vec4 diffuse;
 vec4 specular;
+
+sampler2D depthBuffer;
+mat4 lightSpaceMatrix; 
 };
 uniform SpotLight spotLight[MAX_SPOT_LIGHTS];
 uniform int noSpotLights;
@@ -80,6 +86,7 @@ vec4 calcPointLight(int idx,vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap);
 vec4 calcSpotLight(int idx,vec3 norm,vec3 viewDir,vec4 diffMap,vec4 specMap);    
 
 float calckDirlightShadow(vec3 norm, vec3 lightDir);
+float calcSpotLightShadow(int idx, vec3 norm, vec3 lightDir);
 
 ///
 void main(){                           
@@ -277,14 +284,59 @@ return vec4(ambient + diffuse + specular) * attenuation;
 
 }
 
+
+float calcSpotLightShadow(int idx, vec3 norm, vec3 lightDir){
+vec4 FragPosLightSpace =spotLight[idx].lightSpaceMatrix * vec4(FragPos,1.0); // преобразовали координату для экрана в clip space (координаты пока что сырыые
+
+//perspective divide (transforming coordinates NDC)
+	vec3 projCoords = FragPosLightSpace.xyz / FragPosLightSpace.w ; // [depth relative to light] => [-1, 1] теперь xy = координат на экране, а z -глубина
+
+	//NDC to depth range
+	projCoords = projCoords * 0.5 + 0.5; // [-1 ; 1] => [0,1] теперь все xy координаты переделалилсь для текстуры, от 0 до 1
+	
+	// if too far from light dont return any shadow
+	if(projCoords.z > 1.0){
+	return 0.0;
+	}
+
+	//get closest depth in depth buffer
+	float clossestDepth = texture(spotLight[idx].depthBuffer,projCoords.xy).r; // текстура с GL_DEPTH_COMPONENT имеет только red канал для оптимизации
+
+	//llinearize depth
+	float z = clossestDepth * 2.0 - 1.0;   // из [0, 1] в [-1, 1]
+	clossestDepth = (2.0 * spotLight[idx].nearPlane * spotLight[idx].farPlane) /                     
+	(spotLight[idx].farPlane + spotLight[idx].nearPlane - z * (spotLight[idx].farPlane - spotLight[idx].nearPlane));   // до этого ближайшим объектом доавлась 50% от 1 что было нелинейно
+	                                                                                                                  //теперь всё пространство Near и far plane будет линейным
+	clossestDepth /= spotLight[idx].farPlane; //far plane = 100     100 /99 = 0.99
+	
+	//get depth of fragment
+	float currentDepth = projCoords.z;
+	//calculate bias
+	float maxBias = 0.05;
+	float minBias = 0.005;
+	float bias = max(maxBias * (1.0 - dot(norm,lightDir)),minBias);
+
+	//PCF   
+	float shadowSum = 0.0;
+	vec2 texelSize = 1.0/textureSize(spotLight[idx].depthBuffer,0); //Если текстура имеет размер 1024x1024, то texelSize = (1.0 / 1024, 1.0 / 1024) 
+	for(int y = -1; y <= 1; y++){
+		for (int x = -1; x<= 1; x++){
+		float pcfDepth = texture(spotLight[idx].depthBuffer,projCoords.xy + vec2(x,y) * texelSize).r;
+		shadowSum +=currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+		}
+	}
+
+return  shadowSum / 9;
+}
+
 vec4 calcSpotLight(int idx, vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap)
 {
 
-vec3 lightDir = normalize(spotLight[idx].position - FragPos);  // нормализуем вектор от фрагмента к спотлайту
+vec3 lightDir = normalize(spotLight[idx].position - FragPos);  // нормализуем вектор от фрагмента к источнику света
 float theta =dot(lightDir,normalize(-spotLight[idx].direction));  // eсли theta близок к 1,  векторы идентичны (для косинусов)
 
 //ambient
-vec4 ambient =spotLight[idx].ambient*diffMap;
+vec4 ambient = spotLight[idx].ambient*diffMap;
 
 
 if(theta > spotLight[idx].outerCutOff){ // > для косинусов чем больше угол тем меньше значение  от 1 до -1, где -1 это 180 градусов а 1 =углу в 0
@@ -319,6 +371,7 @@ float spec = pow(max(dotProd,0.0), material.shininess * 128); // используем refl
 specular = dirLight.specular*(spec * specMap);
 }
 
+//calculate attenuation
 float intensity = (theta - spotLight[idx].outerCutOff) / (spotLight[idx].cutOff - spotLight[idx].outerCutOff);
 intensity =clamp (intensity,0.0,1.0);
 diffuse *= intensity;
@@ -327,10 +380,14 @@ specular *= intensity;
 float dist = length(spotLight[idx].position - FragPos);  // length = sqrt{x^2 + y^2 + z^2}
 float attenuation = 1.0 / (spotLight[idx].k0 + spotLight[idx].k1 * dist + spotLight[idx].k2 * (dist * dist)); // для затухания света 
 
+//apply attenuation
+ambient *= attenuation;
+diffuse *= attenuation;
+specular *= attenuation;
 
+float shadow = calcSpotLightShadow(idx,norm,lightDir);
 
-
-return vec4(ambient + diffuse + specular) * attenuation;
+return vec4(ambient + (1.0 -shadow) * (diffuse + specular));
 
 }else
 {//render just ambient
