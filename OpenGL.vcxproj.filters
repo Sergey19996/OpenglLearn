@@ -95,6 +95,9 @@
     <None Include="Assets\shaders\depth.vs.glsl" />
     <None Include="Assets\shaders\shadows\shadow.fs.glsl" />
     <None Include="Assets\shaders\shadows\shadow.vs.glsl" />
+    <None Include="Assets\shaders\shadows\pointShadow.vs.glsl" />
+    <None Include="Assets\shaders\shadows\pointShadow.fs.glsl" />
+    <None Include="Assets\shaders\shadows\pointShadow.gs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">

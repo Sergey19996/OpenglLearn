@@ -13,7 +13,7 @@ public :
 
 	
 	Lamp(unsigned int maxNoInstances, glm::vec3 lightColor = glm::vec3(1.0f)):
-	Cube(maxNoInstances){
+	Cube(maxNoInstances,Material::white_plastic){
 		id = "lamp";
 		this->lightColor = lightColor;
 

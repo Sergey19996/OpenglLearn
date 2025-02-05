@@ -20,10 +20,37 @@ struct  PointLight{
 	glm::vec4 diffuse;
 	glm::vec4 specular;
 
+	
 
-	void render(Shader shader,int idx);
+	//bounds 
+	float nearPlane;
+	float farPlane;
 
+	//list of view matrices
+	glm::mat4 lightSpaceMatrices[6];
+	
+	//FBO for shadows
+	FramebufferObject shadowFBO;
 
+	//default consturcor for vectors and arrays
+	PointLight();
+
+	//constructor
+	PointLight(glm::vec3 pos,
+		float k0, float k1, float k2,
+		glm::vec4 ambient, glm::vec4 diffuse, glm::vec4 specular,
+		float nearPlane, float FarPlane);
+
+	void render(Shader shader,int idx, unsigned int textureIdx);
+
+	//update matrices method
+	void updateMatrices();
+
+	//list of directions
+	static glm::vec3 directions[6];
+
+	//list of up vectors
+	static glm::vec3 up[6];
 
 };
  
@@ -44,6 +71,9 @@ struct DirLight {
 
 	//FBO for shadows
 	FramebufferObject shadowFBO;
+
+	//default consturcor for vectors and arrays
+	DirLight();
 
 
 	//consturctor
@@ -91,6 +121,10 @@ struct SpotLight {
 
 	//FBO for shadows
 	FramebufferObject shadowFBO;
+
+
+	//default consturcor for vectors and arrays
+	SpotLight();
 
 	//constructor
 	SpotLight(glm::vec3 position, glm::vec3 direction, glm::vec3 up,

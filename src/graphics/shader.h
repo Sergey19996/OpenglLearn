@@ -18,9 +18,9 @@ public:
 
 
 	Shader();
-	Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
+	Shader(const char* vertexShaderPath, const char* fragmentShaderPath, const char* geoShaderPath = nullptr);
 
-	void generate(const char* vertexShaderPath, const char* fragShaderPath);
+	void generate(const char* vertexShaderPath, const char* fragShaderPath, const char* geoShaderPath = nullptr);
 	void bind();
 
 	void activate();

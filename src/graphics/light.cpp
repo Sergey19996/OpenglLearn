@@ -1,6 +1,46 @@
 #include "light.h"
 
-void PointLight::render(Shader shader, int idx)
+PointLight::PointLight() {}
+
+//list of directions
+glm::vec3 PointLight::directions[6] = {
+	{1.0f,0.0f,0.0f},
+	{-1.0f,0.0f,0.0f},
+	{0.0f,1.0f,0.0f},
+	{0.0f,-1.0f,0.0f},
+	{0.0f,0.0f,1.0f},
+	{0.0f,0.0f,-1.0f},
+};
+
+glm::vec3 PointLight::up[6] = {
+	{0.0f,-1.0f,0.0f},
+	{0.0f,-1.0f,0.0f},
+	{0.0f,0.0f,1.0f},
+	{0.0f,0.0f,-1.0f},
+	{0.0f,-1.0f,0.0f},
+	{0.0f,-1.0f,0.0f},
+
+};
+PointLight::PointLight(
+	glm::vec3 pos,
+	float k0, float k1, float k2,
+	glm::vec4 ambient, glm::vec4 diffuse, glm::vec4 specular,
+	float nearPlane, float FarPlane) :
+	position(pos),
+	k0(k0), k1(k1), k2(k2),
+	ambient(ambient), diffuse(diffuse), specular(specular),
+	nearPlane(nearPlane), farPlane(farPlane), shadowFBO(1024,1024,GL_DEPTH_BUFFER_BIT){
+	shadowFBO.generate();
+
+	shadowFBO.bind();
+	shadowFBO.disableColorBuffer();
+	shadowFBO.allocateAndAttachCubemap(GL_DEPTH_ATTACHMENT, GL_DEPTH_COMPONENT, GL_FLOAT);
+
+	updateMatrices();
+
+}
+
+void PointLight::render(Shader shader, int idx, unsigned int textureIdx)
 {
 	std::string name = "pointLight[" + std::to_string(idx) + "]";
 
@@ -11,10 +51,38 @@ void PointLight::render(Shader shader, int idx)
 	shader.setFloat(name + ".k1", k1);
 	shader.setFloat(name + ".k2", k2);
 
+	//set lights values
 	shader.set4Float(name + ".ambient", ambient);
 	shader.set4Float(name + ".diffuse", diffuse);
 	shader.set4Float(name + ".specular", specular);
 
+	//set near and far planes 
+	shader.setFloat(name + ".nearPlane", nearPlane);
+	shader.setFloat(name + ".farPlane", farPlane);
+	//set depth texture
+	glActiveTexture(GL_TEXTURE0 + textureIdx);  //occupies texture slot 
+	shadowFBO.cubemap.bind(); // bind this texture slot with data
+	shader.setInt(name + ".depthBuffer", textureIdx); // send this data in shader
+}
+//updae light space matrices
+void PointLight::updateMatrices() {                                                      //proj = [
+	glm::mat4 proj = glm::perspective(glm::radians(90.0f), //FOV						//[cot(FOV / 2) / aspect, 0, 0, 0],
+		(float)shadowFBO.height / (float)shadowFBO.width, // aspect ratio               //[0, cot(FOV/2), 0, 0],
+		nearPlane, farPlane); //near plane												//[0, 0, -(far + near)/(far - near), -2*far*near/(far - near)],
+		//[-1;+1]																		//[0, 0, -1, 0] //координаты нормализованы и готовы дл€ отсечени€ и последующего преобразовани€ в экранные координаты.
+
+
+
+	for (unsigned int i = 0; i < 6; i++) {                                              //view = [ 1. амера становитс€ центром координат. 2.≈сли камера движетс€ вправо, объекты в мире движутс€ влево.
+		lightSpaceMatrices[i] = proj * glm::lookAt(position,                            //[x.x, x.y, x.z, -dot(x, position)],
+			position + PointLight::directions[i],                                       //[y.x, y.y, y.z, -dot(y, position)],
+			PointLight::up[i]);                                                         //[z.x, z.y, z.z, -dot(z, position)],
+	}                                                                                   // [0,   0,   0,    1]
+
+
+}
+DirLight::DirLight()
+{
 }
 
 DirLight::DirLight(glm::vec3 direction, glm::vec4 ambient, glm::vec4 diffuse, glm::vec4 specular, BoundingRegion br) : direction(direction),ambient(ambient), diffuse(diffuse),specular(specular),shadowFBO(1024,1024,GL_DEPTH_BUFFER_BIT), br(br)
@@ -97,6 +165,10 @@ void SpotLight::render(Shader shader, int idx,unsigned int textureIdx)
 
 	//set light space matrix 
 	shader.setMat4(name + ".lightSpaceMatrix", lightSpaceMatrix); // передаЄм проекцию дл€ вертекс шейдера от света
+}
+
+SpotLight::SpotLight()
+{
 }
 
 SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, glm::vec3 up,

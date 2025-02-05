@@ -5,14 +5,14 @@ Shader::Shader()
   
 }
 
-Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
+Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath, const char* geoShaderPath)
 {
 
-    generate(vertexShaderPath, fragmentShaderPath);
+    generate(vertexShaderPath, fragmentShaderPath,geoShaderPath);
 
 }
 
-void Shader::generate(const char* vertexShaderPath, const char* fragShaderPath)
+void Shader::generate(const char* vertexShaderPath, const char* fragShaderPath, const char* geoShaderPath)
 {
     int success;
     char infoLog[512];
@@ -20,9 +20,20 @@ void Shader::generate(const char* vertexShaderPath, const char* fragShaderPath)
     GLuint vertexShader = compileShader(vertexShaderPath, GL_VERTEX_SHADER);    // создаём вертекс шейдер
     GLuint fragmentShader = compileShader(fragShaderPath, GL_FRAGMENT_SHADER); // создаём фрагмент(пиксель) шейдер
 
+    GLuint geoShader = 0; //placeholder
+    if (geoShaderPath) { //не nullptr
+        geoShader = compileShader(geoShaderPath, GL_GEOMETRY_SHADER);
+    }
+
+
+
     id = glCreateProgram();    // Создаем пустую программу  
     glAttachShader(id, vertexShader); // Прикрепляем вершинный шейдер
     glAttachShader(id, fragmentShader); // Прикрепляем фрагментный шейдер
+
+    if (geoShaderPath)
+    glAttachShader(id, geoShader);
+    
     glLinkProgram(id);  // Линкуем шейдерную программу
 
     // Проверяем, успешно ли скомпилировался фрагментный шейдер
@@ -34,6 +45,9 @@ void Shader::generate(const char* vertexShaderPath, const char* fragShaderPath)
 
     glDeleteShader(vertexShader); // Удаляем скомпилированные шейдеры, так как они уже прикреплены к программе и больше не нужны
     glDeleteShader(fragmentShader);
+    if (geoShaderPath)
+    glDeleteShader(geoShader);
+     
 }
 
 void Shader::bind()

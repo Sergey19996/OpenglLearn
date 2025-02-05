@@ -34,6 +34,11 @@ float k2;
 vec4 ambient;
 vec4 diffuse;
 vec4 specular;
+
+float farPlane;
+
+samplerCube depthBuffer;
+
 };
 uniform PointLight pointLight[MAX_POINT_LIGHTS];
 uniform int noPointLights;
@@ -87,7 +92,7 @@ vec4 calcSpotLight(int idx,vec3 norm,vec3 viewDir,vec4 diffMap,vec4 specMap);
 
 float calckDirlightShadow(vec3 norm, vec3 lightDir);
 float calcSpotLightShadow(int idx, vec3 norm, vec3 lightDir);
-
+float calcPointLightShadow(int idx, vec3 norm, vec3 lightDir);
 ///
 void main(){                           
   
@@ -109,7 +114,14 @@ vec4 result;
 
 //directionlight
 if(useDirLight)
+{
 result = calcDirlight(norm,viewDir,diffMap,specMap);
+//spotlights
+for(int i =0; i<noSpotLights; i++)
+{
+result += calcSpotLight(i,norm,viewDir,diffMap,specMap);
+};
+}
 
 //pointLight
 for(int i =0; i<noPointLights; i++)
@@ -117,11 +129,7 @@ for(int i =0; i<noPointLights; i++)
 result += calcPointLight(i,norm,viewDir,diffMap,specMap);
 };
 
-//spotlights
-for(int i =0; i<noSpotLights; i++)
-{
-result += calcSpotLight(i,norm,viewDir,diffMap,specMap);
-};
+
 
 //gamma correction
 if(useGamma){
@@ -235,7 +243,27 @@ float calckDirlightShadow(vec3 norm, vec3 lightDir){
 
 }
 
+float calcPointLightShadow(int idx, vec3 norm, vec3 lightDir){
+//get vector from the light to the fragment
+vec3 lightTofrag = FragPos - pointLight[idx].position;
 
+//get depth from cubemap
+float closestDepth = texture(pointLight[idx].depthBuffer,lightTofrag).r;
+
+//[0,1] => original depth value
+closestDepth *= pointLight[idx].farPlane; // обратная нормализация. нормализация  Pountshadow.fs
+
+//get currentDepth
+float currentDepth = length(lightTofrag);
+
+//calculate bias
+float minBias = 0.005;
+float maxBias = 0.05;
+float bias = max(maxBias * (1.0 - dot(norm,lightDir)),minBias); //dot возращает cos, а он прыгает от -1 до 1   = 0 будет если перпенидулярно 
+
+return currentDepth - bias > closestDepth ? 1.0 :0.0;
+
+}
 vec4 calcPointLight(int idx,vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap){
 
 
@@ -277,8 +305,15 @@ specular = dirLight.specular*(spec * specMap);
 float dist = length(pointLight[idx].position - FragPos);  // length = sqrt{x^2 + y^2 + z^2}
 float attenuation = 1.0 / (pointLight[idx].k0 + pointLight[idx].k1 * dist + pointLight[idx].k2 * (dist * dist)); // для затухания света 
 
+//apply attenuation
+ambient *= attenuation;
+diffuse *= attenuation;
+specular *= attenuation;
 
-return vec4(ambient + diffuse + specular) * attenuation;
+
+float shadow = 0;
+
+return vec4(ambient + (1.0-shadow)*(diffuse + specular));
 
 
 

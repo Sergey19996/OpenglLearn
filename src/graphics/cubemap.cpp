@@ -1,7 +1,18 @@
 #include "cubemap.h"
 
+#include "../scene.h"
+
 Cubemap::Cubemap() :hasTextures(false)
 {
+	
+}
+
+void Cubemap::bind() {
+	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+}
+void Cubemap::generate(){
+
+	glGenTextures(1, &id);
 }
 
 void Cubemap::loadTextures(std::string dir, std::string right, std::string left, std::string top, std::string bottom, std::string front, std::string back){
@@ -11,8 +22,7 @@ void Cubemap::loadTextures(std::string dir, std::string right, std::string left,
 	faces = { right,left,top,bottom,front,back };
 
 
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+	//generate();
 
 
 	int width, height, nChannels;
@@ -52,6 +62,23 @@ void Cubemap::loadTextures(std::string dir, std::string right, std::string left,
 	glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   // Y = T   // GL_CLAMP_TO_EDGE - Продлевает тексуры по краям,там значения от 0 до 1
 	glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);   // Z = R
 
+}
+
+void Cubemap::allocate(GLenum format, GLuint width, GLuint height, GLenum type){
+	hasTextures = true;
+
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+
+	for (unsigned int i = 0; i < 6; i++) {
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+			0, format, width, height, 0, format, type, NULL);
+	}
+	glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);   //настройки скейла  для GL_TEXTURE_CUBE_MAP
+	glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);   // X = S   // clamp = обрезаны края 
+	glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);   // Y = T   // GL_CLAMP_TO_EDGE - Продлевает тексуры по краям,там значения от 0 до 1
+	glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);   // Z = R
 }
 
 void Cubemap::init(){
@@ -119,6 +146,7 @@ void Cubemap::init(){
 
 }
 
+
 void Cubemap::render(Shader shader, Scene* scene){
 	glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 	//glDepthMask(GL_FALSE);  // говорим что мы для скайбокса не используем маски глубины, если мы смотрим на обьект и за ним ничего нет, то мы рисуем скайбокс
@@ -131,7 +159,7 @@ void Cubemap::render(Shader shader, Scene* scene){
 	shader.setMat4("projection", scene->projection);
 
 	if (hasTextures) {
-		glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+		bind();
 
 	}
 	VAO.bind();

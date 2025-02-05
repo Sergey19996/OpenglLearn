@@ -12,7 +12,7 @@ public:
     Material material;
 
 
-    Cube(unsigned int maxNoInstances) : Model("cube", BoundTypes::AABB, maxNoInstances, CONST_INSTANCES | NO_TEX) {}
+    Cube(unsigned int maxNoInstances, Material m = Material::red_plastic) : Model("cube", BoundTypes::AABB, maxNoInstances, CONST_INSTANCES | NO_TEX),material(m) {}
 
 	void init() {
 		int noVertices = 36;
@@ -75,8 +75,8 @@ public:
 
         BoundingRegion br(glm::vec3(-0.5f), glm::vec3(0.5f));
         
-        aiColor4D diff(Material::red_plastic.diffuse.r, Material::red_plastic.diffuse.g, Material::red_plastic.diffuse.b, 1.0f);
-        aiColor4D spec(Material::red_plastic.specular.r, Material::red_plastic.specular.g, Material::red_plastic.specular.b, 1.0f);
+        aiColor4D diff(material.diffuse.r, material.diffuse.g, material.diffuse.b, 1.0f);
+        aiColor4D spec(material.specular.r, material.diffuse.g, material.specular.b, 1.0f);
 
         Mesh ret(br,diff,spec);
         ret.loadData(Vertex::genList(vertices, noVertices), indices);

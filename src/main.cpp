@@ -66,7 +66,7 @@ bool flashlight = true;
 
 Sphere sphere(10);
 Cube cube(11);
-
+Lamp lamp(4);
 
 int main()
 {
@@ -82,7 +82,7 @@ int main()
     scene.cameras.push_back(&cam);
     scene.activeCamera = 0;
     //shaders ============================
-    Shader lampShader("Assets/shaders/instanced/instanced.vs.glsl", "Assets/shaders/lamp.fs.glsl");
+
     Shader shader("Assets/shaders/instanced/instanced.vs.glsl", "Assets/shaders/object.fs.glsl");
     Shader boxShader("Assets/shaders/instanced/box.vs.glsl", "Assets/shaders/instanced/box.fs.glsl");
     Shader textShader("Assets/shaders/text.vs.glsl", "Assets/shaders/text.fs.glsl");
@@ -91,6 +91,11 @@ int main()
     Shader skyBoxShader("Assets/skybox/skybox.vs.glsl", "Assets/skybox/skybox.fs.glsl");
     Shader outlineShader("Assets/shaders/outline.vs.glsl", "Assets/shaders/outline.fs.glsl");
     Shader bufferShader("Assets/shaders/buffer.vs.glsl", "Assets/shaders/buffer.fs.glsl");
+    Shader pointShadowShader("Assets/shaders/shadows/pointShadow.vs.glsl",
+        "Assets/shaders/shadows/pointShadow.fs.glsl",
+        "Assets/shaders/shadows/pointShadow.gs.glsl");
+
+    Shader lampShader("Assets/shaders/instanced/instanced.vs.glsl", "Assets/shaders/lamp.fs.glsl");
 
   //  skyBoxShader.activate();
   //  skyBoxShader.set3Float("min", 0.047f, 0.016f, 0.239f);
@@ -103,8 +108,8 @@ int main()
 
 
     //Models ==================================
-  //  Lamp lamp(4);
-   // scene.registerModel(&lamp);
+  
+    scene.registerModel(&lamp);
     scene.registerModel(&sphere);
 
    
@@ -140,35 +145,37 @@ int main()
     scene.dirLight = &dirLight;
     //setup plane to display texture
    
-  //  glm::vec3 pointLightPositions[] = {
-  //          glm::vec3(0.7f,  0.2f,  2.0f),
-  //          glm::vec3(2.3f, -3.3f, -4.0f),
-  //          glm::vec3(-4.0f,  2.0f, -12.0f),
-  //          glm::vec3(0.0f,  0.0f, -3.0f)
-  //  };
+    glm::vec3 pointLightPositions[] = {
+            glm::vec3(-4.0f,  2.0f,  -4.0f),
+            glm::vec3(4.0f, 2.3f, -4.0f),
+            glm::vec3(-4.0f,  2.0f, 4.0f),
+            glm::vec3(4.0f,  2.0f, 4.0f)
+    };
 
-  //  glm::vec4 ambient = glm::vec4(0.05f, 0.05f, 0.05f, 1.0f);
-  //  glm::vec4 diffuse = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
-  //  glm::vec4 specular = glm::vec4(1.0f);
-  //  float k0 = 1.0f;
-  //  float k1 = 0.09f;
-  //  float k2 = 0.032f;
+    glm::vec4 ambient = glm::vec4(0.05f, 0.05f, 0.05f, 1.0f);
+    glm::vec4 diffuse = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
+    glm::vec4 specular = glm::vec4(1.0f);
+    float k0 = 1.0f;
+    float k1 = 0.09f;
+    float k2 = 0.032f;
 
-  //  PointLight pointLights[4];  // создаётся 4 света 
+    PointLight pointLights[4];  // создаётся 4 света 
 
-  ////  SpotLight light;
-  // 
-  //  for (unsigned int i = 0; i < 4; i++) {
-  //      pointLights[i] = {pointLightPositions[i],    //устанавливаются значения 
-  //          k0,k1,k2,
-  //          ambient,diffuse,specular
-  //      };
-  //      scene.generateInstance(lamp.id, glm::vec3(0.25f), 0.25f, pointLightPositions[i]);
+  //  SpotLight light;
+   
+    for (unsigned int i = 0; i < 4; i++) {
+        pointLights[i] = PointLight(
+            pointLightPositions[i],    //устанавливаются значения 
+            k0,k1,k2,
+            ambient,diffuse,specular,
+            0.5f,50.0f
+        );
+        scene.generateInstance(lamp.id, glm::vec3(0.25f), 0.25f, pointLightPositions[i]);
 
-  //      scene.pointLights.push_back(&pointLights[i]);    // устонавливаются ссылки для рендера света
-  //      States::activate(&scene.activePointLights, i);  // в inte  на 32 света (32 bit) устанавливает 1 
+        scene.pointLights.push_back(&pointLights[i]);    // устонавливаются ссылки для рендера света
+        States::activate(&scene.activePointLights, i);  // в inte  на 32 света (32 bit) устанавливает 1 
 
-  //  }
+    }
 
 
 
@@ -257,6 +264,16 @@ int main()
         renderScene(shadowShader);
 
 
+        //render scene to point light FBOS
+        for (unsigned int i = 0, len = scene.pointLights.size(); i < len; i++) {
+            if (States::isIndexActive(&scene.activePointLights, i)) {
+                scene.pointLights[i]->shadowFBO.activate();
+                scene.renderPointLightShader(pointShadowShader, i);
+                renderScene(pointShadowShader);
+            }
+        }
+
+
         //render scene to spot lightFBP
         for (unsigned int i = 0, len = scene.spotLights.size(); i < len; i++) {
             if (States::isIndexActive(&scene.activeSpotLights, i)) {
@@ -272,6 +289,9 @@ int main()
         scene.renderShader(shader);
         renderScene(shader);
 
+
+        scene.renderShader(lampShader);
+        scene.renderInstances(lamp.id, lampShader, deltaTime);
 
         //render boxes
        // scene.renderShader(boxShader, false);
@@ -388,6 +408,8 @@ void renderScene(Shader shader) {
 
     //render    cubes normally
     scene.renderInstances(cube.id, shader, deltaTime);
+
+  //  scene.renderInstances(lamp.id, shader, deltaTime);
 }
 
 

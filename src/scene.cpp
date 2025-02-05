@@ -279,7 +279,7 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 		{
 			if (States::isIndexActive(&activePointLights, i))
 			{  // чекаем биты в activePointLights, если 1 то, active
-				pointLights[i]->render(shader, noActiveLights);
+				pointLights[i]->render(shader, noActiveLights, textureIdx--);
 				noActiveLights ++;
 			
 			}
@@ -313,6 +313,22 @@ void Scene::renderDirLightShader(Shader shader){
 	shader.activate();
 	shader.setMat4("lightSpaceMatrix", dirLight->lightSpaceMatrix); // замена projections ( теперь смотрит от света) 
 
+}
+
+void Scene::renderPointLightShader(Shader Shader, unsigned int idx){
+
+	Shader.activate();
+
+	//light space matrices
+	for (unsigned int i = 0; i < 6; i++) {
+		Shader.setMat4("lightSpaceMatrices[" + std::to_string(i) + "]", pointLights[idx]->lightSpaceMatrices[i]); //clipspace matrix viwe * proj
+	}
+
+	//light position
+	Shader.set3Float("lightPos", pointLights[idx]->position);
+
+	//far plane
+	Shader.setFloat("farPlane", pointLights[idx]->farPlane);
 }
 
 void Scene::renderSpotLightShader(Shader shader, unsigned int idx){
