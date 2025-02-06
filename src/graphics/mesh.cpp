@@ -87,11 +87,13 @@ void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _in
 
 void Mesh::render(Shader shader,unsigned int noInstances)
 {
+    shader.setBool("noNormalMap", true);
+
     if (noTex) {
         //materials
         shader.set4Float("material.diffuse", diffuse);
         shader.set4Float("material.specular", specular);
-        shader.setInt("noTex", 1); // true в фрагмент шейдер 
+        shader.setBool("noTex", true); // true в фрагмент шейдер 
 
     }
     else
@@ -99,6 +101,7 @@ void Mesh::render(Shader shader,unsigned int noInstances)
 
         //textures
         unsigned int diffuseIdx = 0;
+        unsigned int normalIdx = 0;
         unsigned int specularIdx = 0;
         for (unsigned int i = 0; i < textures.size(); i++)
         {  // activate texture
@@ -113,6 +116,12 @@ void Mesh::render(Shader shader,unsigned int noInstances)
             case aiTextureType_SPECULAR:
                 name = "specular" + std::to_string(specularIdx++);
                 break;
+
+            case aiTextureType_NORMALS :
+                name = "normal" + std::to_string(normalIdx++);
+                shader.setBool("noNormalMap", false);
+                break;
+
             case aiTextureType_NONE:
                 name = textures[i].name;
                 break;
@@ -125,7 +134,7 @@ void Mesh::render(Shader shader,unsigned int noInstances)
             textures[i].bind();
         }
 
-        shader.setInt("noTex", 0); // false для ресета  
+        shader.setBool("noTex", false); // false для ресета  
     }
     VAO.bind();
     VAO.draw(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, noInstances);

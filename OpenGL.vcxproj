@@ -183,11 +183,11 @@
     <None Include="Assets\shaders\lamp.fs.glsl" />
     <None Include="Assets\shaders\object.fs.glsl" />
     <None Include="Assets\shaders\object.vs.glsl" />
-    <None Include="Assets\shaders\shadows\pointShadow.fs.glsl" />
+    <None Include="Assets\shaders\shadows\pointSpotShadow.fs.glsl" />
     <None Include="Assets\shaders\shadows\pointShadow.gs.glsl" />
     <None Include="Assets\shaders\shadows\pointShadow.vs.glsl" />
-    <None Include="Assets\shaders\shadows\shadow.fs.glsl" />
-    <None Include="Assets\shaders\shadows\shadow.vs.glsl" />
+    <None Include="Assets\shaders\shadows\dirShadow.fs.glsl" />
+    <None Include="Assets\shaders\shadows\dirSpotShadow.vs.glsl" />
     <None Include="Assets\skybox\skybox.fs.glsl" />
     <None Include="Assets\skybox\skybox.vs.glsl" />
     <None Include="Assets\skybox\sky.fs.glsl" />
@@ -202,6 +202,7 @@
     <ClInclude Include="src\algorithms\States.hpp" />
     <ClInclude Include="src\algorithms\Trie.hpp" />
     <ClInclude Include="src\graphics\framememory.hpp" />
+    <ClInclude Include="src\graphics\models\brickwall.hpp" />
     <ClInclude Include="src\graphics\vertexmemory.hpp" />
     <ClInclude Include="src\graphics\light.h" />
     <ClInclude Include="src\graphics\material.h" />

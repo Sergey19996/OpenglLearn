@@ -9,7 +9,7 @@ float shininess;
 };
 uniform sampler2D diffuse0;
 uniform sampler2D specular0;
-
+uniform sampler2D normal0;
 
 struct DirLight{
 vec3 direction;
@@ -19,6 +19,8 @@ vec4 specular;
 
 sampler2D depthBuffer;
 mat4 lightSpaceMatrix;
+
+float farPlane;
 };
 uniform DirLight dirLight;
 
@@ -77,31 +79,53 @@ in vec3 Normal;
 in vec2 TexCoord;  // Cюда придут координаты из вертекс шейдера 
 
 uniform Material  material;
-uniform int noTex;
+uniform bool noTex;
+uniform bool noNormalMap;
+uniform bool skipNormalMap;
+
 
 uniform vec3 viewPos;
 uniform bool useBlinn;
 uniform bool useDirLight;
 uniform bool useGamma;
 
-vec4 calcDirlight(vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap);
+vec4 calcDirlight(vec3 norm, vec3 viewVec,vec3 viewDir,vec4 diffMap,vec4 specMap);
 
-vec4 calcPointLight(int idx,vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap);
+vec4 calcPointLight(int idx,vec3 norm,vec3 viewVec, vec3 viewDir,vec4 diffMap,vec4 specMap);
 
-vec4 calcSpotLight(int idx,vec3 norm,vec3 viewDir,vec4 diffMap,vec4 specMap);    
+vec4 calcSpotLight(int idx,vec3 norm,vec3 viewVec,vec3 viewDir,vec4 diffMap,vec4 specMap);    
 
-float calckDirlightShadow(vec3 norm, vec3 lightDir);
-float calcSpotLightShadow(int idx, vec3 norm, vec3 lightDir);
-float calcPointLightShadow(int idx, vec3 norm, vec3 lightDir);
+float calckDirlightShadow(vec3 norm,vec3 viewVec, vec3 lightDir);
+float calcSpotLightShadow(int idx, vec3 norm, vec3 viewVec,vec3 lightDir);
+float calcPointLightShadow(int idx, vec3 norm,vec3 viewVec, vec3 lightDir,vec3 viewVec);
+
+#define NUM_SAMPLES 20
+vec3 sampleOffsetDirections[NUM_SAMPLES] = vec3[]
+(
+   vec3( 1,  1,  1), vec3( 1, -1,  1), vec3(-1, -1,  1), vec3(-1,  1,  1), 
+   vec3( 1,  1, -1), vec3( 1, -1, -1), vec3(-1, -1, -1), vec3(-1,  1, -1),
+   vec3( 1,  1,  0), vec3( 1, -1,  0), vec3(-1, -1,  0), vec3(-1,  1,  0),
+   vec3( 1,  0,  1), vec3(-1,  0,  1), vec3( 1,  0, -1), vec3(-1,  0, -1),
+   vec3( 0,  1,  1), vec3( 0, -1,  1), vec3( 0, -1, -1), vec3( 0,  0,  0)
+);   
+
+
 ///
 void main(){                           
   
 vec3 norm = normalize(Normal);  //нормализуем нормаль фрагмента  (после изменений в меше, перемещений, скейла ротейта дл€ вертексов
-vec3 viewDir = normalize(viewPos-FragPos);  // нормализуем вектор направлени€ от фрагмента к камере 
+if(!noNormalMap && !skipNormalMap){
+norm = texture(normal0,TexCoord).rgb;
+norm = normalize(norm * 2.0 - 1.0); // map form [0,1] to [-1, 1]
+}
+
+vec3 viewVec = viewPos - FragPos;
+
+vec3 viewDir = normalize(viewVec);  // нормализуем вектор направлени€ от фрагмента к камере 
 vec4 diffMap;
 vec4 specMap;
 
-if(noTex ==1){  // когда у меша нет текстур 
+if(noTex == true){  // когда у меша нет текстур 
 	diffMap = material.diffuse;
 	specMap = material.specular;
 }else{
@@ -113,20 +137,18 @@ if(noTex ==1){  // когда у меша нет текстур
 vec4 result;
 
 //directionlight
-if(useDirLight)
-{
-result = calcDirlight(norm,viewDir,diffMap,specMap);
+if(useDirLight){
+result = calcDirlight(norm,viewVec,viewDir,diffMap,specMap);
 //spotlights
-for(int i =0; i<noSpotLights; i++)
-{
-result += calcSpotLight(i,norm,viewDir,diffMap,specMap);
+for(int i =0; i<noSpotLights; i++){
+result += calcSpotLight(i,norm,viewVec,viewDir,diffMap,specMap);
 };
 }
 
 //pointLight
-for(int i =0; i<noPointLights; i++)
+for(int i = 0; i<noPointLights; i++)
 {
-result += calcPointLight(i,norm,viewDir,diffMap,specMap);
+result += calcPointLight(i,norm,viewVec,viewDir,diffMap,specMap);
 };
 
 
@@ -156,7 +178,7 @@ FragColor = result;
 }
 ///
 
-vec4 calcDirlight(vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap)
+vec4 calcDirlight(vec3 norm,vec3 viewVec, vec3 viewDir,vec4 diffMap,vec4 specMap)
 {
 
 //ambient
@@ -197,12 +219,12 @@ specular = dirLight.specular*(spec * specMap);
 //float spec = pow(max(dot(viewDir,reflectDir),0.0), material.shininess * 128); // используем reflectDir и камеру дл€ отображение зеркальности
 //vec4 specular = dirLight.specular*(spec * specMap);
 
-float shadow = calckDirlightShadow(norm,lightDir);
+float shadow = calckDirlightShadow(norm,viewVec,lightDir);
 
 return vec4(ambient + (1.0-shadow) * (diffuse + specular));
 
 }
-float calckDirlightShadow(vec3 norm, vec3 lightDir){
+float calckDirlightShadow(vec3 norm,vec3 viewVec, vec3 lightDir){
  //                             Projection                   //FragPos only model matrix 
 	vec4 FragPosLightSpace = dirLight.lightSpaceMatrix * vec4(FragPos,1.0); 
 
@@ -217,8 +239,7 @@ float calckDirlightShadow(vec3 norm, vec3 lightDir){
 	 return 0.0;
 	}
 
-	//get closest depth in depth buffer
-	float closestDepth = texture(dirLight.depthBuffer, projCoords.xy).r;
+
 
 	//get depth of fragment
 	float currentDepth = projCoords.z;
@@ -231,27 +252,25 @@ float calckDirlightShadow(vec3 norm, vec3 lightDir){
 	//PCF
 	float shadowSum = 0.0;
 	vec2 texelSize = 1.0/textureSize(dirLight.depthBuffer,0);
+	 float viewDist = length(viewVec);
+	 float diskRadius = (1.0 + (viewDist /dirLight.farPlane)) / 30.0;
+
 	for(int y = -1; y <= 1; y++){
 		for (int x = -1; x<= 1; x++){
-		float pcfDepth = texture(dirLight.depthBuffer,projCoords.xy + vec2(x,y) * texelSize).r;
-		shadowSum +=currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+		float pcfDepth = texture(dirLight.depthBuffer,projCoords.xy + vec2(x,y) * texelSize ).r;
+
+		shadowSum += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}
 	}
 
 	//return average 
-	return shadowSum /9.0;
+	return shadowSum / 9.0;
 
 }
 
-float calcPointLightShadow(int idx, vec3 norm, vec3 lightDir){
+float calcPointLightShadow(int idx, vec3 norm, vec3 lightDir,vec3 viewVec){
 //get vector from the light to the fragment
 vec3 lightTofrag = FragPos - pointLight[idx].position;
-
-//get depth from cubemap
-float closestDepth = texture(pointLight[idx].depthBuffer,lightTofrag).r;
-
-//[0,1] => original depth value
-closestDepth *= pointLight[idx].farPlane; // обратна€ нормализаци€. нормализаци€  Pountshadow.fs
 
 //get currentDepth
 float currentDepth = length(lightTofrag);
@@ -261,10 +280,28 @@ float minBias = 0.005;
 float maxBias = 0.05;
 float bias = max(maxBias * (1.0 - dot(norm,lightDir)),minBias); //dot возращает cos, а он прыгает от -1 до 1   = 0 будет если перпенидул€рно 
 
-return currentDepth - bias > closestDepth ? 1.0 :0.0;
+ // pcf
+ float shadow = 0.0;
+ float viewDist = length(viewVec);
+ float diskRadius = (1.0 + (viewDist / pointLight[idx].farPlane)) / 30.0;
+
+ for (int i =0; i <NUM_SAMPLES ; i++){
+	float pcfDepth = texture(pointLight[idx].depthBuffer, lightTofrag + sampleOffsetDirections[i] * diskRadius).r;
+	//[0,1] => original depth value
+	pcfDepth *= pointLight[idx].farPlane;
+
+	if(currentDepth - bias > pcfDepth){
+	shadow += 1.0;
+	 
+	}
 
 }
-vec4 calcPointLight(int idx,vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap){
+
+ shadow /= float(NUM_SAMPLES);
+return shadow;
+
+}
+vec4 calcPointLight(int idx,vec3 norm, vec3 viewVec,vec3 viewDir,vec4 diffMap,vec4 specMap){
 
 
 //FragColor = mix(texture(texture1,TexCoord), texture(texture2,TexCoord),blend);
@@ -274,8 +311,8 @@ vec4 ambient = pointLight[idx].ambient * diffMap;  // каждый пиксель умножаем на
 
 //diffuse
 
-vec3 lightDir =normalize(pointLight[idx].position - FragPos);   // нормализуем вектор направлени€ от фрагмента к свету 
-float diff =max(dot(norm,lightDir), 0.0); // если скал€рное произведение отрицательное пишем 0 (источник света позади поверхности)
+vec3 lightDir = normalize(pointLight[idx].position - FragPos);   // нормализуем вектор направлени€ от фрагмента к свету 
+float diff = max(dot(norm,lightDir), 0.0); // если скал€рное произведение отрицательное пишем 0 (источник света позади поверхности)
 vec4 diffuse = pointLight[idx].diffuse * (diff * diffMap); // если в diff свет не поподает то и diffuse Ѕудет 0
 
  
@@ -320,7 +357,7 @@ return vec4(ambient + (1.0-shadow)*(diffuse + specular));
 }
 
 
-float calcSpotLightShadow(int idx, vec3 norm, vec3 lightDir){
+float calcSpotLightShadow(int idx, vec3 norm,vec3 viewVec, vec3 lightDir){
 vec4 FragPosLightSpace =spotLight[idx].lightSpaceMatrix * vec4(FragPos,1.0); // преобразовали координату дл€ экрана в clip space (координаты пока что сырыые
 
 //perspective divide (transforming coordinates NDC)
@@ -334,16 +371,7 @@ vec4 FragPosLightSpace =spotLight[idx].lightSpaceMatrix * vec4(FragPos,1.0); // 
 	return 0.0;
 	}
 
-	//get closest depth in depth buffer
-	float clossestDepth = texture(spotLight[idx].depthBuffer,projCoords.xy).r; // текстура с GL_DEPTH_COMPONENT имеет только red канал дл€ оптимизации
 
-	//llinearize depth
-	float z = clossestDepth * 2.0 - 1.0;   // из [0, 1] в [-1, 1]
-	clossestDepth = (2.0 * spotLight[idx].nearPlane * spotLight[idx].farPlane) /                     
-	(spotLight[idx].farPlane + spotLight[idx].nearPlane - z * (spotLight[idx].farPlane - spotLight[idx].nearPlane));   // до этого ближайшим объектом доавлась 50% от 1 что было нелинейно
-	                                                                                                                  //теперь всЄ пространство Near и far plane будет линейным
-	clossestDepth /= spotLight[idx].farPlane; //far plane = 100     100 /99 = 0.99
-	
 	//get depth of fragment
 	float currentDepth = projCoords.z;
 	//calculate bias
@@ -353,10 +381,13 @@ vec4 FragPosLightSpace =spotLight[idx].lightSpaceMatrix * vec4(FragPos,1.0); // 
 
 	//PCF   
 	float shadowSum = 0.0;
-	vec2 texelSize = 1.0/textureSize(spotLight[idx].depthBuffer,0); //≈сли текстура имеет размер 1024x1024, то texelSize = (1.0 / 1024, 1.0 / 1024) 
+	vec2 texelSize = 1.0 / textureSize(spotLight[idx].depthBuffer,0); //≈сли текстура имеет размер 1024x1024, то texelSize = (1.0 / 1024, 1.0 / 1024) 
+	 float viewDist = length(viewVec);
+	 float diskRadius = (1.0 + (viewDist /spotLight[idx].farPlane)) / 30.0;
 	for(int y = -1; y <= 1; y++){
 		for (int x = -1; x<= 1; x++){
-		float pcfDepth = texture(spotLight[idx].depthBuffer,projCoords.xy + vec2(x,y) * texelSize).r;
+		float pcfDepth = texture(spotLight[idx].depthBuffer,projCoords.xy + vec2(x,y) * texelSize ).r * diskRadius;
+		pcfDepth *= spotLight[idx].farPlane;
 		shadowSum +=currentDepth - bias > pcfDepth ? 1.0 : 0.0;
 		}
 	}
@@ -364,7 +395,7 @@ vec4 FragPosLightSpace =spotLight[idx].lightSpaceMatrix * vec4(FragPos,1.0); // 
 return  shadowSum / 9;
 }
 
-vec4 calcSpotLight(int idx, vec3 norm, vec3 viewDir,vec4 diffMap,vec4 specMap)
+vec4 calcSpotLight(int idx, vec3 norm,vec3 viewVec, vec3 viewDir,vec4 diffMap,vec4 specMap)
 {
 
 vec3 lightDir = normalize(spotLight[idx].position - FragPos);  // нормализуем вектор от фрагмента к источнику света
@@ -377,7 +408,7 @@ vec4 ambient = spotLight[idx].ambient*diffMap;
 if(theta > spotLight[idx].outerCutOff){ // > дл€ косинусов чем больше угол тем меньше значение  от 1 до -1, где -1 это 180 градусов а 1 =углу в 0
 //если косинус theta меньше чем outercutoff значит угол между вектором от фрмнта к спотлайту и направлением спотлайта больше необходимого
 
-//if in cutoff, render light 
+
 
 //diffuse
 float diff = max(dot(norm,lightDir),0.0);
@@ -420,7 +451,7 @@ ambient *= attenuation;
 diffuse *= attenuation;
 specular *= attenuation;
 
-float shadow = calcSpotLightShadow(idx,norm,lightDir);
+float shadow = calcSpotLightShadow(idx,norm,viewVec,lightDir);
 
 return vec4(ambient + (1.0 -shadow) * (diffuse + specular));
 

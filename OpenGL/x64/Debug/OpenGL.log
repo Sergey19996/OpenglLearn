@@ -1,46 +1,113 @@
-﻿  main.cpp
+﻿  scene.cpp
 D:\C++\Learning\OpenGL\src\graphics\vertexmemory.hpp(103,46): warning C4312: 'type cast': conversion from 'GLint' to 'void *' of greater size
-  (compiling source file 'src/main.cpp')
-  
-D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(63,48): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/main.cpp')
-  
-D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(69,50): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/main.cpp')
-  
-D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\src\graphics\framememory.hpp(131,34): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(63,48): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/scene.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(69,50): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/scene.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(68,49): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(91,76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(196,33): warning C4244: '+=': conversion from 'const float' to 'int', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(241,35): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(242,35): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(259,34): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(300,25): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
-  (compiling source file 'src/main.cpp')
+  (compiling source file 'src/scene.cpp')
   
-D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'src/main.cpp')
+D:\C++\Learning\OpenGL\src\scene.cpp(10,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\C++\Learning\OpenGL\src\scene.cpp(282,24): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\C++\Learning\OpenGL\src\scene.cpp(296,28): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(102,24): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/scene.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(102,24):
+      the template instantiation context (the oldest one first) is
+          D:\C++\Learning\OpenGL\src\scene.h(52,27):
+          see reference to class template instantiation 'trie::Trie<TextRenderer>' being compiled
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(88,8):
+          while compiling class template member function 'bool trie::Trie<TextRenderer>::insert(std::string,T)'
+          with
+          [
+              T=TextRenderer
+          ]
+              D:\C++\Learning\OpenGL\src\scene.cpp(131,14):
+              see the first reference to 'trie::Trie<TextRenderer>::insert' in 'Scene::init'
   
-D:\C++\Learning\OpenGL\src\main.cpp(61,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(232,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(248,27): warning C4018: '<': signed/unsigned mismatch
-D:\C++\Learning\OpenGL\src\main.cpp(268,38): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(278,38): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(78,22): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/scene.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(78,22):
+      the template instantiation context (the oldest one first) is
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(67,3):
+          while compiling class template member function 'trie::Trie<TextRenderer>::Trie(trie::charset)'
+              D:\C++\Learning\OpenGL\src\scene.cpp(31,1):
+              see the first reference to 'trie::Trie<TextRenderer>::Trie' in 'Scene::Scene'
+  
+D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(49,23): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/scene.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(49,23):
+      the template instantiation context (the oldest one first) is
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(170,8):
+          while compiling class template member function 'void trie::Trie<Model *>::traverse(void (__cdecl *)(T))'
+          with
+          [
+              T=Model *
+          ]
+              D:\C++\Learning\OpenGL\src\scene.cpp(370,17):
+              see the first reference to 'trie::Trie<Model *>::traverse' in 'Scene::cleanUp'
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(172,5):
+          see reference to class template instantiation 'trie::node<T>' being compiled
+          with
+          [
+              T=Model *
+          ]
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(42,8):
+          while compiling class template member function 'void trie::node<T>::traverse(void (__cdecl *)(T),unsigned int)'
+          with
+          [
+              T=Model *
+          ]
+              D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(172,19):
+              see the first reference to 'trie::node<T>::traverse' in 'trie::Trie<Model *>::traverse'
+          with
+          [
+              T=Model *
+          ]
+              D:\C++\Learning\OpenGL\src\scene.cpp(370,17):
+              see the first reference to 'trie::Trie<Model *>::traverse' in 'Scene::cleanUp'
+  
+D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(234,22): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/scene.cpp')
+      D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(234,22):
+      the template instantiation context (the oldest one first) is
+          D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(229,8):
+          while compiling class template member function 'void trie::Trie<TextRenderer>::unloadNode(trie::node<T> *)'
+          with
+          [
+              T=TextRenderer
+          ]
+              D:\C++\Learning\OpenGL\src\algorithms\Trie.hpp(136,14):
+              see the first reference to 'trie::Trie<TextRenderer>::unloadNode' in 'trie::Trie<TextRenderer>::cleanup'
+              D:\C++\Learning\OpenGL\src\scene.cpp(380,15):
+              see the first reference to 'trie::Trie<TextRenderer>::cleanup' in 'Scene::cleanUp'
+  
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe

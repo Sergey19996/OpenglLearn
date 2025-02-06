@@ -93,10 +93,10 @@
     <None Include="Assets\shaders\buffer.vs.glsl" />
     <None Include="Assets\shaders\depth.fs.glsl" />
     <None Include="Assets\shaders\depth.vs.glsl" />
-    <None Include="Assets\shaders\shadows\shadow.fs.glsl" />
-    <None Include="Assets\shaders\shadows\shadow.vs.glsl" />
+    <None Include="Assets\shaders\shadows\dirShadow.fs.glsl" />
+    <None Include="Assets\shaders\shadows\dirSpotShadow.vs.glsl" />
     <None Include="Assets\shaders\shadows\pointShadow.vs.glsl" />
-    <None Include="Assets\shaders\shadows\pointShadow.fs.glsl" />
+    <None Include="Assets\shaders\shadows\pointSpotShadow.fs.glsl" />
     <None Include="Assets\shaders\shadows\pointShadow.gs.glsl" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +179,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\framememory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\models\brickwall.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

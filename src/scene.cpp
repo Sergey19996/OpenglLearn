@@ -140,6 +140,8 @@ bool Scene::init()
 	VariableLog["useBlinn"] = true;
 	VariableLog["useGamma"] = false;
 	VariableLog["displayOutlines"] = false;
+	VariableLog["noNormalMap"] = false;
+
 	return true;
 
 	//return false;
@@ -198,6 +200,10 @@ void Scene::processInput(float dt)
 		//update outline parametr if necessary
 		if (keyboard::KeyWentDown(GLFW_KEY_O)) {
 			VariableLog["displayOutlines"] = !VariableLog["displayOutlines"].val<bool>();
+		}
+
+		if (keyboard::KeyWentUp(GLFW_KEY_N)) {
+			VariableLog["noNormalMap"] = !VariableLog["noNormalMap"].val<bool>();
 		}
 
 		//set matrices
@@ -305,6 +311,7 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 		
 		shader.setBool("useBlinn", VariableLog["useBlinn"].val<bool>());
 		shader.setBool("useGamma", VariableLog["useGamma"].val<bool>());
+		shader.setBool("skipNormalMap", VariableLog["noNormalMap"].val<bool>());
 	}
 
 }
@@ -333,7 +340,14 @@ void Scene::renderPointLightShader(Shader Shader, unsigned int idx){
 
 void Scene::renderSpotLightShader(Shader shader, unsigned int idx){
 	shader.activate();
+	// light space	matrix
 	shader.setMat4("lightSpaceMatrix", spotLights[idx]->lightSpaceMatrix);
+
+	//light position
+	shader.set3Float("lightPos", spotLights[idx]->position);
+
+	//far plane
+	shader.setFloat("farPlane", spotLights[idx]->farPlane);
 }
 
 void Scene::renderInstances(std::string modelId, Shader shader, float dt){

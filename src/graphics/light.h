@@ -65,6 +65,7 @@ struct DirLight {
 	//bounding region for shadow
 	BoundingRegion br;
 
+	
 	//transformations for the light space (projection * view)
 	glm::mat4 lightSpaceMatrix;
 
