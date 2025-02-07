@@ -173,6 +173,7 @@
     <ClCompile Include="src\graphics\text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\shaders\defaultHead.gh" />
     <None Include="Assets\shaders\depth.fs.glsl" />
     <None Include="Assets\shaders\depth.vs.glsl" />
     <None Include="Assets\shaders\buffer.fs.glsl" />
@@ -188,9 +189,9 @@
     <None Include="Assets\shaders\shadows\pointShadow.vs.glsl" />
     <None Include="Assets\shaders\shadows\dirShadow.fs.glsl" />
     <None Include="Assets\shaders\shadows\dirSpotShadow.vs.glsl" />
-    <None Include="Assets\skybox\skybox.fs.glsl" />
-    <None Include="Assets\skybox\skybox.vs.glsl" />
-    <None Include="Assets\skybox\sky.fs.glsl" />
+    <None Include="Assets\shaders\skybox\skybox.fs.glsl" />
+    <None Include="Assets\shaders\skybox\skybox.vs.glsl" />
+    <None Include="Assets\shaders\skybox\sky.fs.glsl" />
     <None Include="Assets\shaders\text.fs.glsl" />
     <None Include="Assets\shaders\text.vs.glsl" />
     <None Include="src\algorithms\list.hpp" />
@@ -229,13 +230,13 @@
     <Image Include="Assets\textures\Rubbit.jpg" />
     <Image Include="Assets\textures\Skull.png" />
     <Image Include="Assets\textures\Skull_Specular.png" />
-    <Image Include="Assets\skybox\back.png" />
-    <Image Include="Assets\skybox\bottom.png" />
-    <Image Include="Assets\skybox\front.png" />
-    <Image Include="Assets\skybox\left.png" />
-    <Image Include="Assets\skybox\right.png" />
-    <Image Include="Assets\skybox\skybox_template.png" />
-    <Image Include="Assets\skybox\top.png" />
+    <Image Include="Assets\shaders\skybox\back.png" />
+    <Image Include="Assets\shaders\skybox\bottom.png" />
+    <Image Include="Assets\shaders\skybox\front.png" />
+    <Image Include="Assets\shaders\skybox\left.png" />
+    <Image Include="Assets\shaders\skybox\right.png" />
+    <Image Include="Assets\shaders\skybox\skybox_template.png" />
+    <Image Include="Assets\shaders\skybox\top.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\shaders\instanced\instanced.vs.glsl" />

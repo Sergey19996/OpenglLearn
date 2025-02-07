@@ -5,24 +5,24 @@ Shader::Shader()
   
 }
 
-Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath, const char* geoShaderPath)
+Shader::Shader(bool includeDefaultHeader, const char* vertexShaderPath, const char* fragmentShaderPath, const char* geoShaderPath)
 {
 
-    generate(vertexShaderPath, fragmentShaderPath,geoShaderPath);
+    generate(includeDefaultHeader,vertexShaderPath, fragmentShaderPath,geoShaderPath);
 
 }
 
-void Shader::generate(const char* vertexShaderPath, const char* fragShaderPath, const char* geoShaderPath)
+void Shader::generate(bool includeDefaultHeader,const char* vertexShaderPath, const char* fragShaderPath, const char* geoShaderPath)
 {
     int success;
     char infoLog[512];
 
-    GLuint vertexShader = compileShader(vertexShaderPath, GL_VERTEX_SHADER);    // создаём вертекс шейдер
-    GLuint fragmentShader = compileShader(fragShaderPath, GL_FRAGMENT_SHADER); // создаём фрагмент(пиксель) шейдер
+    GLuint vertexShader = compileShader(includeDefaultHeader,vertexShaderPath, GL_VERTEX_SHADER);    // создаём вертекс шейдер
+    GLuint fragmentShader = compileShader(includeDefaultHeader,fragShaderPath, GL_FRAGMENT_SHADER); // создаём фрагмент(пиксель) шейдер
 
     GLuint geoShader = 0; //placeholder
     if (geoShaderPath) { //не nullptr
-        geoShader = compileShader(geoShaderPath, GL_GEOMETRY_SHADER);
+        geoShader = compileShader(includeDefaultHeader,geoShaderPath, GL_GEOMETRY_SHADER);
     }
 
 
@@ -62,51 +62,16 @@ void Shader::activate()
 
 }
 
-std::string Shader::loadShadersSrc(const char* filepath)
-{
-    // Создаём поток для работы с файлом
-    std::ifstream file;
-
-    // Создаём строковый буфер для временного хранения содержимого файла
-    std::stringstream buf;
-
-    // Переменная для возвращаемой строки (изначально пустая)
-    std::string ret = "";
-
-    // Открываем файл по указанному пути
-    file.open(filepath);
-
-    // Проверяем, удалось ли открыть файл
-    if (file.is_open()) {
-        // Считываем содержимое файла в строковый буфер
-        buf << file.rdbuf();
-
-        // Преобразуем буфер в строку и сохраняем в переменную ret
-        ret = buf.str();
-    }
-    else
-    {
-        // Если файл не открылся, выводим сообщение об ошибке в консоль
-        std::cout << "could not open " << filepath << std::endl;
-    }
-
-    // Закрываем файл (все ресурсы освобождаются)
-    file.close();
-
-    // Возвращаем содержимое файла в виде строки
-    return ret;
 
 
-	//return std::string();
-}
 
-GLuint Shader::compileShader(const char* filepath, GLenum type)
+GLuint Shader::compileShader(bool includeDefaultHeader,const char* filepath, GLenum type)
 {
     int success;
     char infoLog[512];
 
     GLuint ret = glCreateShader(type);  // cоздаём и Указываем тип шейдера: фрагментный
-    std::string shaderSrc = loadShadersSrc(filepath);  //читаем шейшер
+    std::string shaderSrc = loadShadersSrc(includeDefaultHeader,filepath);  //читаем шейшер
     const GLchar* shader = shaderSrc.c_str();  //  Преобразуем строку в формат C-style
     glShaderSource(ret, 1, &shader, NULL);  // Передаем исходный код  шейдера в OpenGL
     glCompileShader(ret); // Компилируем  шейдер
@@ -116,7 +81,7 @@ GLuint Shader::compileShader(const char* filepath, GLenum type)
     glGetShaderiv(ret, GL_COMPILE_STATUS, &success); // Запрашиваем статус компиляции
     if (!success) { // Если произошла ошибка
         glGetShaderInfoLog(ret, 512, NULL, infoLog); // Получаем лог ошибки (максимум 512 символов)
-        std::cout << "Error with frag shader comp.:" << std::endl << infoLog << std::endl; // Выводим сообщение об ошибке
+        std::cout << "Error with frag shader comp." << filepath <<  ":" << std::endl << infoLog << std::endl; // Выводим сообщение об ошибке
     }
 
 
@@ -186,4 +151,62 @@ void Shader::setValue(const std::string& name, float value)
 void Shader::setBool(const std::string& name, bool value)
 {
     glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
+}
+
+std::string Shader::loadShadersSrc(bool includeDefaultHeader,const char* filepath)
+{
+    // Создаём поток для работы с файлом
+    std::ifstream file;
+
+    // Создаём строковый буфер для временного хранения содержимого файла
+    std::stringstream buf;
+
+    // Переменная для возвращаемой строки (изначально пустая)
+    std::string ret = "";
+
+    //include default 
+    if (includeDefaultHeader) {
+        buf << Shader::defaultHeaders.str();
+
+    }
+
+    std::string fullPath = Shader::defaultDirectory + '/' + filepath;
+
+    // Открываем файл по указанному пути
+    file.open(fullPath.c_str());
+
+    // Проверяем, удалось ли открыть файл
+    if (file.is_open()) {
+        // Считываем содержимое файла в строковый буфер
+        buf << file.rdbuf();
+
+        // Преобразуем буфер в строку и сохраняем в переменную ret
+        ret = buf.str();
+    }
+    else
+    {
+        // Если файл не открылся, выводим сообщение об ошибке в консоль
+        std::cout << "could not open " << filepath << std::endl;
+    }
+
+    // Закрываем файл (все ресурсы освобождаются)
+    file.close();
+
+    // Возвращаем содержимое файла в виде строки
+    return ret;
+
+
+    //return std::string();
+}
+std::stringstream Shader::defaultHeaders;
+void Shader::loadIntoDefault(const char* filepath){
+    std::string fileContents = Shader::loadShadersSrc(false, filepath);
+
+    Shader::defaultHeaders << fileContents; // записываем в статик переменную 
+
+}
+
+void Shader::clearDefaults(){
+    Shader::defaultHeaders.clear(); // функция stringSteam
+
 }

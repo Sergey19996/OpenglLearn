@@ -18,16 +18,21 @@ public:
 
 
 	Shader();
-	Shader(const char* vertexShaderPath, const char* fragmentShaderPath, const char* geoShaderPath = nullptr);
+	Shader(bool includeDefaultHeade,
+		const char* vertexShaderPath,
+		const char* fragmentShaderPath,
+		const char* geoShaderPath = nullptr);
 
-	void generate(const char* vertexShaderPath, const char* fragShaderPath, const char* geoShaderPath = nullptr);
+	void generate(bool includeDefaultHeader,
+		const char* vertexShaderPath, 
+		const char* fragShaderPath,
+		const char* geoShaderPath = nullptr);
 	void bind();
 
 	void activate();
 
-	//utility fucntions
-	std::string loadShadersSrc(const char* filepath);
-	GLuint compileShader(const char* filepath, GLenum type);
+	
+	GLuint compileShader(bool includeDefaultHeader,const char* filepath, GLenum type);
 
 
 	//uinform functions
@@ -41,6 +46,24 @@ public:
 	void setInt(const std::string& name, int valuse);
 	void setValue(const std::string& name,float value);
 	void setBool(const std::string& name, bool value);
+
+
+	//static
+	//default directory
+	static std::string defaultDirectory;
+
+
+	//stream containing default contnent
+	static std::stringstream defaultHeaders;    // позволяет вот так записывать  int number 42 ; stringstram << number; и извлекать stringstram >> number
+
+	//load into deafult header 
+	static void loadIntoDefault(const char* filepath);
+
+	//clear default header (after shader compilation)
+	static void clearDefaults();
+
+	//utility fucntions
+	static std::string loadShadersSrc(bool includeDefaultHeader,const char* filepath);
 
 };
 

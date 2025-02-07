@@ -68,6 +68,9 @@ bool flashlight = true;
 //Cube cube(11);
 Lamp lamp(4);
 Brickwall wall;
+
+std::string Shader::defaultDirectory = "Assets/shaders";
+
 int main()
 {
     //          version 3.3 opengl
@@ -82,20 +85,24 @@ int main()
     scene.cameras.push_back(&cam);
     scene.activeCamera = 0;
     //shaders ============================
+    Shader::loadIntoDefault("defaultHead.gh");
 
-    Shader shader("Assets/shaders/instanced/instanced.vs.glsl", "Assets/shaders/object.fs.glsl");
-    Shader boxShader("Assets/shaders/instanced/box.vs.glsl", "Assets/shaders/instanced/box.fs.glsl");
-    Shader textShader("Assets/shaders/text.vs.glsl", "Assets/shaders/text.fs.glsl");
-    Shader dirShadowShader("Assets/shaders/shadows/dirSpotShadow.vs.glsl", "Assets/shaders/shadows/dirShadow.fs.glsl");
-    Shader spotShadowShader("Assets/shaders/shadows/dirSpotShadow.vs.glsl", "Assets/shaders/shadows/pointSpotShadow.fs.glsl");
-    Shader pointShadowShader("Assets/shaders/shadows/pointShadow.vs.glsl",
-        "Assets/shaders/shadows/pointSpotShadow.fs.glsl",
-        "Assets/shaders/shadows/pointShadow.gs.glsl");
 
-    Shader skyBoxShader("Assets/skybox/skybox.vs.glsl", "Assets/skybox/skybox.fs.glsl");
-    Shader outlineShader("Assets/shaders/outline.vs.glsl", "Assets/shaders/outline.fs.glsl");
-    Shader bufferShader("Assets/shaders/buffer.vs.glsl", "Assets/shaders/buffer.fs.glsl");
-    Shader lampShader("Assets/shaders/instanced/instanced.vs.glsl", "Assets/shaders/lamp.fs.glsl");
+    Shader shader(true,"instanced/instanced.vs.glsl", "object.fs.glsl");
+    Shader boxShader(false,"instanced/box.vs.glsl", "instanced/box.fs.glsl");
+    Shader textShader(false,"text.vs.glsl", "text.fs.glsl");
+    Shader dirShadowShader(false,"shadows/dirSpotShadow.vs.glsl", "shadows/dirShadow.fs.glsl");
+    Shader spotShadowShader(false,"shadows/dirSpotShadow.vs.glsl", "shadows/pointSpotShadow.fs.glsl");
+    Shader pointShadowShader(false,"shadows/pointShadow.vs.glsl",
+        "shadows/pointSpotShadow.fs.glsl",
+        "shadows/pointShadow.gs.glsl");
+
+    Shader skyBoxShader(false,"skybox/skybox.vs.glsl", "skybox/skybox.fs.glsl");
+    Shader outlineShader(false,"outline.vs.glsl", "outline.fs.glsl");
+    Shader bufferShader(false,"buffer.vs.glsl", "buffer.fs.glsl");
+    Shader lampShader(false,"instanced/instanced.vs.glsl", "lamp.fs.glsl");
+
+    Shader::clearDefaults();
 
   //  skyBoxShader.activate();
   //  skyBoxShader.set3Float("min", 0.047f, 0.016f, 0.239f);
