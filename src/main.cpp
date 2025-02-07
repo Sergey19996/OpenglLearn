@@ -33,6 +33,8 @@
 #include "graphics/models/plane.hpp"
 #include "graphics/framememory.hpp"
 #include "graphics/models/brickwall.hpp"
+#include "graphics/uniformmemory.hpp"
+
 
 #include "physics/environment.h"
 
@@ -73,6 +75,31 @@ std::string Shader::defaultDirectory = "Assets/shaders";
 
 int main()
 {
+    UBO::UBO ubo({
+        UBO::Type::SCALAR,
+         UBO::newStruct({
+            UBO::newArray(5,UBO::Type::SCALAR),
+            UBO::Type::SCALAR,
+            UBO::newArray(2,UBO::newVec(3)),
+            }),
+            UBO::newArray(2,UBO::newStruct({
+            UBO::newColMat(4,4),
+            UBO::newVec(3)
+            }))
+            });
+     
+
+    ubo.startWrite();
+    while (true)
+    {
+        UBO::Element e = ubo.getNextElement();
+        if (e.type == UBO::Type::INVALID) {
+            break;
+        }
+        std::cout << e.typeStr() << std::endl;
+    }
+
+    return 0;
     //          version 3.3 opengl
     scene = Scene(3, 3, "Fat Boys", SCR_WIDTH, SCR_HEIGHT);
     if (!scene.init()) {
@@ -236,6 +263,8 @@ int main()
     // Главный цикл рендеринга
     while (!scene.shouldClose()) // Выполняем цикл, пока окно не закрыто
     {
+
+
 
 
 

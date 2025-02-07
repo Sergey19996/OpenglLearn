@@ -99,6 +99,7 @@
     <None Include="Assets\shaders\shadows\pointSpotShadow.fs.glsl" />
     <None Include="Assets\shaders\shadows\pointShadow.gs.glsl" />
     <None Include="Assets\shaders\defaultHead.gh" />
+    <None Include="Assets\shaders\test.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shader.h">
@@ -183,6 +184,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\models\brickwall.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\uniformmemory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

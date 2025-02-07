@@ -192,6 +192,7 @@
     <None Include="Assets\shaders\skybox\skybox.fs.glsl" />
     <None Include="Assets\shaders\skybox\skybox.vs.glsl" />
     <None Include="Assets\shaders\skybox\sky.fs.glsl" />
+    <None Include="Assets\shaders\test.vs.glsl" />
     <None Include="Assets\shaders\text.fs.glsl" />
     <None Include="Assets\shaders\text.vs.glsl" />
     <None Include="src\algorithms\list.hpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="src\algorithms\Trie.hpp" />
     <ClInclude Include="src\graphics\framememory.hpp" />
     <ClInclude Include="src\graphics\models\brickwall.hpp" />
+    <ClInclude Include="src\graphics\uniformmemory.hpp" />
     <ClInclude Include="src\graphics\vertexmemory.hpp" />
     <ClInclude Include="src\graphics\light.h" />
     <ClInclude Include="src\graphics\material.h" />
