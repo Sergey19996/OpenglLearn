@@ -17,6 +17,10 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+layout(std140)uniform Matrices{
+mat4 model2[3];
+};
+
 void main(){
 
 vec3 pos = aPos*aSize;  // для инстансеров мы каждый вертекс умножаем на сайз
@@ -25,7 +29,7 @@ vs_out.FragPos = vec3(model* vec4(pos,1.0));   //переводит из локальных (от пиво
 
 vs_out.Normal =mat3(transpose(inverse(model)))*aNormal; //  перевод нормалей из локальных в мировые 
 
-gl_Position = projection * view * vec4(vs_out.FragPos, 1.0); // Устанавливаем положение вершины
+gl_Position = projection * view * model2[2] * vec4(vs_out.FragPos, 1.0); // Устанавливаем положение вершины
 vs_out.TexCoord = aTexCoord; 
 
 

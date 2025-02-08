@@ -73,33 +73,14 @@ Brickwall wall;
 
 std::string Shader::defaultDirectory = "Assets/shaders";
 
+struct Color {
+    glm::vec3 c;
+};
+
+
 int main()
 {
-    UBO::UBO ubo({
-        UBO::Type::SCALAR,
-         UBO::newStruct({
-            UBO::newArray(5,UBO::Type::SCALAR),
-            UBO::Type::SCALAR,
-            UBO::newArray(2,UBO::newVec(3)),
-            }),
-            UBO::newArray(2,UBO::newStruct({
-            UBO::newColMat(4,4),
-            UBO::newVec(3)
-            }))
-            });
-     
 
-    ubo.startWrite();
-    while (true)
-    {
-        UBO::Element e = ubo.getNextElement();
-        if (e.type == UBO::Type::INVALID) {
-            break;
-        }
-        std::cout << e.typeStr() << std::endl;
-    }
-
-    return 0;
     //          version 3.3 opengl
     scene = Scene(3, 3, "Fat Boys", SCR_WIDTH, SCR_HEIGHT);
     if (!scene.init()) {
@@ -115,22 +96,53 @@ int main()
     Shader::loadIntoDefault("defaultHead.gh");
 
 
-    Shader shader(true,"instanced/instanced.vs.glsl", "object.fs.glsl");
-    Shader boxShader(false,"instanced/box.vs.glsl", "instanced/box.fs.glsl");
-    Shader textShader(false,"text.vs.glsl", "text.fs.glsl");
-    Shader dirShadowShader(false,"shadows/dirSpotShadow.vs.glsl", "shadows/dirShadow.fs.glsl");
-    Shader spotShadowShader(false,"shadows/dirSpotShadow.vs.glsl", "shadows/pointSpotShadow.fs.glsl");
-    Shader pointShadowShader(false,"shadows/pointShadow.vs.glsl",
+    Shader shader(true, "instanced/instanced.vs.glsl", "object.fs.glsl");
+    Shader boxShader(false, "instanced/box.vs.glsl", "instanced/box.fs.glsl");
+    Shader textShader(false, "text.vs.glsl", "text.fs.glsl");
+    Shader dirShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/dirShadow.fs.glsl");
+    Shader spotShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/pointSpotShadow.fs.glsl");
+    Shader pointShadowShader(false, "shadows/pointShadow.vs.glsl",
         "shadows/pointSpotShadow.fs.glsl",
         "shadows/pointShadow.gs.glsl");
 
-    Shader skyBoxShader(false,"skybox/skybox.vs.glsl", "skybox/skybox.fs.glsl");
-    Shader outlineShader(false,"outline.vs.glsl", "outline.fs.glsl");
-    Shader bufferShader(false,"buffer.vs.glsl", "buffer.fs.glsl");
-    Shader lampShader(false,"instanced/instanced.vs.glsl", "lamp.fs.glsl");
+    Shader skyBoxShader(false, "skybox/skybox.vs.glsl", "skybox/skybox.fs.glsl");
+    Shader outlineShader(false, "outline.vs.glsl", "outline.fs.glsl");
+    Shader bufferShader(false, "buffer.vs.glsl", "buffer.fs.glsl");
+    Shader lampShader(false, "instanced/instanced.vs.glsl", "lamp.fs.glsl");
 
     Shader::clearDefaults();
 
+    //UBO======
+    UBO::UBO ubo(0, {
+       UBO::newColMatArray(3,4,4)
+        });
+
+    ubo.attachToShader(shader, "Colors");
+    ubo.generate();
+    ubo.bind();
+    ubo.initNullData(GL_STATIC_DRAW);
+    ubo.clear();
+
+    ubo.bindRange();
+
+    ubo.startWrite();
+    Color colorArray[3] = {
+        {{1.0f,0.0f,0.0f}},
+        {{0.0f,1.0f,0.0f}},
+        {{0.0f,0.0f,1.0f}}
+    };
+    float fArr[3] = {
+        0.0f,0.0f,0.0f
+    };
+
+
+    ubo.bind();
+    ubo.advanceArray(2 * 4);
+    glm::mat4 m = glm::translate(glm::mat4(1.0f), { 3.0f,0.0f,-5.0f });
+    ubo.writeArrayContainer<glm::mat4, glm::vec4>(&m, 4);
+
+    ubo.clear();
+    
   //  skyBoxShader.activate();
   //  skyBoxShader.set3Float("min", 0.047f, 0.016f, 0.239f);
   //  skyBoxShader.set3Float("max", 0.945f, 1.000f, 0.682f);
