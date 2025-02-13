@@ -20,16 +20,7 @@ public :
 
 	}
 
-	void render(Shader shader, float deltaTime,Scene* scene, bool setModel = true) {
-		//set light color
-		shader.set3Float("lightColor", lightColor);
-
-
-		Cube::render(shader, deltaTime,scene, setModel);
-
-
-	}
-
+	
 };
 
 

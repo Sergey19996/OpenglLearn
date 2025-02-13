@@ -16,6 +16,8 @@
 #include "graphics/models/box.hpp"
 #include "graphics/text.h"
 #include "graphics/framememory.hpp"
+#include "graphics/uniformmemory.hpp"
+
 
 #include "io/Camera.h"
 #include "io/Keyboard.h"
@@ -53,7 +55,7 @@ public:
 
 
 	FramebufferObject defaultFBO;
-
+	UBO::UBO lightUBO;
 
 
 	//Callbacks
@@ -70,7 +72,7 @@ public:
 	//initialization
 	bool init();
 
-	void prepare(Box& box);
+	void prepare(Box& box, std::vector<Shader> shaders);
 
 	//main loop methods
 
@@ -141,9 +143,11 @@ public:
 	
 
 	//list of point lights
+	 unsigned int noPointLights;
 	std::vector<PointLight*> pointLights;
 	unsigned int activePointLights;
 	//list of spor lights
+	unsigned int noSpotLights;
 	std::vector<SpotLight*> spotLights;
 	unsigned int activeSpotLights;
 	//direction light

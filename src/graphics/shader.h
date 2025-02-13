@@ -46,7 +46,7 @@ public:
 	void setInt(const std::string& name, int valuse);
 	void setValue(const std::string& name,float value);
 	void setBool(const std::string& name, bool value);
-
+	void setMat3(const std::string& name, glm::mat3 val);
 
 	//static
 	//default directory

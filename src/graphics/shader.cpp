@@ -153,6 +153,11 @@ void Shader::setBool(const std::string& name, bool value)
     glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
 }
 
+void Shader::setMat3(const std::string& name, glm::mat3 val){
+
+    glUniformMatrix3fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(val));
+}
+
 std::string Shader::loadShadersSrc(bool includeDefaultHeader,const char* filepath)
 {
     // Создаём поток для работы с файлом

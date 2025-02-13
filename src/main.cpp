@@ -73,9 +73,7 @@ Brickwall wall;
 
 std::string Shader::defaultDirectory = "Assets/shaders";
 
-struct Color {
-    glm::vec3 c;
-};
+
 
 
 int main()
@@ -97,7 +95,7 @@ int main()
 
 
     Shader shader(true, "instanced/instanced.vs.glsl", "object.fs.glsl");
-    Shader boxShader(false, "instanced/box.vs.glsl", "instanced/box.fs.glsl");
+   /* Shader boxShader(false, "instanced/box.vs.glsl", "instanced/box.fs.glsl");
     Shader textShader(false, "text.vs.glsl", "text.fs.glsl");
     Shader dirShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/dirShadow.fs.glsl");
     Shader spotShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/pointSpotShadow.fs.glsl");
@@ -108,40 +106,11 @@ int main()
     Shader skyBoxShader(false, "skybox/skybox.vs.glsl", "skybox/skybox.fs.glsl");
     Shader outlineShader(false, "outline.vs.glsl", "outline.fs.glsl");
     Shader bufferShader(false, "buffer.vs.glsl", "buffer.fs.glsl");
-    Shader lampShader(false, "instanced/instanced.vs.glsl", "lamp.fs.glsl");
+    Shader lampShader(false, "instanced/instanced.vs.glsl", "lamp.fs.glsl");*/
 
     Shader::clearDefaults();
 
-    //UBO======
-    UBO::UBO ubo(0, {
-       UBO::newColMatArray(3,4,4)
-        });
-
-    ubo.attachToShader(shader, "Colors");
-    ubo.generate();
-    ubo.bind();
-    ubo.initNullData(GL_STATIC_DRAW);
-    ubo.clear();
-
-    ubo.bindRange();
-
-    ubo.startWrite();
-    Color colorArray[3] = {
-        {{1.0f,0.0f,0.0f}},
-        {{0.0f,1.0f,0.0f}},
-        {{0.0f,0.0f,1.0f}}
-    };
-    float fArr[3] = {
-        0.0f,0.0f,0.0f
-    };
-
-
-    ubo.bind();
-    ubo.advanceArray(2 * 4);
-    glm::mat4 m = glm::translate(glm::mat4(1.0f), { 3.0f,0.0f,-5.0f });
-    ubo.writeArrayContainer<glm::mat4, glm::vec4>(&m, 4);
-
-    ubo.clear();
+   
     
   //  skyBoxShader.activate();
   //  skyBoxShader.set3Float("min", 0.047f, 0.016f, 0.239f);
@@ -255,13 +224,13 @@ int main()
     }
    
     //instantiate the brickwall plane
-    scene.generateInstance(wall.id, glm::vec3(1.0f), 1.0f, glm::vec3(0.0f, 0.0f, -2.f));
+    scene.generateInstance(wall.id, glm::vec3(1.0f), 1.0f, glm::vec3(0.0f, 0.0f, -2.0f));
 
 
     //instanciate instances
     scene.initInstances();
 
-    scene.prepare(box); // для octree 
+    scene.prepare(box, { shader }); // для octree 
 
 
 
@@ -465,7 +434,4 @@ void renderScene(Shader shader) {
     scene.renderInstances(wall.id, shader, deltaTime);
     scene.renderInstances(lamp.id, shader, deltaTime);
 }
-
-
-
 

@@ -14,6 +14,15 @@ D:\C++\Learning\OpenGL\src\graphics\models\box.hpp(108,40): warning C4267: 'argu
 D:\C++\Learning\OpenGL\src\graphics\framememory.hpp(131,34): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   (compiling source file 'src/main.cpp')
   
+D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(182,29): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(304,20): warning C4018: '>=': signed/unsigned mismatch
+  (compiling source file 'src/main.cpp')
+  
+D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(353,22): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'src/main.cpp')
+  
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(68,49): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   (compiling source file 'src/main.cpp')
   
@@ -38,26 +47,6 @@ D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(300,25): warning C4244: 
 D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': signed/unsigned mismatch
   (compiling source file 'src/main.cpp')
   
-D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(182,29): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-  (compiling source file 'src/main.cpp')
-  
-D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(304,20): warning C4018: '>=': signed/unsigned mismatch
-  (compiling source file 'src/main.cpp')
-  
-D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(353,22): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'src/main.cpp')
-  
 D:\C++\Learning\OpenGL\src\main.cpp(63,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(285,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(346,22): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'src/main.cpp')
-      D:\C++\Learning\OpenGL\src\graphics\uniformmemory.hpp(346,22):
-      the template instantiation context (the oldest one first) is
-          D:\C++\Learning\OpenGL\src\main.cpp(142,9):
-          see reference to function template instantiation 'void UBO::UBO::writeArrayContainer<glm::mat4,glm::vec4>(T *,unsigned int)' being compiled
-          with
-          [
-              T=glm::mat4
-          ]
-  
+D:\C++\Learning\OpenGL\src\main.cpp(254,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe

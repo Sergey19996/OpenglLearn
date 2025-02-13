@@ -61,7 +61,7 @@ RigidBody* generateInstance(glm::vec3 size, float mass, glm::vec3 pos);
 	
 	void loadModel(std::string path);
 
-	virtual void render(Shader shader, float DeltaTime,Scene* scene, bool setmodel = true);
+	virtual void render(Shader shader, float DeltaTime,Scene* scene, glm::mat4 model = glm::mat4(1.0f));
 
 
 	void CleanUp();

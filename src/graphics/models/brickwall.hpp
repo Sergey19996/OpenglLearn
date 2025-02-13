@@ -18,7 +18,12 @@ public:
 		}
 		Plane::init(textures);
 	}
+	void render(Shader shader, float deltaTime, Scene* scene, glm::mat4 model = glm::mat4(1.0f)) {
 
+		model = glm::rotate(model, glm::radians(45.0f), { 1.0f,0.0f,0.0f });
+
+		Model::render(shader, deltaTime, scene, model);
+	}
 };
 
 #endif // ! BRICKWALL_H

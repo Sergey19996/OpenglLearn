@@ -42,27 +42,10 @@ PointLight::PointLight(
 
 void PointLight::render(Shader shader, int idx, unsigned int textureIdx)
 {
-	std::string name = "pointLight[" + std::to_string(idx) + "]";
-
-	shader.set3Float(name + ".position", position);
-
-
-	shader.setFloat(name + ".k0", k0);
-	shader.setFloat(name + ".k1", k1);
-	shader.setFloat(name + ".k2", k2);
-
-	//set lights values
-	shader.set4Float(name + ".ambient", ambient);
-	shader.set4Float(name + ".diffuse", diffuse);
-	shader.set4Float(name + ".specular", specular);
-
-	//set near and far planes 
-	shader.setFloat(name + ".nearPlane", nearPlane);
-	shader.setFloat(name + ".farPlane", farPlane);
 	//set depth texture
 	glActiveTexture(GL_TEXTURE0 + textureIdx);  //occupies texture slot 
 	shadowFBO.cubemap.bind(); // bind this texture slot with data
-	shader.setInt(name + ".depthBuffer", textureIdx); // send this data in shader
+	shader.setInt("pointLightBuffers[" + std::to_string(idx) + "]", textureIdx); // send this data in shader
 }
 //updae light space matrices
 void PointLight::updateMatrices() {                                                      //proj = [
@@ -100,21 +83,11 @@ DirLight::DirLight(glm::vec3 direction, glm::vec4 ambient, glm::vec4 diffuse, gl
 void DirLight::render(Shader shader, unsigned int textureIdx)
 {
 
-	std::string name = "dirLight";
-
-	shader.set3Float(name + ".direction", direction);
-
-	shader.set4Float(name + ".ambient", ambient);
-	shader.set4Float(name + ".diffuse", diffuse);
-	shader.set4Float(name + ".specular", specular);
-	shader.setFloat(name + ".farPlane", br.max.z);
 	//set depth texture
 	glActiveTexture(GL_TEXTURE0 + textureIdx);
 	shadowFBO.textures[0].bind();
-	shader.setInt(name + ".depthBuffer", textureIdx);
+	shader.setInt("dirLightBuffer", textureIdx);
 
-	//set light space matrix
-	shader.setMat4(name+ ".lightSpaceMatrix", lightSpaceMatrix);
 
 }
 
@@ -135,24 +108,6 @@ void SpotLight::render(Shader shader, int idx,unsigned int textureIdx)
 {
 
 
-	std::string name = "spotLight[" + std::to_string(idx) + "]";
-
-
-	shader.set3Float(name + ".position", position);
-	shader.set3Float(name + ".direction", direction);
-
-	shader.setFloat(name + ".k0", k0);
-	shader.setFloat(name + ".k1", k1);
-	shader.setFloat(name + ".k2", k2);
-
-
-	shader.setFloat(name + ".cutOff", cutOff);
-	shader.setFloat(name + ".outerCutOff", outerCutOff);
-
-	shader.set4Float(name + ".ambient", ambient);
-	shader.set4Float(name + ".diffuse", diffuse);
-	shader.set4Float(name + ".specular", specular);
-
 	//set depth texture 
 	// Устанавливаем активный текстурный юнит (выбираем, куда привязывать текстуру)
 	glActiveTexture(GL_TEXTURE0 + textureIdx); 
@@ -161,10 +116,8 @@ void SpotLight::render(Shader shader, int idx,unsigned int textureIdx)
 	shadowFBO.textures[0].bind();
 
 	// Передаём индекс текстурного юнита в шейдер
-	shader.setInt(name + ".depthBuffer", textureIdx);
+	shader.setInt("spotLightBuffers[" + std::to_string(idx) + "]", textureIdx);
 
-	//set light space matrix 
-	shader.setMat4(name + ".lightSpaceMatrix", lightSpaceMatrix); // передаём проекцию для вертекс шейдера от света
 }
 
 SpotLight::SpotLight()

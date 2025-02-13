@@ -73,12 +73,12 @@ void Model::initInstances(){
 		meshes[i].VAO.bind();
 
 		//set vertex attrib pointer
-		//positions      // stride 1* sizeof(glm::vec3) так как это отдельный массив   //1 divisor  for reset every instance
+		//positions      // stride 1 * sizeof(glm::vec3) так как это отдельный массив   //1 divisor  for reset every instance
 		posVBO.bind();//                                      diviser 1 
-		posVBO.setAttPointer<glm::vec3>(3, 3, GL_FLOAT, 1, 0, 1);
+		posVBO.setAttPointer<glm::vec3>(4, 3, GL_FLOAT, 1, 0, 1);
 		//Size
 		sizeVBO.bind();
-		sizeVBO.setAttPointer<glm::vec3>(4, 3, GL_FLOAT, 1, 0, 1);
+		sizeVBO.setAttPointer<glm::vec3>(5, 3, GL_FLOAT, 1, 0, 1);
 
 
 		ArrayObject::clear();
@@ -86,11 +86,11 @@ void Model::initInstances(){
 }
 
 
-void Model::render(Shader shader, float deltaTime, Scene* scene, bool  setModel){
-	if (setModel) {
-		shader.setMat4("model", glm::mat4(1.0f));
+void Model::render(Shader shader, float deltaTime, Scene* scene, glm::mat4 model){
+	//set model Matrix
+	shader.setMat4("model", model);
+	shader.setMat3("normalModel", glm::transpose(glm::inverse(glm::mat3(model)))); // подготавливаем матрицу для переводов в мировые координаты
 
-	}
 	if (!States::isActive(&switches, CONST_INSTANCES)) {
 		//update VBO data
 
@@ -121,6 +121,8 @@ void Model::render(Shader shader, float deltaTime, Scene* scene, bool  setModel)
 
 	}
 	shader.setFloat("material.shininess", 0.5f);
+
+	
 	for (unsigned int i = 0, noMeshes = meshes.size(); i < noMeshes; i++) {
 		meshes[i].render(shader, currentNoInstances);
 	}
@@ -166,7 +168,9 @@ unsigned int Model::getIdx(std::string id){
 
 void Model::loadModel(std::string path) {  //Метод загружает 3D-модель из указанного файла.
 	Assimp::Importer import;
-	const aiScene * scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene * scene = import.ReadFile(path, 
+		aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		std::cout <<"Coulde not load file at "<<path <<std::endl << import.GetErrorString() << std::endl;
@@ -249,6 +253,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) { //Метод вертексы ,
 			vertex.texCoord = glm::vec2(0.0f);
 		}
 
+		//tangent vector
+		vertex.tangent = {
+			mesh->mTangents[i].x,
+			mesh->mTangents[i].y,
+			mesh->mTangents[i].z
+		};
+
 		vertices.push_back(vertex);
 	}
 
@@ -309,6 +320,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) { //Метод вертексы ,
 			// 2. specular colors
 			aiColor4D spec(1.0f);
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &spec);
+		
 
 			ret = Mesh(br, diff, spec);
 		}
@@ -319,6 +331,12 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) { //Метод вертексы ,
 			// 2. specular maps
 			std::vector<texture> specularMaps = loadTextures(material, aiTextureType_SPECULAR);
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+			//3. normal maps
+			//.obj, we use aiTextureType_HEIGHT
+			std::vector<texture> normalMaps = loadTextures(material, aiTextureType_NORMALS);
+			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+
+
 
 			ret = Mesh(br, textures);
 		}

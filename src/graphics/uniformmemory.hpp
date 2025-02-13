@@ -28,19 +28,19 @@ namespace UBO {
   };
 
 
-	//Round up val to the next multiple of 2^n
-	unsigned int roundUpPow2(unsigned int val, unsigned char n) {   //округляет значение val до ближайшего большего числа, кратного 2^n
-		unsigned int pow2n = 0b1 << n;  // 1 * 2^n = 2^n   // ob1000.0000
-		unsigned int divisor = pow2n - 1; // 0b0111...111 (n 1s)
+	// round up val to the next multiple of 2^n
+	inline unsigned int roundUpPow2(unsigned int val, unsigned char n) {
+		unsigned int pow2n = 0b1 << n; // = 1 * 2^n = 2^n
+		unsigned int divisor = pow2n - 1; // = 0b0111...111 (n 1s)
 
-		//last nbits = remainder of val /2^n - последний бит равен остатку от деления
+		// last n bits = remainder of val / 2^n
 		// add (2^n - rem) to get to the next multiple of 2^n
-		unsigned int rem = val & divisor; //запишим только совподающие единицы между Val и divisor ( получится остаток от деления val на pow2n )
+		unsigned int rem = val & divisor;
 		if (rem) {
 			val += pow2n - rem;
 		}
-		return val;
 
+		return val;
 	}
 	
 	typedef struct Element {
@@ -132,23 +132,23 @@ namespace UBO {
 
 	} Element;
 
-	Element newScalar() {
+	inline Element newScalar() {
 		return Element();
 	}
 
-	Element newVec(unsigned char dim) {
+	inline Element newVec(unsigned char dim) {
 		switch (dim) // witch vector to assign to it
 		{
-		case 2: return Element(Type::VEC2);
-		case 3: return Element(Type::VEC3);
+		case 2: return Type::VEC2;
+		case 3: return Type::VEC3;
 		case 4:
 		default:
-			return Element(Type::VEC4);
+			return Type::VEC4;
 
 		};
 	}
 
-	Element newArray(unsigned int length, Element arrElement) {
+	inline Element newArray(unsigned int length, Element arrElement) {
 		Element ret(Type::ARRAY);
 		ret.length = length;
 		ret.list = { arrElement };
@@ -159,24 +159,24 @@ namespace UBO {
 		return ret;
 	}
 
-	Element newColMat(unsigned char cols, unsigned char rows) {
+	inline Element newColMat(unsigned char cols, unsigned char rows) {
 		return newArray(cols, newVec(rows));
 	}
 
-	Element newColMatArray(unsigned int noMatrices, unsigned char cols, unsigned char rows) {
+	inline Element newColMatArray(unsigned int noMatrices, unsigned char cols, unsigned char rows) {
 		return newArray(noMatrices * cols, newVec(rows));
 
 	}
 
-	Element newRowMat(unsigned char rows, unsigned char cols) {
+	inline Element newRowMat(unsigned char rows, unsigned char cols) {
 		return newArray(rows, newVec(cols));
 	}
 
-	Element newRowMatArray(unsigned int noMatrices, unsigned char cols, unsigned char rows) {
+	inline Element newRowMatArray(unsigned int noMatrices, unsigned char cols, unsigned char rows) {
 		return newArray(noMatrices * rows, newVec(cols));
 	}
 
-	Element newStruct(std::vector<Element> subElements) {
+	inline 	Element newStruct(std::vector<Element> subElements) {
 		Element ret(Type::STRUCT);
 		ret.list.insert(ret.list.end(), subElements.begin(), subElements.end());
 		ret.length = ret.list.size();
@@ -402,8 +402,11 @@ namespace UBO {
 				//advance to the end of array
 				advanceCount = indexStack[currentDepth].second->length - indexStack[currentDepth].first;
 			}
+			//advance offset
 			offset += advanceCount * roundUpPow2(currentElement->list[0].calcSize(), currentElement->alignPow2());
 
+			//advance cursor in stack
+			 indexStack[currentDepth].first += advanceCount;
 			//pop from stack
 			poppedOffset = offset;
 

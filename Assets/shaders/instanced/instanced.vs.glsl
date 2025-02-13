@@ -1,36 +1,67 @@
 layout (location = 0) in vec3 aPos; 
 layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoord; // сюда придут координаты из масива
-layout(location = 3) in vec3  aOffset;
-layout (location = 4) in vec3 aSize;
+layout (location = 3) in vec3 aTangent; // значени€ дл€ корректной работы нормалей с офсетом и ротейтом
+layout (location = 4) in vec3  aOffset;
+layout (location = 5) in vec3 aSize;
 
 
 
 out VS_OUT{
-	vec3 FragPos;
-	vec3 Normal;
-	vec2 TexCoord;
+vec3 FragPos;
+vec2 TexCoord;
+
+TangentLights tanLights;
 
 } vs_out;
 
 uniform mat4 model;
+uniform mat3 normalModel;
 uniform mat4 view;
 uniform mat4 projection;
 
-layout(std140)uniform Matrices{
-mat4 model2[3];
-};
+uniform vec3 viewPos;
 
 void main(){
+//get position in world space
+vec3 pos = aPos * aSize + aOffset;
 
-vec3 pos = aPos*aSize;  // дл€ инстансеров мы каждый вертекс умножаем на сайз
-pos = pos + aOffset; // добавл€ем оффсет
-vs_out.FragPos = vec3(model* vec4(pos,1.0));   //переводит из локальных (от пивота) в мировые координаты точки  (model =матрицы, Apos - позвертексов
+//apply model transformation
+vs_out.FragPos = vec3(model*vec4(pos,1.0));
 
-vs_out.Normal =mat3(transpose(inverse(model)))*aNormal; //  перевод нормалей из локальных в мировые 
+//set texture coordinate
+vs_out.TexCoord = aTexCoord;
 
-gl_Position = projection * view * model2[2] * vec4(vs_out.FragPos, 1.0); // ”станавливаем положение вершины
-vs_out.TexCoord = aTexCoord; 
+//determine normal vector in tangent space
+vs_out.tanLights.Normal = normalize(normalModel * aNormal);
 
+//calculate tangent space matrix
+vec3 T = normalize(normalModel * aTangent);
+vec3 N = vs_out.tanLights.Normal;
+T = normalize(T - dot(T,N) * N); //re-ortogonize T with respect to N
+vec3 B = cross(N,T); // get  B perpendicular to T and N
+mat3 TBNinv = transpose(mat3(T,B,N)); // ortogonal matrix => transpose = мировых координат в касательное пространство
+
+//transform position to the tangent space
+vs_out.tanLights.FragPos = TBNinv * vs_out.FragPos;
+vs_out.tanLights.ViewPos = TBNinv * viewPos;
+
+//direciton light
+vs_out.tanLights.dirLightDirection = TBNinv * dirLight.direction;
+
+
+// point lights
+for(int i = 0; i < noPointLights; i++){
+	vs_out.tanLights.pointLightPositions[i] = TBNinv * pointLights[i].position;
+};
+
+//spot light
+for(int i = 0 ; i < noSpotLights; i++){
+	vs_out.tanLights.spotLightPositions[i] = TBNinv * spotLights[i].position;
+	vs_out.tanLights.spotLightDirections[i] = TBNinv * spotLights[i].direction;
+};
+
+//set output for fragment shader
+gl_Position = projection * view * vec4(vs_out.FragPos,1.0);
 
 }

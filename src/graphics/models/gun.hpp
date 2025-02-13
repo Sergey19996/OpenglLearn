@@ -50,7 +50,7 @@ public:
 		//scale
 		shader.setMat4("model", model);
 
-		Model::render(shader,deltaTime,scene, false);
+		Model::render(shader,deltaTime,scene, model);
 	}
 
 

@@ -3,7 +3,7 @@
 std::vector<Vertex> Vertex::genList(float* vertices, int noVertices)
 {
     std::vector<Vertex> ret(noVertices);    //Vertex хранит 5 float по 4 байта 
-    int stride = sizeof(Vertex) / sizeof(float);  //sizeof return in bytes not bit 8float and 8 int 
+    int stride = 8;  //sizeof return in bytes not bit 8float and 8 int 
     
     for (int i = 0; i< noVertices; i++)
     {
@@ -28,6 +28,62 @@ std::vector<Vertex> Vertex::genList(float* vertices, int noVertices)
     }
 
     return ret;
+}
+
+void averageVectors(glm::vec3& baseVec, glm::vec3 addition, unsigned char existingContributions) {
+    if (!existingContributions) {
+        baseVec = addition;
+    }
+    else{
+        float f = 1 / ((float)existingContributions + 1);
+        baseVec *= (float)(existingContributions)*f;
+        
+        baseVec += addition * f;
+
+
+
+    }
+
+
+}
+//calculate tangent vectors for each face
+void Vertex::calcTanVectors(std::vector<Vertex>& list, std::vector<unsigned int>& indices){
+    unsigned char* counts = (unsigned char*)malloc(list.size() * sizeof(unsigned char));
+    for (unsigned int i = 0, len = list.size(); i < len; i++) {
+        counts[i] = 0;
+
+    }
+
+    //iterate thorugh indices and calculate vectors for each face
+    for (unsigned int i = 0, len = indices.size(); i < len; i += 3) {
+        // 3 vertices  corresponding to the face
+        Vertex v1 = list[indices[i + 0]];
+        Vertex v2 = list[indices[i + 1]];
+        Vertex v3 = list[indices[i + 2]];
+
+        //calculate edges
+        glm::vec3 edge1 = v2.pos - v1.pos;
+        glm::vec3 edge2 = v3.pos - v1.pos;
+
+        //calculate dUV
+        glm::vec2 deltaUV1 = v2.texCoord - v1.texCoord;
+        glm::vec2 deltaUV2 = v3.texCoord - v1.texCoord;
+
+        //use inverese of the UV matrix to determine tangent
+        float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x); //это коэффициент, который "возвращает" объем к исходному значению. Если без
+
+        glm::vec3 tangent = {
+            f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x),
+            f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y),
+            f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z),
+        };
+
+        //average of new tangent
+        averageVectors(list[indices[i + 0]].tangent, tangent, counts[indices[i + 0]]++);
+        averageVectors(list[indices[i + 1]].tangent, tangent, counts[indices[i + 1]]++);
+        averageVectors(list[indices[i + 2]].tangent, tangent, counts[indices[i + 2]]++);
+
+    }
 }
 
 
@@ -74,11 +130,14 @@ void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _in
     // set the vertex attribute pointers
     VAO["VBO"].bind();
     // vertex Positions
-    VAO["VBO"].setAttPointer<GLfloat>(0, 3, GL_FLOAT, 8, 0);
+    VAO["VBO"].setAttPointer<GLfloat>(0, 3, GL_FLOAT, 11, 0); // 11 - колличество байт между началами двух атрибутов 0,1,2 -vertex; 3,4,5 - normal
     // normal ray
-    VAO["VBO"].setAttPointer<GLfloat>(1, 3, GL_FLOAT, 8, 3);
+    VAO["VBO"].setAttPointer<GLfloat>(1, 3, GL_FLOAT, 11, 3);
     // vertex texture coords
-    VAO["VBO"].setAttPointer<GLfloat>(2, 3, GL_FLOAT, 8, 6);
+    VAO["VBO"].setAttPointer<GLfloat>(2, 3, GL_FLOAT, 11, 6);
+    // tangent vector
+    VAO["VBO"].setAttPointer<GLfloat>(3, 3, GL_FLOAT, 11, 8);
+
 
     VAO["VBO"].clear();
 
