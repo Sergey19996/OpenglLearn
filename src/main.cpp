@@ -17,8 +17,8 @@
 #include <glm/gtc/type_ptr.hpp>  //glm::value_ptr Удобно для передачи данных в OpenGL через glUniform*.
 #include <glm/gtc/matrix_transform.hpp>  // glm::translate, glm::rotate, glm::scale и glm::perspective).
 
-#include "graphics/shader.h"
-#include "graphics/texture.h"
+#include "graphics/rendering/shader.h"
+#include "graphics/rendering/texture.h"
 #include "io/Keyboard.h"
 #include "io/Mouse.h"
 #include "io/Joystick.h"
@@ -29,7 +29,7 @@
 #include "graphics/models/Sphere.hpp"
 #include "graphics/models/box.hpp"
 #include "graphics//light.h"
-#include "graphics/model.h"
+#include "graphics/objects/model.h"
 #include "graphics/models/plane.hpp"
 #include "graphics/framememory.hpp"
 #include "graphics/models/brickwall.hpp"
@@ -105,7 +105,7 @@ int main()
         std::cout << PF.faces[0].collidesWidth(UF.faces[0]) << std::endl;
 
 
-    return 0;
+  
 
     //          version 3.3 opengl
     scene = Scene(3, 3, "Fat Boys", SCR_WIDTH, SCR_HEIGHT);

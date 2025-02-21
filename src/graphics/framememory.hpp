@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#include "texture.h"
+#include "rendering/texture.h"
 #include "cubemap.h"
 
 class RenderbufferObject {

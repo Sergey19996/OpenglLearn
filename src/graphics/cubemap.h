@@ -5,7 +5,7 @@
 #include <stb/stb_image.h>
 #include <string>
 #include <vector>
-#include "shader.h"
+#include "rendering/shader.h"
 #include "vertexmemory.hpp"
 
 class Scene;

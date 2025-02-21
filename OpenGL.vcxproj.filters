@@ -24,9 +24,6 @@
     <ClCompile Include="Linking\lib\stb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\io\Joystick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,18 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\io\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics\material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\light.cpp">
@@ -93,6 +78,21 @@
     <ClCompile Include="src\algorithms\cmathematis\arrays.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\objects\mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\objects\model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\rendering\material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\rendering\shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\rendering\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\shaders\object.fs.glsl" />
@@ -120,9 +120,6 @@
     <None Include="Assets\shaders\test.vs.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\graphics\shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\io\Joystick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -135,19 +132,7 @@
     <ClInclude Include="src\io\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\graphics\models\cube.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics\material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\models\lamp.hpp">
@@ -223,6 +208,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\algorithms\cmathematis\arrays.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\objects\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\objects\model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\rendering\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\rendering\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\rendering\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

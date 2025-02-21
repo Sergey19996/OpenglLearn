@@ -11,8 +11,8 @@
 
 
 #include "graphics/light.h"
-#include "graphics/shader.h"
-#include "graphics/model.h"
+#include "graphics/rendering/shader.h"
+#include "graphics/objects/model.h"
 #include "graphics/models/box.hpp"
 #include "graphics/text.h"
 #include "graphics/framememory.hpp"

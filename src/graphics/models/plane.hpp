@@ -1,7 +1,7 @@
 #ifndef PLANE_HPP
 #define PLANE_HPP
 
-#include "../model.h"
+#include "../objects/model.h"
 
 class Plane : public Model {
 public:
@@ -18,21 +18,24 @@ public:
 		   -0.5f,0.5f,0.0f,		0.0f,0.0f,1.0f,		0.0f,1.0f // top left
 
 		};
-		std::vector<unsigned int> indices = {
+		float collisionVertices[] = {
+			//poition		
+			0.5f,0.5f,0.0f,
+			0.5f,-0.5f,0.0f,
+		  -0.5f,-0.5f,0.0f,
+		   -0.5f,0.5f,0.0f
+		};
+		unsigned int indices[] = {
 			0 , 1 ,2 ,
 			2,  3, 0
 		};
 
 		BoundingRegion br(glm::vec3(-0.5f, -0.5f, 0.0f), (0.5f, 0.5f, 0.0f));  // min max
 
-		std::vector<Vertex> vertexList = Vertex::genList(quadVertices, noVertices);
-		Vertex::calcTanVectors(vertexList, indices);
+		Mesh ret = processMesh(br, noVertices, quadVertices, 6, indices, true,noVertices,collisionVertices,2,indices);
 
-		Mesh ret(br,tex);
-		ret.loadData(vertexList, indices, true);
-
-		meshes.push_back(ret);
-		boundingRegions.push_back(br);
+		ret.setupTextures(tex);
+		addMesh(&ret);
 	}
 	
 

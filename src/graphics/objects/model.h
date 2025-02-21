@@ -13,11 +13,12 @@
 #include <vector>
 
 #include "mesh.h"
-#include "models/box.hpp"
-#include "../physics/rigidbody.h"
-#include "../algorithms/bounds.h"
-#include "../algorithms/States.hpp"
-#include "../scene.h"
+#include "../models/box.hpp"
+#include "../../physics/collisionmodel.h"
+#include "../../physics/rigidbody.h"
+#include "../../algorithms/bounds.h"
+#include "../../algorithms/States.hpp"
+#include "../../scene.h"
 
 //model switches
 #define DYNAMIC			 (unsigned int) 1 // 01 
@@ -28,19 +29,31 @@ class Scene; //forward declaration
 
 class Model {
 public:
+
+	// id of model in scene
 	std::string id;
 
 	RigidBody rb;
 	glm::vec3 size;
 
+	//type of bounding region for all meshes
 	BoundTypes boundType;
 
+	// list of meshes 
 	std::vector<Mesh> meshes;
+
+
+	//pointer to the collision model
+	CollisionModel* collision;
+
+	//list of bounding region (1 for each mesh)
 	std::vector<BoundingRegion> boundingRegions;
+
+	//list of instances
 	std::vector<RigidBody*> instances;
 
 
-	
+	//maximum number of indices
 	unsigned int maxNoInstances;
 	unsigned int currentNoInstances;
 
@@ -58,9 +71,16 @@ RigidBody* generateInstance(glm::vec3 size, float mass, glm::vec3 pos);
 	void initInstances();
 
 
-	
+	//load model from path
 	void loadModel(std::string path);
 
+	//enable a collision model
+	void enableCollisionModel();
+
+	//add a mesh to the list
+	void addMesh(Mesh* mesh);
+
+	//render instance(s)
 	virtual void render(Shader shader, float DeltaTime,Scene* scene, glm::mat4 model = glm::mat4(1.0f));
 
 
@@ -78,10 +98,23 @@ protected:
 
 	std::string directory;
 
+	//list of loaded textures
 	std::vector<texture> textures_load;
 
+	//process node in object file
 	void processNode(aiNode* node, const aiScene* scene);
+
+	//process mesh in object file
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+
+	//process of custom mesh
+	Mesh processMesh(BoundingRegion br, unsigned int noVertices, float* vertices,
+		unsigned int noIndices, unsigned int* indices,
+		bool calcTanVectors = true,
+		unsigned int noCollisionPoints = 0, float* collisionPoints = NULL,
+		unsigned int noCollisionFaces = 0, unsigned int* CollisionIndices = NULL,
+		bool pad = false);
+
 	std::vector<texture> loadTextures(aiMaterial* mat, aiTextureType type);
 
 

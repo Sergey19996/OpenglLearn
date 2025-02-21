@@ -1,6 +1,6 @@
 #ifndef GUN
 #define GUN
-#include "../model.h"
+#include "../objects/model.h"
 #include "../../io/Camera.h"
 #include "../../scene.h"
 class Gun :public Model {

@@ -1,11 +1,11 @@
 #include "mesh.h"
 
-std::vector<Vertex> Vertex::genList(float* vertices, int noVertices)
+std::vector<Vertex> Vertex::genList(float* vertices, int noVertices)  
 {
     std::vector<Vertex> ret(noVertices);    //Vertex хранит 5 float по 4 байта 
     int stride = 8;  //sizeof return in bytes not bit 8float and 8 int 
     
-    for (int i = 0; i< noVertices; i++)
+    for (int i = 0; i < noVertices; i++)
     {
         ret[i].pos = glm::vec3(
             vertices[i * stride + 0],
@@ -89,15 +89,27 @@ void Vertex::calcTanVectors(std::vector<Vertex>& list, std::vector<unsigned int>
 
 
 // default constructor
-Mesh::Mesh() {}
+Mesh::Mesh() : collision(NULL)
+{}
+
+Mesh::Mesh(BoundingRegion br) : br(br), collision(NULL){}
 
 // initialize as textured object
 Mesh::Mesh(BoundingRegion br, std::vector<texture> textures)
-    : br(br), textures(textures), noTex(false) {}
+    : Mesh(br) {
+    setupTextures(textures);
+}
 
 // initialize as material object
 Mesh::Mesh(BoundingRegion br, aiColor4D diff, aiColor4D spec)
-    : br(br),diffuse(diff), specular(spec), noTex(true) {}
+    :Mesh(br) {
+    setupColors(diff, spec);
+}
+
+Mesh::Mesh(BoundingRegion br, Material m) : Mesh(br){
+    setupMaterial(m);
+
+}
 
 // load vertex and index data
 void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _indices, bool pad) {
@@ -142,6 +154,29 @@ void Mesh::loadData(std::vector<Vertex> _vertices, std::vector<unsigned int> _in
     VAO["VBO"].clear();
 
     ArrayObject::clear();
+}
+
+void Mesh::loadCollisionMesh(unsigned int noPoints, float* coordinates, unsigned int noFaces, unsigned int* indices){
+    this->collision = new CollisionMesh(noPoints, coordinates, noFaces, indices);
+    this->br = this->collision->br;
+}
+
+void Mesh::setupTextures(std::vector<texture> textures){
+    this->noTex = false;
+    //                       внедряем в конец     с начала            по конец 
+    this->textures.insert(this->textures.end(), textures.begin(), textures.end());
+}
+
+void Mesh::setupColors(aiColor4D diff, aiColor4D spec){
+    this->noTex = true;
+    this->diffuse = diff;
+    this->specular = spec;
+}
+
+void Mesh::setupMaterial(Material mat){
+    this->noTex = true;
+    this->diffuse = { mat.diffuse.r, mat.diffuse.g, mat.diffuse.b, 1.0f };
+    this->specular = { mat.specular.r, mat.specular.g, mat.specular.b, 1.0f };
 }
 
 void Mesh::render(Shader shader,unsigned int noInstances)

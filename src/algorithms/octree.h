@@ -11,7 +11,7 @@
 #include "States.hpp"
 #include "bounds.h"
 #include "Trie.hpp"
-#include "../graphics/model.h"
+#include "../graphics/objects/model.h"
 
 
 

@@ -1,8 +1,8 @@
 #ifndef CUBE_HPP
 #define CUBE_HPP
 
-#include "../model.h"
-#include "../material.h"
+#include "../objects/model.h"
+#include "../rendering/material.h"
 
 class Cube : public  Model {
 
@@ -61,31 +61,47 @@ public:
             -0.5f,  0.5f, -0.5f,     0.0f,  1.0f,  0.0f,    0.0f, 1.0f
         };
 
-        std::vector<unsigned int> indices(noVertices);
-        for (unsigned int i = 0; i < noVertices; i++)
-        {
-            indices[i] = i;
-        }
+        float collisionVertices[] = {
+            -0.5f, -0.5f, -0.5f,    // 0
+            -0.5f, -0.5f,  0.5f,     // 001
+            -0.5f,  0.5f, -0.5f,     // 010
+            -0.5f,  0.5f,  0.5f,     //011
+             0.5f, -0.5f, -0.5f,     //100
+             0.5f, -0.5f,  0.5f,     //101
+             0.5f,  0.5f, -0.5f,     //110
+             0.5f,  0.5f,  0.5f,     //111
 
-       
-       /* texture tex1("Assets/Skull.png", "material.diffuse");
-        tex1.load();
-        texture tex1Spec("Assets/Skull_Specular.png", "material.specular");
-        tex1Spec.load();*/
+        };
+        unsigned int collisionIndices[] = {
+            0, 4, 6,
+            6, 2, 0,
+
+            1, 5, 7,
+            7, 3, 1,
+
+            3, 2, 0,
+            0, 1, 3,
+
+            7, 6, 4,
+            4, 5, 7,
+
+            0, 4, 5,
+            5, 1, 0,
+
+            2, 6, 7,
+            7, 3, 2
+                
+
+        };
 
         BoundingRegion br(glm::vec3(-0.5f), glm::vec3(0.5f));
         
-        aiColor4D diff(material.diffuse.r, material.diffuse.g, material.diffuse.b, 1.0f);
-        aiColor4D spec(material.specular.r, material.diffuse.g, material.specular.b, 1.0f);
 
+        Mesh ret = processMesh(br, noVertices, vertices, noVertices, NULL, true, 8, collisionVertices, 12, collisionIndices);
+        ret.setupMaterial(material);
 
-        std::vector<Vertex> vertexList = Vertex::genList(vertices, noVertices);
-        Vertex::calcTanVectors(vertexList, indices);
+        addMesh(&ret);
 
-        Mesh ret(br,diff,spec);
-        ret.loadData(vertexList, indices);
-        meshes.push_back(ret);
-        boundingRegions.push_back(br);
 	}
 };
 

@@ -13,7 +13,7 @@
 #include <map>
 
 #include "vertexmemory.hpp"
-#include "shader.h"
+#include "rendering/shader.h"
 
 typedef struct {
     unsigned int TextureID;  // ID handle of the glyph texture

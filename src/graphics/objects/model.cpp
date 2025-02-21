@@ -1,16 +1,14 @@
 #include "model.h"
-#include "../physics/environment.h"
+#include "../../physics/environment.h"
 
-
+#include "../../scene.h"
 Model::Model()
 {
 }
 
 Model::Model(std::string id, BoundTypes boundType, unsigned int maxNoInstances, unsigned int flags) :
-	id(id),boundType(boundType),switches(flags),currentNoInstances(0), maxNoInstances(maxNoInstances)
-{
-
-}
+	id(id),boundType(boundType),switches(flags),currentNoInstances(0), maxNoInstances(maxNoInstances),
+	collision(nullptr) {}
 
 void Model::init()
 {
@@ -85,6 +83,11 @@ void Model::initInstances(){
 	}
 }
 
+//add a mesh to the list
+void Model::addMesh(Mesh* mesh){
+	meshes.push_back(*mesh);
+	boundingRegions.push_back(mesh->br);
+}
 
 void Model::render(Shader shader, float deltaTime, Scene* scene, glm::mat4 model){
 	//set model Matrix
@@ -180,21 +183,29 @@ void Model::loadModel(std::string path) {  //Метод загружает 3D-модель из указан
 	processNode(scene->mRootNode, scene); //Обрабатывается корневой узел сцены
 }
 
+//enable a collision model
+void Model::enableCollisionModel(){
+	if (!this->collision) {
+		this->collision = new CollisionModel(this);
+	}
+
+}
+
 void Model::processNode(aiNode* node, const aiScene* scene) //Метод обрабатывает текущий узел и его дочерние узлы.
-{//process all meshes
+{	//process all meshes
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		Mesh newMesh = processMesh(mesh, scene);
-		meshes.push_back(newMesh);
-		boundingRegions.push_back(newMesh.br);
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];  // получает указатель на меш из сцены
+		Mesh newMesh = processMesh(mesh, scene); // вызывет метод, который создаёт объект mesh на основе данных меша
+		addMesh(&newMesh);  // добавит в контейнер meshes и добавит в контейнер bounding region
+		
 	}
 
 	//process all child nodes
 
-	for (unsigned int i = 0; i < node->mNumChildren; i++)
-	{
-		processNode(node->mChildren[i], scene);
+	for (unsigned int i = 0; i < node->mNumChildren; i++)  // проверка и пробежка по детям ноды
+	{ 
+		processNode(node->mChildren[i], scene);  // если такие есть вызываем эту же функцию, только уже для ребенка 
 	}
 
 }
@@ -343,6 +354,54 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) { //Метод вертексы ,
 	}
 
 	ret.loadData(vertices, indices);
+	return ret;
+}
+//process of custom mesh
+Mesh Model::processMesh(BoundingRegion br,
+	unsigned int noVertices, float* vertices,
+	unsigned int noIndices, unsigned int* indices,
+	bool calcTanVectors,
+	unsigned int noCollisionPoints, float* collisionPoints,
+	unsigned int noCollisionFaces, unsigned int* CollisionIndices,
+	bool pad){
+	//process vertex array
+	std::vector<Vertex> vertexList = Vertex::genList(vertices, noVertices);
+
+
+	//create index list
+	std::vector<unsigned int> indexList(noIndices);
+	if (indices) {
+		//copy array
+
+		//      куда копируем    откуда     и какой размер  ( например 23 элемента * на 32 bite)
+		memcpy(indexList.data(), indices, noIndices * sizeof(unsigned int));
+
+	}
+	else{
+		//insert sequential indices
+		for (unsigned int i = 0; i < noIndices; i++) {
+			indexList[i] = i;	
+
+		}
+
+	}
+	//calculate the lighting values
+	if (calcTanVectors) {
+		Vertex::calcTanVectors(vertexList, indexList);
+		
+	}
+
+	//ssetup return mesh
+	Mesh ret(br);
+	ret.loadData(vertexList, indexList, pad);
+
+	//allocate collision mesh if specified
+	if (noCollisionPoints) {
+		enableCollisionModel();
+		ret.loadCollisionMesh(noCollisionPoints,collisionPoints,noCollisionFaces,CollisionIndices);
+	}
+
+
 	return ret;
 }
 

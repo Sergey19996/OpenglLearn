@@ -6,11 +6,17 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-#include "shader.h"
-#include "texture.h"
-#include "models/box.hpp"
-#include "../algorithms/bounds.h"
-#include "vertexmemory.hpp"
+#include "../rendering/material.h"
+#include "../rendering/texture.h"
+#include "../rendering/material.h"
+
+#include "../models/box.hpp"
+#include "../vertexmemory.hpp"
+
+#include "../../algorithms/bounds.h"
+#include "../../physics/collisionmesh.h"
+
+
 struct Vertex
 {
 	glm::vec3 pos;
@@ -32,7 +38,8 @@ typedef struct Vertex Vertex;
 class Mesh {
 public:
 	BoundingRegion br;
-
+	// pointer to the attached collision mesh
+	CollisionMesh* collision; 
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -45,16 +52,35 @@ public:
 	// default constructor 
 	Mesh();
 
+	//initialize with a bounding region
+	Mesh(BoundingRegion br);
+
 	// initialize as textured object
-	Mesh(BoundingRegion br, std::vector<texture> textures = {});
+	Mesh(BoundingRegion br, std::vector<texture> textures);
 
 	// initialize as material object
 	Mesh(BoundingRegion br, aiColor4D diff, aiColor4D spec);
 
+	//initialize with a material
+	Mesh(BoundingRegion br, Material m);
+
 	// load vertex and index data
 	void loadData(std::vector<Vertex> vertices, std::vector<unsigned int> indices, bool pad =false);
 
-	
+	//setup collision mesh
+	void loadCollisionMesh(unsigned int noPoints, float* coordinates, unsigned int noFaces, unsigned int* indices);
+
+	//setup tetures
+	void setupTextures(std::vector<texture> textures);
+
+	//setup material colors
+	void setupColors(aiColor4D diff, aiColor4D spec);
+
+	//set material structures
+	void setupMaterial(Material mat);
+
+
+	//render number of instances using shader
 	void render(Shader shader, unsigned int noInstances);
 
 	void cleanup();

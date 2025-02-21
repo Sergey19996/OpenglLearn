@@ -2,7 +2,7 @@
 #define LIGHT_H
 
 #include <glm/glm.hpp>
-#include "shader.h"
+#include "rendering/shader.h"
 #include "../algorithms/bounds.h"
 #include "framememory.hpp"
 struct  PointLight{

@@ -10,7 +10,7 @@
 
 
 #include "../../algorithms/bounds.h"
-#include "../shader.h"
+#include "../rendering/shader.h"
 #define UPPER_BOUND 100
 
 class Box {

@@ -44,11 +44,6 @@ D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(259,34): warning C4267: 
 D:\C++\Learning\OpenGL\Linking\include\jsoncpp\json.hpp(300,25): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
   (compiling source file 'src/main.cpp')
   
-D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': signed/unsigned mismatch
-  (compiling source file 'src/main.cpp')
-  
 D:\C++\Learning\OpenGL\src\main.cpp(63,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 D:\C++\Learning\OpenGL\src\main.cpp(282,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  collisionmesh.cpp
-  Generating Code...
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe
