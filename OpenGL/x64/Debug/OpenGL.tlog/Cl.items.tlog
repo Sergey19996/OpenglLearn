@@ -1,3 +1,7 @@
+D:\C++\Learning\OpenGL\src\algorithms\cmathematis\arrays.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\arrays.obj
+D:\C++\Learning\OpenGL\src\algorithms\cmathematis\cmathematics.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\cmathematics.obj
+D:\C++\Learning\OpenGL\src\algorithms\cmathematis\matrix.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\matrix.obj
+D:\C++\Learning\OpenGL\src\algorithms\cmathematis\vec.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\vec.obj
 D:\C++\Learning\OpenGL\src\graphics\cubemap.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\cubemap.obj
 D:\C++\Learning\OpenGL\src\algorithms\octree.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\octree.obj
 D:\C++\Learning\OpenGL\src\algorithms\bounds.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\bounds.obj
@@ -14,6 +18,8 @@ D:\C++\Learning\OpenGL\src\graphics\shader.cpp;D:\C++\Learning\OpenGL\OpenGL\x64
 D:\C++\Learning\OpenGL\src\glad.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\glad.obj
 D:\C++\Learning\OpenGL\src\main.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\main.obj
 D:\C++\Learning\OpenGL\src\graphics\texture.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\texture.obj
+D:\C++\Learning\OpenGL\src\physics\collisionmesh.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\collisionmesh.obj
+D:\C++\Learning\OpenGL\src\physics\collisionmodel.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\collisionmodel.obj
 D:\C++\Learning\OpenGL\src\physics\environment.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\environment.obj
 D:\C++\Learning\OpenGL\src\physics\rigidbody.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\rigidbody.obj
 D:\C++\Learning\OpenGL\src\scene.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\scene.obj

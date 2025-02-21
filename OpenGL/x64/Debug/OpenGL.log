@@ -48,5 +48,7 @@ D:\C++\Learning\OpenGL\src\graphics\models\cube.hpp(65,36): warning C4018: '<': 
   (compiling source file 'src/main.cpp')
   
 D:\C++\Learning\OpenGL\src\main.cpp(63,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\C++\Learning\OpenGL\src\main.cpp(254,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\C++\Learning\OpenGL\src\main.cpp(282,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  collisionmesh.cpp
+  Generating Code...
   OpenGL.vcxproj -> D:\C++\Learning\OpenGL\x64\Debug\OpenGL.exe

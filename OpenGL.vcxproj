@@ -151,6 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\algorithms\cmathematis\arrays.c" />
+    <ClCompile Include="src\algorithms\cmathematis\cmathematics.c" />
+    <ClCompile Include="src\algorithms\cmathematis\matrix.c" />
+    <ClCompile Include="src\algorithms\cmathematis\vec.c" />
     <ClCompile Include="src\graphics\cubemap.cpp" />
     <ClCompile Include="src\algorithms\octree.cpp" />
     <ClCompile Include="src\algorithms\bounds.cpp" />
@@ -167,6 +171,8 @@
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\graphics\texture.cpp" />
+    <ClCompile Include="src\physics\collisionmesh.cpp" />
+    <ClCompile Include="src\physics\collisionmodel.cpp" />
     <ClCompile Include="src\physics\environment.cpp" />
     <ClCompile Include="src\physics\rigidbody.cpp" />
     <ClCompile Include="src\scene.cpp" />
@@ -198,6 +204,10 @@
     <None Include="src\algorithms\list.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\algorithms\cmathematis\arrays.h" />
+    <ClInclude Include="src\algorithms\cmathematis\cmathematics.h" />
+    <ClInclude Include="src\algorithms\cmathematis\matrix.h" />
+    <ClInclude Include="src\algorithms\cmathematis\vec.h" />
     <ClInclude Include="src\graphics\cubemap.h" />
     <ClInclude Include="src\algorithms\octree.h" />
     <ClInclude Include="src\algorithms\bounds.h" />
@@ -223,6 +233,8 @@
     <ClInclude Include="src\io\Mouse.h" />
     <ClInclude Include="src\graphics\shader.h" />
     <ClInclude Include="src\graphics\texture.h" />
+    <ClInclude Include="src\physics\collisionmesh.h" />
+    <ClInclude Include="src\physics\collisionmodel.h" />
     <ClInclude Include="src\physics\environment.h" />
     <ClInclude Include="src\physics\rigidbody.h" />
     <ClInclude Include="src\scene.h" />
