@@ -66,7 +66,7 @@ public:
 	//initialize method
 	virtual void init();
 
-RigidBody* generateInstance(glm::vec3 size, float mass, glm::vec3 pos);
+	RigidBody* generateInstance(glm::vec3 size, float mass, glm::vec3 pos, glm::vec3 rot);
 
 	void initInstances();
 
@@ -81,7 +81,7 @@ RigidBody* generateInstance(glm::vec3 size, float mass, glm::vec3 pos);
 	void addMesh(Mesh* mesh);
 
 	//render instance(s)
-	virtual void render(Shader shader, float DeltaTime,Scene* scene, glm::mat4 model = glm::mat4(1.0f));
+	virtual void render(Shader shader, float DeltaTime,Scene* scene);
 
 
 	void CleanUp();
@@ -118,9 +118,9 @@ protected:
 	std::vector<texture> loadTextures(aiMaterial* mat, aiTextureType type);
 
 
-	//VBOs for positions and sizes
-	BufferObject posVBO;
-	BufferObject sizeVBO;
+	//VBOs for model matrices
+	BufferObject modelVBO;
+	BufferObject normalModelVBO;
 
 };
 

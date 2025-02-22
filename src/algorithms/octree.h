@@ -72,6 +72,11 @@ namespace Octree{
 
 		void addToPending(RigidBody* instance, trie::Trie<Model*> models);
 
+		// add instance to pending queue
+		void addToPending(RigidBody* instance, Model* model);
+
+
+
 		//build tree (called during initialization)
 		void build();
 

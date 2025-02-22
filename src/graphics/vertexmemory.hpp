@@ -20,7 +20,7 @@ public:
 	}
 	//generate object
 	void generate() {
-		glGenBuffers(1, &val);
+		glGenBuffers(1, &val); //генерация одного объекта 
 	}
 
 	//bind object

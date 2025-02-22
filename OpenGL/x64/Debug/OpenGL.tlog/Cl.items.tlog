@@ -1,7 +1,5 @@
-D:\C++\Learning\OpenGL\src\algorithms\cmathematis\arrays.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\arrays.obj
-D:\C++\Learning\OpenGL\src\algorithms\cmathematis\cmathematics.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\cmathematics.obj
-D:\C++\Learning\OpenGL\src\algorithms\cmathematis\matrix.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\matrix.obj
-D:\C++\Learning\OpenGL\src\algorithms\cmathematis\vec.c;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\vec.obj
+D:\C++\Learning\OpenGL\src\algorithms\avl.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\avl.obj
+D:\C++\Learning\OpenGL\src\algorithms\cmathematis\linalg.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\linalg.obj
 D:\C++\Learning\OpenGL\src\graphics\cubemap.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\cubemap.obj
 D:\C++\Learning\OpenGL\src\algorithms\octree.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\octree.obj
 D:\C++\Learning\OpenGL\src\algorithms\bounds.cpp;D:\C++\Learning\OpenGL\OpenGL\x64\Debug\bounds.obj

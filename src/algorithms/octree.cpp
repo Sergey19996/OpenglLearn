@@ -94,6 +94,15 @@ void Octree::node::addToPending(RigidBody* instance, trie::Trie<Model*> models){
 
 }
 
+void Octree::node::addToPending(RigidBody* instance, Model* model){
+    // get all bounding regions of model and put them in queue
+    for (BoundingRegion br : model->boundingRegions) {
+        br.instance = instance;
+        br.transform();
+        queue.push(br);
+    }
+}
+
 void Octree::node::build()
 { 
     //variables declarations

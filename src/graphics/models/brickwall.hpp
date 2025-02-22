@@ -22,7 +22,7 @@ public:
 
 		model = glm::rotate(model, glm::radians(45.0f), { 1.0f,0.0f,0.0f });
 
-		Model::render(shader, deltaTime, scene, model);
+		Model::render(shader, deltaTime, scene);
 	}
 };
 

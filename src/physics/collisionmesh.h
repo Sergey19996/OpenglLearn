@@ -4,7 +4,7 @@
 
 
 #include "../algorithms/bounds.h"
-#include "../algorithms/cmathematis/vec.h"
+#include "../algorithms/cmathematis/linalg.h"
 
 //forward declarations
 class CollisionModel;
@@ -15,8 +15,8 @@ typedef struct Face {
 	unsigned int i1, i2, i3;
 
 
-	vec baseNormal;
-	vec norm;
+	glm::vec3 baseNormal;
+	glm::vec3 norm;
 
 
 	bool collidesWidth(struct Face& face);
@@ -30,7 +30,7 @@ public:
 	CollisionModel* model;
 	BoundingRegion br;
 
-	std::vector<vec> points;
+	std::vector<glm::vec3> points;
 	std::vector<Face> faces;
 
 

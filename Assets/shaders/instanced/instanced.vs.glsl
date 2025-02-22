@@ -2,9 +2,8 @@ layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoord; // сюда придут координаты из масива
 layout (location = 3) in vec3 aTangent; // значения для корректной работы нормалей с офсетом и ротейтом
-layout (location = 4) in vec3  aOffset;
-layout (location = 5) in vec3 aSize;
-
+layout (location = 4) in mat4 model;
+layout (location = 8) in mat3 normalModel;
 
 
 out VS_OUT{
@@ -15,30 +14,27 @@ TangentLights tanLights;
 
 } vs_out;
 
-uniform mat4 model;
-uniform mat3 normalModel;
+
 uniform mat4 view;
 uniform mat4 projection;
 
 uniform vec3 viewPos;
 
 void main(){
-//get position in world space
-vec3 pos = aPos * aSize + aOffset;
 
+//get position in world space
 //apply model transformation
-vs_out.FragPos = vec3(model*vec4(pos,1.0));
+vs_out.FragPos = vec3(model * vec4(aPos,1.0));
 
 //set texture coordinate
 vs_out.TexCoord = aTexCoord;
 
 //determine normal vector in tangent space
 vs_out.tanLights.Normal = normalize(normalModel * aNormal);
-
 //calculate tangent space matrix
 vec3 T = normalize(normalModel * aTangent);
 vec3 N = vs_out.tanLights.Normal;
-T = normalize(T - dot(T,N) * N); //re-ortogonize T with respect to N
+T = normalize(T - dot(T,N) * N); //re-ortogonize T with respect to N   получаем проекцию T на нормаль dot(T,N) * N
 vec3 B = cross(N,T); // get  B perpendicular to T and N
 mat3 TBNinv = transpose(mat3(T,B,N)); // ortogonal matrix => transpose = мировых координат в касательное пространство
 

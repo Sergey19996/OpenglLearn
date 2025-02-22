@@ -15,53 +15,53 @@ void Model::init()
 	
 }
 
-RigidBody* Model::generateInstance(glm::vec3 size, float mass, glm::vec3 pos)
+RigidBody* Model::generateInstance(glm::vec3 size, float mass, glm::vec3 pos, glm::vec3 rotation)
 {
 	if (currentNoInstances >= maxNoInstances) {
 		//all slots filled
 		return nullptr;
 
 	}
-	instances.push_back(new RigidBody(id, size, mass, pos));
+	instances.push_back(new RigidBody(id, size, mass, pos, rotation));
 	return instances[currentNoInstances++];  // мы возвращаем значенеие только потом возвращение увеличится
 	return 0;
 }
 
 void Model::initInstances(){
-	glm::vec3* posData = nullptr;
-	glm::vec3* sizeData = nullptr;
+	//default values
 	GLenum usage = GL_DYNAMIC_DRAW;
+	glm::mat4* modelData = nullptr;
+	glm::mat3* normalModelData = nullptr;
 
 
-	std::vector<glm::vec3>positions, sizes;
+	std::vector<glm::mat4> models(currentNoInstances);
+	std::vector<glm::mat3> normalModels(currentNoInstances);
 
 	if (States::isActive(&switches, CONST_INSTANCES)) {
 		//set data pointers
 		for (unsigned int i = 0; i < currentNoInstances; i++) {
-			positions.push_back(instances[i]->pos);
-			sizes.push_back(instances[i]->size);
+			models[i] = instances[i]->model; // we take matrix from instances (scale, translate,rotate) assign it
+			normalModels[i] = instances[i]->normalModel;  // for normal model we don't need translate it does not have influence on normals
 
 		}
-		if (positions.size() > 0) {
-			posData = &positions[0];
-			sizeData = &sizes[0];
+		if (currentNoInstances) {
+			modelData = &models[0]; // указателю матриц указываем на первый элемент массива
+			normalModelData = &normalModels[0]; //
 		}
 
 		usage = GL_STATIC_DRAW;
 	}
-	//generate posiitons VBO
-	posVBO = BufferObject(GL_ARRAY_BUFFER);
-	posVBO.generate();
-	posVBO.bind();
-	posVBO.setData<glm::vec3>(UPPER_BOUND, posData, GL_DYNAMIC_DRAW);
+	
+	//generate matrix Vertex buffer object
+	modelVBO = BufferObject(GL_ARRAY_BUFFER);
+	modelVBO.generate();
+	modelVBO.bind();
+	modelVBO.setData<glm::mat4>(UPPER_BOUND, modelData, usage);  // UPPER BOUND - 100 в box.hpp
 
-
-	//generate zise VBO
-
-	sizeVBO = BufferObject(GL_ARRAY_BUFFER);
-	sizeVBO.generate();
-	sizeVBO.bind();
-	sizeVBO.setData<glm::vec3>(UPPER_BOUND, sizeData, GL_DYNAMIC_DRAW);
+	normalModelVBO = BufferObject(GL_ARRAY_BUFFER);
+	normalModelVBO.generate();
+	normalModelVBO.bind();
+	normalModelVBO.setData<glm::mat3>(UPPER_BOUND, normalModelData, usage);
 
 	//set attribute pointes for each mesh
 	for (unsigned int i = 0, size = meshes.size(); i < size; i++)
@@ -71,12 +71,21 @@ void Model::initInstances(){
 		meshes[i].VAO.bind();
 
 		//set vertex attrib pointer
+		modelVBO.bind();
+		modelVBO.setAttPointer<glm::vec4>(4, 4, GL_FLOAT, 4, 0, 1);
+		modelVBO.setAttPointer<glm::vec4>(5, 4, GL_FLOAT, 4, 1, 1);
+		modelVBO.setAttPointer<glm::vec4>(6, 4, GL_FLOAT, 4, 2, 1);
+		modelVBO.setAttPointer<glm::vec4>(7, 4, GL_FLOAT, 4, 3, 1);
+
+
+		normalModelVBO.bind();
+		normalModelVBO.setAttPointer<glm::vec3>(8, 3, GL_FLOAT, 3, 0, 1);
+		normalModelVBO.setAttPointer<glm::vec3>(9, 3, GL_FLOAT, 3, 1, 1);
+		normalModelVBO.setAttPointer<glm::vec3>(10, 3, GL_FLOAT, 3, 2, 1);
+		
+
 		//positions      // stride 1 * sizeof(glm::vec3) так как это отдельный массив   //1 divisor  for reset every instance
-		posVBO.bind();//                                      diviser 1 
-		posVBO.setAttPointer<glm::vec3>(4, 3, GL_FLOAT, 1, 0, 1);
-		//Size
-		sizeVBO.bind();
-		sizeVBO.setAttPointer<glm::vec3>(5, 3, GL_FLOAT, 1, 0, 1);
+		
 
 
 		ArrayObject::clear();
@@ -89,38 +98,46 @@ void Model::addMesh(Mesh* mesh){
 	boundingRegions.push_back(mesh->br);
 }
 
-void Model::render(Shader shader, float deltaTime, Scene* scene, glm::mat4 model){
-	//set model Matrix
-	shader.setMat4("model", model);
-	shader.setMat3("normalModel", glm::transpose(glm::inverse(glm::mat3(model)))); // подготавливаем матрицу для переводов в мировые координаты
-
+void Model::render(Shader shader, float deltaTime, Scene* scene){
+	
 	if (!States::isActive(&switches, CONST_INSTANCES)) {
-		//update VBO data
+		// dynamic instances - update VBO data
 
-		std::vector<glm::vec3> positions, sizes;
+		//create list of each
+		std::vector<glm::mat4> models(currentNoInstances);
+		std::vector<glm::mat3> normalModels(currentNoInstances);
+
+		//determine if instances are moving
 		bool doUpdate = States::isActive(&switches, DYNAMIC);
+
+		//iterate through each instance
 		for (int i = 0; i < currentNoInstances; i++) {
 			if (doUpdate) {
 				//update Rigid Body
 				instances[i]->update(deltaTime);
+				//activate moved witch
 				States::activate(&instances[i]->state, INSTANCE_MOVED);
 
 			}
 			else
 			{
+				//deactivate movedswitch
 				States::deactivate(&instances[i]->state, INSTANCE_MOVED);
 
 			}
-			positions.push_back(instances[i]->pos);
-			sizes.push_back(instances[i]->size);
+			//add update matrices position and sizes
+			models[i] = instances[i]->model;
+			normalModels[i] = instances[i]->normalModel;
 
 		}
 
-		posVBO.bind();
-		posVBO.updateData<glm::vec3>(0, currentNoInstances, &positions[0]);
-
-		sizeVBO.bind();
-		sizeVBO.updateData<glm::vec3>(0, currentNoInstances, &sizes[0]);
+		if (currentNoInstances) {
+			//set transformation data
+			modelVBO.bind();
+			modelVBO.updateData<glm::mat4>(0, currentNoInstances, &models[0]);
+			normalModelVBO.bind();
+			normalModelVBO.updateData<glm::mat3>(0, currentNoInstances, &normalModels[0]);
+		}
 
 	}
 	shader.setFloat("material.shininess", 0.5f);
@@ -139,8 +156,8 @@ void Model::CleanUp()
 		mesh.cleanup();
 	}
 
-	posVBO.cleanUp();
-	sizeVBO.cleanUp();
+	modelVBO.cleanUp();
+	normalModelVBO.cleanUp();
 
 }
 

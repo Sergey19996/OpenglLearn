@@ -11,7 +11,7 @@ unsigned int Scene::srcHeight = 0;
 std::string Scene::generateId() {
 	for (int i = currenId.length() - 1; i >= 0; i--) {
 		if ((int)currenId[i] != (int)'z') {
-			currenId[i] = (char)(((int)currenId[i]) + 1);  // берем curridпо индексу,переводим в инт добавл€ем 1 и переводим обратно в чар 
+			currenId[i] = (char)(((int)currenId[i]) + 1);  // берем currid по индексу,переводим в инт добавл€ем 1 и переводим обратно в чар 
 			break;
 		}
 		else
@@ -117,8 +117,12 @@ bool Scene::init()
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //disable cursor
 
 	/*
-	* init octree
-	*/
+	   init model/instance trees
+   */
+
+	models = avl_createEmptyRoot(strkeycmp);
+	instances = trie::Trie<RigidBody*>(trie::ascii_lowercase);
+
 	octree = new Octree::node(BoundingRegion(glm::vec3(-16.0f), glm::vec3(16.0f)));
 
 
@@ -490,8 +494,12 @@ void Scene::renderSpotLightShader(Shader shader, unsigned int idx){
 }
 
 void Scene::renderInstances(std::string modelId, Shader shader, float dt){
+	void* val = avl_get(models, (void*)modelId.c_str());
+
+	if (val) {
 	shader.activate();
-	models[modelId]->render(shader, dt, this);
+	((Model*)val)->render(shader, dt, this);
+	}
 
 
 }
@@ -506,10 +514,11 @@ void Scene::renderText(std::string font, Shader shader, std::string text, float 
 }
 
 void Scene::cleanUp(){
-	models.traverse([](Model* model)->void { model->CleanUp();});
-
-	//clean modedls and instances
-	models.cleanup();
+	// clean all models
+	avl_postorderTraverse(models, [](avl* node) -> void {
+		((Model*)node->val)->CleanUp();
+		});
+	avl_free(models);
 	instances.cleanup();
 
 	//clean fonts
@@ -549,46 +558,55 @@ void Scene::setWindowColor(float r, float g, float b, float a)
 }
 
 void Scene::registerModel(Model* model){
-	models.insert(model->id, model); // —охран€ем модель в Trie
-
+	models = avl_insert(models, (void*)model->id.c_str(), model);
 }
 
-RigidBody* Scene::generateInstance(std::string modelId, glm::vec3 size, float mass, glm::vec3 pos){
-	RigidBody* rb= models[modelId]->generateInstance(size, mass, pos);  // мы создаем копию rigidbody по modelId
-	if (rb) {
-		//successfuly generated
-		std::string id = generateId();  // √енераци€ Id дл€ Rigidbody
-		rb->instanceId = id;    //присваиваем еЄ 
-		//insert into trie
-		instances.insert(id, rb);
-		octree->addToPending(rb, models); //добавление экземпл€ра RigidBody (жЄсткого тела) в структуру данных, котора€ отслеживает объекты в пространстве
-		return rb;
-
-		  
+RigidBody* Scene::generateInstance(std::string modelId, glm::vec3 size, float mass, glm::vec3 pos, glm::vec3 rot){
+	// generate new rigid body
+	void* val = avl_get(models, (void*)modelId.c_str());
+	if (val) {
+		Model* model = (Model*)val;
+		RigidBody* rb = model->generateInstance(size, mass, pos, rot);
+		if (rb) {
+			// successfully generated, set new and unique id for instance
+			std::string id = generateId();
+			rb->instanceId = id;
+			// insert into trie
+			instances.insert(rb->instanceId, rb);
+			// insert into pending queue
+			octree->addToPending(rb, model);
+			return rb;
+		}
 	}
-
 	return nullptr;
 }
 
-void Scene::initInstances(){
-	models.traverse([](Model* model)->void {model->initInstances(); });
+void Scene::initInstances() {
+	// initialize all instances for each model
+	avl_inorderTraverse(models, [](avl* node) -> void {
+		((Model*)node->val)->initInstances();
+		});
 }
-
 void Scene::loadModels(){
-	models.traverse([](Model* model)->void {model->init(); });
+	// initialize each model
+	avl_inorderTraverse(models, [](avl* node) -> void {
+		((Model*)node->val)->init();
+		});
 }
 
 void Scene::removeInstance(std::string instanceId){
-	//remove all locations
-	//-scene::instances
-	//- Model::instances
+	RigidBody* instance = instances[instanceId];
 	std::string targetModel = instances[instanceId]->modelId;
 
-	models[targetModel]->removeInstance(instanceId);
+	Model* model = (Model*)avl_get(models, (void*)targetModel.c_str());
 
-	instances[instanceId] = nullptr;
+	// delete instance from model
+	model->removeInstance(instanceId);
 
+	// remove from tree
+	instances[instanceId] = NULL;
 	instances.erase(instanceId);
+	free(instance);
 	
 
 

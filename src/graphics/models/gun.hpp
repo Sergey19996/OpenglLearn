@@ -7,7 +7,7 @@ class Gun :public Model {
 
 public:
 	Gun(unsigned int maxNoInstances) : Model("gun", BoundTypes::AABB, maxNoInstances, CONST_INSTANCES | NO_TEX) {}
-
+	/*
 	void render(Shader shader,float deltaTime,Scene* scene, bool setModel=false) {
 		glm::mat4 model = glm::mat4(1.0f);
 
@@ -50,8 +50,8 @@ public:
 		//scale
 		shader.setMat4("model", model);
 
-		Model::render(shader,deltaTime,scene, model);
-	}
+		Model::render(shader,deltaTime,scene);
+	}*/
 
 
 

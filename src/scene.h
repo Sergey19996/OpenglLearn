@@ -28,7 +28,7 @@
 #include "algorithms/octree.h"
 
 #include <jsoncpp/json.hpp>
-
+#include "algorithms/avl.h"
 
 namespace Octree {
 	class node;
@@ -38,9 +38,13 @@ class Model;
 class Scene {
 public:
 
-	trie::Trie<Model*>models;
-	trie::Trie<RigidBody*> instances;
+	
+	avl* models;
 
+	trie::Trie<RigidBody*> instances;
+	
+
+	//list of instances that should be deleted
 	std::vector<RigidBody*> instancesToDelete;
 
 	//pointer to root node in octree
@@ -123,7 +127,7 @@ public:
 
 	//model Instance methods
 	void registerModel(Model* model);
-	RigidBody* generateInstance(std::string modelId, glm::vec3 size, float mass, glm::vec3 pos);
+	RigidBody* generateInstance(std::string modelId, glm::vec3 size = glm::vec3(1.0f), float mass = 1.0f, glm::vec3 pos = glm::vec3(0.0f), glm::vec3 rot = glm::vec3(0.0f));
 
 	void initInstances();
 	void loadModels();
