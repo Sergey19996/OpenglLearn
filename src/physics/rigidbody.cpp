@@ -20,16 +20,6 @@ RigidBody::RigidBody(std::string modelId, glm::vec3 size, float mass, glm::vec3 
 	modelId(modelId),size(size),mass(mass),pos(pos),rotation(rot),velocity(0.0f),acceleration(0.0f),state(0){
 	update(0.0f);
 
-	//calculate rotation matrix
-	glm::mat4 rotMat = glm::toMat4(glm::quat(rot));
-
-	//model = trans * rot * scale   = T * R * S
-	model = glm::translate(glm::mat4(1.0f), pos); // M  = I * T
-	model = model * rotMat; // M = M * R = T * R
-	model = glm::scale(model, size); // M = M * S = T * R * S
-
-	normalModel = glm::transpose(glm::inverse(glm::mat3(model)));
-
 }
 
 void RigidBody::update(float deltaTime)
@@ -37,6 +27,16 @@ void RigidBody::update(float deltaTime)
  	//    |                    | |     when acceleration > 0                   |  
 	pos += velocity * deltaTime + 0.5f * acceleration * (deltaTime * deltaTime);
 	velocity += acceleration * deltaTime; // что бы учесть линейный рост скорость от ускарения
+
+	//calculate rotation matrix
+	glm::mat4 rotMat = glm::toMat4(glm::quat(rotation));
+
+	//model = trans * rot * scale   = T * R * S
+	model = glm::translate(glm::mat4(1.0f), pos); // M  = I * T
+	model = model * rotMat; // M = M * R = T * R
+	model = glm::scale(model, size); // M = M * S = T * R * S
+
+	normalModel = glm::transpose(glm::inverse(glm::mat3(model)));
 
 
 }

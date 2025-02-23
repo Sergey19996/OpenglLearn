@@ -35,8 +35,8 @@ LinePlaneIntCase linePlaneIntersection(glm::vec3 P1, glm::vec3 norm, glm::vec3 U
     */
     glm::vec3 U1P1 = P1 - U1;
 
-    float tnum = glm::dot(norm, U1P1);
-    float tden = glm::dot(norm, side);
+    float tnum = glm::dot(norm, U1P1); // проверка на плоскость в пространсвте если = 0, Значит точка на плоскасти 
+    float tden = glm::dot(norm, side); // проверка на направление , если  = 0, направление перпендикулярно плоскости(никогда не пересикает плоскость)  
 
     if (tden == 0.0f) {
         return tnum == 0.0f ? LinePlaneIntCase::CASE0 : LinePlaneIntCase::CASE1;
