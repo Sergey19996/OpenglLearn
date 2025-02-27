@@ -3,6 +3,7 @@
 #include "../algorithms/cmathematis/linalg.h"
 #include "rigidbody.h"
 
+#include <limits>	
 // Line - plane intersection cases
 // PI - is the plane containing the vectors P1P2 and P3
 // CASE 0
@@ -161,12 +162,45 @@ bool Face::collidesWidthSphere(RigidBody* thisRB, BoundingRegion& br){
 	return false;
 }
 
-CollisionMesh::CollisionMesh(unsigned int noPoints, float* coordinates, unsigned int noFaces, unsigned int* indices) : points(noPoints),faces(noFaces){
+CollisionMesh::CollisionMesh(unsigned int noPoints, float* coordinates, unsigned int noFaces, unsigned int* indices)
+	: points(noPoints),faces(noFaces){
+
+	glm::vec3 min(std::numeric_limits<float>::infinity()); // everything will be less than that
+	glm::vec3 max = -1.0f * min; // everything will be large than that
+
+
 	//insert all points into list
 	
 	for (unsigned int i = 0; i < noPoints; i++){ 
 		points[i] = { coordinates[i * 3 + 0], coordinates[i * 3 + 1], coordinates[i * 3 + 2] };
+
+		for (int j = 0; j < 3; j++) {
+			if (points[i][j] < min[j]) {
+				//found a new minimum
+				min[j] = points[i][j];
+			}
+			if (points[i][j] > max[j]) {
+				//found a new maximum
+				max[j] = points[i][j];
+			}
+		}
 	}
+
+	glm::vec3 center = (min + max) / 2.0f;
+
+	float maxRaiusSquared = 0.0f;
+	for (unsigned int i = 0; i < noPoints; i++) {
+		float radiusSquared = 0.0f;
+		for (int j = 0; j < 3; j++) {
+			radiusSquared += (points[i][j] - center[j]) * (points[i][j] - center[j]);
+		}
+		if (radiusSquared > maxRaiusSquared) {
+			maxRaiusSquared = radiusSquared;
+		}
+	}
+
+	this->br = BoundingRegion(center, sqrt(maxRaiusSquared)); //sqrt - это корень
+	this->br.collisionMesh = this;
 
 	//calculate face normals
 	for (unsigned int i = 0; i < noFaces; i++) {

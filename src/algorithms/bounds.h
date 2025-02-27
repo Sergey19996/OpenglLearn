@@ -9,6 +9,9 @@
 namespace Octree {
 	class node;
 }
+class CollisionMesh;
+
+
 
 enum class BoundTypes : unsigned char{
 	AABB = 0x00, // как char храним так как 8 бит  в 0x00 = 0  axis - aligned bounding box
@@ -19,10 +22,13 @@ enum class BoundTypes : unsigned char{
 class  BoundingRegion
 {
 public:
+	// type of region
 	BoundTypes type;
 
-	//pointer for quik access to instance
+	//pointer for quik access to instance and collision mesh 
 	RigidBody* instance;
+	CollisionMesh* collisionMesh;
+
 
 	//pointer for quick access to current octree node
 	Octree::node* cell;

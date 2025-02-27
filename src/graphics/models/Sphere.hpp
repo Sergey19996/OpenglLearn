@@ -5,12 +5,13 @@
 class Sphere : public Model {
 
 public:
-	Sphere(unsigned int maxNoInstances): Model("sphere",BoundTypes::SPHERE,maxNoInstances,NO_TEX|DYNAMIC) {}
+	Sphere(unsigned int maxNoInstances): Model("sphere",maxNoInstances,NO_TEX | DYNAMIC) {}
 
 	void init() {
-		loadModel("Assets/models/sphere/scene.gltf");
+		loadModel("Assets/models/sphere/scene.obj");
 
-
+		
+		
 	};
 
 };

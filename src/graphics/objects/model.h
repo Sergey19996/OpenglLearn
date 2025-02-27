@@ -36,8 +36,7 @@ public:
 	RigidBody rb;
 	glm::vec3 size;
 
-	//type of bounding region for all meshes
-	BoundTypes boundType;
+
 
 	// list of meshes 
 	std::vector<Mesh> meshes;
@@ -61,7 +60,7 @@ public:
 
 
 	Model();
-	Model(std::string id, BoundTypes boundType, unsigned int maxNoInstances, unsigned int falgs = 0);
+	Model(std::string id, unsigned int maxNoInstances, unsigned int falgs = 0);
 
 	//initialize method
 	virtual void init();
@@ -84,7 +83,7 @@ public:
 	virtual void render(Shader shader, float DeltaTime,Scene* scene);
 
 
-	void CleanUp();
+	void cleanUp();
 
 	void removeInstance(unsigned int idx);
 

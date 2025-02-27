@@ -516,7 +516,7 @@ void Scene::renderText(std::string font, Shader shader, std::string text, float 
 void Scene::cleanUp(){
 	// clean all models
 	avl_postorderTraverse(models, [](avl* node) -> void {
-		((Model*)node->val)->CleanUp();
+		((Model*)node->val)->cleanUp();
 		});
 	avl_free(models);
 	instances.cleanup();

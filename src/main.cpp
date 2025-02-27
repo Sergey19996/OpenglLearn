@@ -66,7 +66,7 @@ glm::mat4 transform = glm::mat4(1.0f);
 float theta = 45.0f;
 bool flashlight = true;
 
-//Sphere sphere(10);
+Sphere sphere(10);
 //Cube cube(11);
 Lamp lamp(4);
 Brickwall wall;
@@ -78,57 +78,7 @@ std::string Shader::defaultDirectory = "Assets/shaders";
 
 int main()
 {
-    float P[9] = {
-        0.0f,0.0f,1.0f,
-        0.0f,1.0f,0.0f,
-        1.0f,0.0f,0.0f
-    };
-    unsigned int Pi[3] = {
-        0,1,2
 
-    };
-    float U[9] = {
-        -1.0f,1.0f,0.0f,
-        0.0f,0.0f,0.0f,
-        1.0f,2.0f,0.5f
-    };
-
-    unsigned int Ui[3] =
-    {
-        0,1,2
-    };
-
-    CollisionMesh PF(3, P, 1, Pi);
-    CollisionMesh UF(3, U, 1, Ui);
-    
-    RigidBody prb;
-    RigidBody urb;
-
-
-
-        std::cout << PF.faces[0].collidesWidthFace(&prb,UF.faces[0],&urb) << std::endl;
-
-        float V[9] = {
-            0.0f,0.0f,0.0f,
-            3.0f,1.0f,sqrt(3.0f),
-            -3.0f,0.6f,-sqrt(3.0f),
-        };
-        unsigned int Vi[3] = {
-            0,1,2
-        };
-        CollisionMesh VF(3, V, 1, Vi);
-
-        RigidBody vrb;
-        vrb.pos = { 0.0f,10.0f,0.0f };
-        vrb.update(0.0f);
-
-        BoundingRegion br({ 1.0f,0.0f,-1.0f }, 2.0f);
-        RigidBody rb2;
-        br.instance = &rb2;
-        br.transform();
-
-        std::cout << VF.faces[0].collidesWidthSphere(&vrb, br) << std::endl;
-  
 
     //          version 3.3 opengl
     scene = Scene(3, 3, "Fat Boys", SCR_WIDTH, SCR_HEIGHT);
@@ -146,8 +96,8 @@ int main()
 
 
     Shader shader(true, "instanced/instanced.vs.glsl", "object.fs.glsl");
-   /* Shader boxShader(false, "instanced/box.vs.glsl", "instanced/box.fs.glsl");
-    Shader textShader(false, "text.vs.glsl", "text.fs.glsl");
+    Shader boxShader(false, "instanced/box.vs.glsl", "instanced/box.fs.glsl");
+   /* Shader textShader(false, "text.vs.glsl", "text.fs.glsl");
     Shader dirShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/dirShadow.fs.glsl");
     Shader spotShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/pointSpotShadow.fs.glsl");
     Shader pointShadowShader(false, "shadows/pointShadow.vs.glsl",
@@ -177,10 +127,10 @@ int main()
   
     scene.registerModel(&lamp);
     scene.registerModel(&wall);
-    //scene.registerModel(&sphere);
+    scene.registerModel(&sphere);
 
    
-   // scene.registerModel(&cube);
+    //scene.registerModel(&cube);
 
     Box box;
     box.init();
@@ -274,16 +224,15 @@ int main()
      //   scene.generateInstance(cube.id, glm::vec3(0.5f), 1.0f, cubePositions[i]);
     }
    
-    //instantiate the brickwall plane
-    scene.generateInstance(wall.id, glm::vec3(1.0f), 1.0f, { 0.0f, 0.0f, 2.0f }, { 1.0f, 3.14f, 0.0f });
+    // instantiate the brickwall plane
+    scene.generateInstance(wall.id, glm::vec3(1.0f), 1.0f,
+        { 0.0f, 0.0f, 2.0f }, { -1.0f, glm::pi<float>(), 0.0f });
 
-
-    //instanciate instances
+    // instantiate instances
     scene.initInstances();
 
-    scene.prepare(box, { shader }); // для octree 
-
-
+    // finish preparations (octree, etc)
+    scene.prepare(box, { shader });
 
 
 
@@ -317,16 +266,15 @@ int main()
       
 
 
-        //remove launch objects if too far
-        //for (int i = 0; i < sphere.currentNoInstances; i++) {
-        //    if (glm::length(cam.cameraPos - sphere.instances[i]->pos) > 100.0f) {
-        //        scene.markForDeletion(sphere.instances[i]->instanceId);
+
+        //  remove launch objects if too far
+        for (int i = 0; i < sphere.currentNoInstances; i++) {
+            if (glm::length(cam.cameraPos - sphere.instances[i]->pos) > 100.0f) {
+                scene.markForDeletion(sphere.instances[i]->instanceId);
 
 
-        //    }
-        //}
-       
-
+            }
+        }
 
 
 
@@ -361,14 +309,15 @@ int main()
         scene.defaultFBO.activate();
         scene.renderShader(shader);
         renderScene(shader);
+
       
 
      //   scene.renderShader(lampShader);
      //   scene.renderInstances(lamp.id, lampShader, deltaTime);
 
         //render boxes
-       // scene.renderShader(boxShader, false);
-       // box.render(boxShader);
+        scene.renderShader(boxShader, false);
+        box.render(boxShader);
 
 
 
@@ -409,16 +358,16 @@ int main()
     return 0;
 }
 void launchItem(float fdeltatime) {
-    glm::vec3 fixpos = { cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z - 0.25f };
+    glm::vec3 fixpos = { cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z  };
 
-  // RigidBody* rb = scene.generateInstance(sphere.id, glm::vec3(0.1f), 1.0f, fixpos);  // передаем индекс сферы, где она хранится в octree в сцене
-   // std::cout << rb << std::endl;
-    //if (rb) {
-    //    //instance generated
-    //   rb->transferEnergy(100.0f, cam.cameraFront);
-    //   rb->applyAcceleration(Environment::gravityAcc);
+   RigidBody* rb = scene.generateInstance(sphere.id, glm::vec3(0.25f), 1.0f, fixpos);  // передаем индекс сферы, где она хранится в octree в сцене
+    std::cout << rb << std::endl;
+    if (rb) {
+        //instance generated
+       rb->transferEnergy(100.0f, cam.cameraFront);
+       rb->applyAcceleration(Environment::gravityAcc);
 
-    //}
+    }
 
 }
 
@@ -475,12 +424,12 @@ void processInput(float fDeltaTime)
 }
 
 void renderScene(Shader shader) {
-  /*  if (sphere.currentNoInstances > 0) {
+    if (sphere.currentNoInstances > 0) {
         scene.renderInstances(sphere.id, shader, deltaTime);
-    }*/
+    }
 
     //render    cubes normally
-   // scene.renderInstances(cube.id, shader, deltaTime);
+  //  scene.renderInstances(cube.id, shader, deltaTime);
 
     scene.renderInstances(wall.id, shader, deltaTime);
     scene.renderInstances(lamp.id, shader, deltaTime);

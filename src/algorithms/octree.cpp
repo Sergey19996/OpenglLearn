@@ -68,15 +68,15 @@ void Octree::calculateBounds(BoundingRegion& out, Octant octant, BoundingRegion 
 
 
 }
-
+// default
 Octree::node::node() : region(BoundTypes::AABB)
 {
 }
-
+// initialize with bounds (no objects yet)
 Octree::node::node(BoundingRegion bounds) : region(bounds)
 {
 }
-
+// initialize with bounds and list of objects
 Octree::node::node(BoundingRegion bounds, std::vector<BoundingRegion> objectList) : region(bounds)
 { 
     objects.insert(objects.end(), objectList.begin(), objectList.end());
@@ -93,7 +93,7 @@ void Octree::node::addToPending(RigidBody* instance, trie::Trie<Model*> models){
 
 
 }
-
+// add instance to pending queue
 void Octree::node::addToPending(RigidBody* instance, Model* model){
     // get all bounding regions of model and put them in queue
     for (BoundingRegion br : model->boundingRegions) {
@@ -101,6 +101,7 @@ void Octree::node::addToPending(RigidBody* instance, Model* model){
         br.transform();
         queue.push(br);
     }
+    std::cout << "Hello From Panding" << std::endl;
 }
 
 void Octree::node::build()
@@ -421,17 +422,81 @@ bool Octree::node::insert(BoundingRegion obj)
 //check collisions with all objects in node
 void Octree::node::checkCollisionsSelf(BoundingRegion obj){
     for (BoundingRegion br : objects) {
+        //coarse check for bounding region intersection
         if (br.intersectsWith(obj)) {
-            if (br.instance->instanceId != obj.instance->instanceId) {  // br и obj не один и тот же элемент
-                //different instances collide
-                std::cout << " instance " << br.instance->instanceId << "(" << br.instance->modelId << ") collides with" << obj.instance->instanceId << "(" << obj.instance->modelId << ")" << std::endl;
-                br.intersectsWith(obj);
+          //coarse check passed
 
+            unsigned int noFacesBr = br.collisionMesh ? br.collisionMesh->faces.size() : 0;
+            unsigned int noFacesObj = obj.collisionMesh ? obj.collisionMesh->faces.size() : 0;
+
+
+            if (noFacesBr) {
+                unsigned int noFaceBr = br.collisionMesh->faces.size();
+
+                if (noFacesObj) {
+                    //both haave collision meshes
+                    unsigned numFaceObj = obj.collisionMesh->faces.size();
+                    //check all faces in br agains all faces in obj
+                    for (unsigned int i = 0; i < noFaceBr; i++) {
+                        for (unsigned int j = 0; j < numFaceObj; j++) {
+                            if (br.collisionMesh->faces[i].collidesWidthFace(br.instance,obj.collisionMesh->faces[j],obj.instance)) {
+
+                                std::cout << "Case 1: Instance" << br.instance->instanceId <<
+                                    "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
+                                    << " ( " << obj.instance->modelId << ")" << std::endl;
+                              
+                                break;
+
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    //br has a collision mesh, obj does not
+                    //check all faces in br against the obj's sphere
+                    for (unsigned int i = 0; i < noFaceBr; i++) {
+                        if (br.collisionMesh->faces[i].collidesWidthSphere(br.instance,obj)){
+                            std::cout << "Case 2: Instance" << br.instance->instanceId <<
+                                "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
+                                << " ( " << obj.instance->modelId << ")" << std::endl;
+
+                            break;
+                        }
+                    }
+                }
             }
+            else{
+                if (noFacesObj) {
+                    //object has a collision mesh, bro does not
+                    //check all faces in obj against br's sphere
+                    unsigned int noFacesObj = obj.collisionMesh->faces.size();
+
+                    for (unsigned int i = 0; i < noFacesObj; i++) {
+                        if (obj.collisionMesh->faces[i].collidesWidthSphere(obj.instance, br)) {
+
+                            std::cout << "Case 3: Instance" << br.instance->instanceId <<
+                                "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
+                                << " ( " << obj.instance->modelId << ")" << std::endl;
+
+                            break;
+                        }
+                    }
+                }
+                else{
+                    //neither have a collision mesh
+                    //coarse grain test pass (test collision between spheres)
+                    std::cout << "Case 4: Instance" << br.instance->instanceId <<
+                        "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
+                        << " ( " << obj.instance->modelId << ")" << std::endl;
+                }
+            }
+
         }
     }
 
-}
+}  // Чекнуть !
 //check collisiont with all objects in child node
 void Octree::node::checkCollisionsChildren(BoundingRegion obj){
     if (children) { // не равен nullptr

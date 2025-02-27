@@ -5,7 +5,7 @@
 
 class Plane : public Model {
 public:
-	Plane() : Model("plane", BoundTypes::AABB, 1, CONST_INSTANCES) {}
+	Plane() : Model("plane",  1, CONST_INSTANCES) {}
 
 	void init(std::vector<texture> tex) {
 		int noVertices = 4; 
@@ -29,13 +29,18 @@ public:
 			0 , 1 ,2 ,
 			2,  3, 0
 		};
+  BoundingRegion br(glm::vec3(0.0f), 1 / sqrt(2.0f));
 
-		BoundingRegion br(glm::vec3(-0.5f, -0.5f, 0.0f), (0.5f, 0.5f, 0.0f));  // min max
+        Mesh ret = processMesh(br,
+            noVertices, quadVertices,
+            6, indices,
+            true,
+            noVertices, collisionVertices,
+            2, indices);
 
-		Mesh ret = processMesh(br, noVertices, quadVertices, 6, indices, true,noVertices,collisionVertices,2,indices);
+        ret.setupTextures(tex);
 
-		ret.setupTextures(tex);
-		addMesh(&ret);
+        addMesh(&ret);
 	}
 	
 
