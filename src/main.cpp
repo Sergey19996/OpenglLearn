@@ -39,6 +39,7 @@
 #include "physics/environment.h"
 
 #include "algorithms/States.hpp"
+#include "algorithms/ray.h"
 #include "scene.h"
 
 #include <ft2build.h>
@@ -57,7 +58,7 @@ glm::mat4 transform = glm::mat4(1.0f);
 
 
 
- unsigned int SCR_WIDTH = 800, SCR_HEIGHT = 600;
+// unsigned int SCR_WIDTH = 800, SCR_HEIGHT = 600;
 
 
  float lastTime = glfwGetTime();
@@ -81,7 +82,7 @@ int main()
 
 
     //          version 3.3 opengl
-    scene = Scene(3, 3, "Fat Boys", SCR_WIDTH, SCR_HEIGHT);
+    scene = Scene(3, 3, "Fat Boys", 1200, 720);
     if (!scene.init()) {
 
         std::cout << "Couldn't open window" << std::endl;
@@ -97,8 +98,8 @@ int main()
 
     Shader shader(true, "instanced/instanced.vs.glsl", "object.fs.glsl");
     Shader boxShader(false, "instanced/box.vs.glsl", "instanced/box.fs.glsl");
-   /* Shader textShader(false, "text.vs.glsl", "text.fs.glsl");
-    Shader dirShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/dirShadow.fs.glsl");
+    Shader textShader(false, "text.vs.glsl", "text.fs.glsl");
+   /* Shader dirShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/dirShadow.fs.glsl");
     Shader spotShadowShader(false, "shadows/dirSpotShadow.vs.glsl", "shadows/pointSpotShadow.fs.glsl");
     Shader pointShadowShader(false, "shadows/pointShadow.vs.glsl",
         "shadows/pointSpotShadow.fs.glsl",
@@ -187,7 +188,8 @@ int main()
             ambient,diffuse,specular,
             0.5f,50.0f
         );
-        scene.generateInstance(lamp.id, glm::vec3(0.25f), 0.25f, pointLightPositions[i]);
+        //create physical model for each lamp
+        scene.generateInstance(lamp.id, glm::vec3(10.0f,0.25f,10.0f), 0.25f, pointLightPositions[i]);
 
         scene.pointLights.push_back(&pointLights[i]);    // устонавливаются ссылки для рендера света
         States::activate(&scene.activePointLights, i);  // в inte  на 32 света (32 bit) устанавливает 1 
@@ -304,14 +306,13 @@ int main()
         //    }
         //}
 
-       
+      
         //render scene normally
-        scene.defaultFBO.activate();
+        scene.defaultFBO.activate();  // буфер позвоялет рендерить всё последующее в текстуру.
         scene.renderShader(shader);
         renderScene(shader);
 
-      
-
+     
      //   scene.renderShader(lampShader);
      //   scene.renderInstances(lamp.id, lampShader, deltaTime);
 
@@ -325,14 +326,14 @@ int main()
         //render skybox
       //  skybox.render(skyBoxShader, &scene);
 
+      
+        glDepthFunc(GL_ALWAYS);  // change depth function so depth test passes when values are equal to depth buffer's content
+        scene.renderText("comic", textShader, "Hello, Opengl!", 50.0f, 50.f, glm::vec2(1.0f), glm::vec3(0.5f,0.6f,1.0f));
+        scene.renderText("comic", textShader, "Fat Boyes!", Scene::srcWidth -200.0f, 0+70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
 
-        //glDepthFunc(GL_ALWAYS);  // change depth function so depth test passes when values are equal to depth buffer's content
-        //scene.renderText("comic", textShader, "Hello, Opengl!", 50.0f, 50.f, glm::vec2(1.0f), glm::vec3(0.5f,0.6f,1.0f));
-        //scene.renderText("comic", textShader, "Fat Boyes!", SCR_WIDTH-200.0f, 0+70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
-
-        //scene.renderText("comic", textShader, "fps: " + scene.VariableLog["fps"].dump(), SCR_WIDTH - 200.0f, SCR_HEIGHT - 70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
-        //scene.renderText("comic", textShader, "fps: " + scene.VariableLog["time"].dump(), SCR_WIDTH - 200.0f, SCR_HEIGHT - 100.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
-        //glDepthFunc(GL_LESS);  // change depth function so depth test passes when values are equal to depth buffer's content
+        scene.renderText("comic", textShader, "fps: " + scene.VariableLog["fps"].dump(), Scene::srcWidth - 200.0f, Scene::srcWidth - 70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
+        scene.renderText("comic", textShader, "fps: " + scene.VariableLog["time"].dump(), Scene::srcWidth - 200.0f, Scene::srcHeight - 100.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
+        glDepthFunc(GL_LESS);  // change depth function so depth test passes when values are equal to depth buffer's content
 
 
 
@@ -370,7 +371,19 @@ void launchItem(float fdeltatime) {
     }
 
 }
+void emitRay() {
+    Ray r(cam.cameraPos, cam.cameraFront);
+    float tmin = std::numeric_limits<float>::max();
+    BoundingRegion* intersected = scene.octree->checkCollisionRay(r, tmin);
+    if (intersected) {
+        std::cout << " Hits " << intersected->instance->instanceId << "at t = " << tmin << std::endl;
+        scene.markForDeletion(intersected->instance->instanceId);
+    }
+    else{
+        std::cout << "No hit" << std::endl;
 
+    }
+ }
 void processInput(float fDeltaTime)
 {
     scene.processInput(fDeltaTime);
@@ -409,6 +422,10 @@ void processInput(float fDeltaTime)
         launchItem(fDeltaTime);
 
     };
+
+    if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_1)) {
+        emitRay();
+    }
 
     for (int i = 0; i < 4; i++)
     {

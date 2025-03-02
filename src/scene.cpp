@@ -27,6 +27,7 @@ void Scene::framebufferSizeCallBack(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 	Scene::srcWidth = width;
 	Scene::srcHeight = height;
+	
 }
 
 Scene::Scene() :currenId("aaaaaaaa"),lightUBO(0)
@@ -39,9 +40,8 @@ Scene::Scene(int glfwVersionMajor, int glfwVersionMinor, const char* title, unsi
 {
 	Scene::srcWidth = srcWidth;
 	Scene::srcHeight = srcHeight;
-	defaultFBO = FramebufferObject(srcWidth, srcHeight, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-
+	defaultFBO = FramebufferObject(srcWidth, srcHeight, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);  // создаём буфер, который рендерит в текстуру
+	
 	setWindowColor(0.1f, 0.15f, 0.15f, 1.0f);
 
 }
@@ -154,6 +154,8 @@ bool Scene::init()
 }
 //prepare for main loop (after object generation, etc)
 void Scene::prepare(Box& box, std::vector<Shader> shaders){
+
+
 	octree->update(box);
 
 	//setUp lighting UBO
@@ -356,7 +358,7 @@ void Scene::processInput(float dt)
 			0.1f, 100.0f                                                           // near and far bounds
 			);
 
-		textProjection = glm::ortho(0.0f, (float)srcWidth, 0.0f, (float)srcHeight);
+		textProjection = glm::ortho(0.0f, (float)srcWidth, 0.0f, (float)srcHeight); //glm::ortho(left, right, bottom, top);
 
 
 		//set pos ath the end
@@ -380,11 +382,12 @@ void Scene::processInput(float dt)
 }
 
 void Scene::update()
-{
+{  // set background color
 	glClearColor(bg[0], bg[1], bg[2], bg[3]);
+	// clear occupied bits
 	defaultFBO.clear();
-
-
+	
+	defaultFBO.resize(srcWidth, srcHeight);
 }
 
 void Scene::newFrame(Box& box)
@@ -392,6 +395,7 @@ void Scene::newFrame(Box& box)
 	box.positions.clear();
 	box.sizes.clear();
 
+	 // process pending objects
 	octree->processPending();
 	octree->update(box);
 

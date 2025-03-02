@@ -195,7 +195,7 @@ namespace UBO {
 
 		return ret;
 	}
-	class UBO : public BufferObject {
+	class UBO : public BufferObject { // uniform buffer object
 	public:
 		Element block; // root element of the UBO (struct)
 		unsigned int calculatedSize;

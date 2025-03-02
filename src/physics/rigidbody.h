@@ -6,6 +6,9 @@
 
 #define INSTANCE_DEAD  (unsigned char)0b00000001
 #define INSTANCE_MOVED (unsigned char)0b00000010
+
+#define COLLISION_THRESHHOLD 0.05f
+
 class RigidBody {
 
 public:
@@ -39,6 +42,10 @@ public:
 	std::string modelId;
 	std::string instanceId;
 
+	//data of previous collision
+	float lastCollision;
+	std::string lastCollisionID;
+
 	bool operator==(RigidBody rb);
 	bool operator==(std::string id);
 
@@ -62,6 +69,7 @@ public:
 
 	void transferEnergy(float joules,glm::vec3 direction);
 
-
+	//collisions
+	void handleCollision(RigidBody* inst, glm::vec3 norm); //inst that what we colliding with  like a bullet
 };
 #endif // !1

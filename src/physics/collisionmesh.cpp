@@ -26,7 +26,7 @@
 
 
 
-bool Face::collidesWidthFace(RigidBody* ThisRB, Face& face, RigidBody* faceRB) {
+bool Face::collidesWidthFace(RigidBody* ThisRB, Face& face, RigidBody* faceRB,glm::vec3& retNorm) {
 	// Преобразуем координаты так, чтобы точка P1 стала началом координат (origin)
 	glm::vec3 P1 = mat4vec3mult(ThisRB->model,this->mesh->points[this->i1]); // P1 - первая точка текущего треугольника (или грани)
 	glm::vec3 P2 = mat4vec3mult(ThisRB->model,this->mesh->points[this->i2]) - P1; // P2 - вторая точка, преобразованная относительно P1
@@ -46,6 +46,8 @@ bool Face::collidesWidthFace(RigidBody* ThisRB, Face& face, RigidBody* faceRB) {
 	glm::vec3 U1 = mat4vec3mult(faceRB->model,face.mesh->points[face.i1]) - P1; // U1 - первая точка грани face, преобразованная относительно P1
 	glm::vec3 U2 = mat4vec3mult(faceRB->model, face.mesh->points[face.i2]) - P1; // U2 - первая точка грани face, преобразованная относительно P2
 	glm::vec3 U3 = mat4vec3mult(faceRB->model, face.mesh->points[face.i3]) - P1; // U3 - первая точка грани face, преобразованная относительно P3
+
+	retNorm = faceRB->normalModel * face.norm; // normalmodel - это матрица для текущего инстансера, что бы брать не чистую нормаль, а измененную
 
 	glm::vec3 sideOrigin[3] = { // точки которые мы будем проверять на коллизию U
 		U1,
@@ -139,7 +141,7 @@ bool Face::collidesWidthFace(RigidBody* ThisRB, Face& face, RigidBody* faceRB) {
     return false;
 }
 
-bool Face::collidesWidthSphere(RigidBody* thisRB, BoundingRegion& br){
+bool Face::collidesWidthSphere(RigidBody* thisRB, BoundingRegion& br,glm::vec3& retNorm){
 	if (br.type != BoundTypes::SPHERE) {
 		return false;
 	}
@@ -152,10 +154,13 @@ bool Face::collidesWidthSphere(RigidBody* thisRB, BoundingRegion& br){
 	glm::vec3 unitN = norm / glm::length(norm);  // нормализуем нормаль
 	
 	glm::vec3 distanceVec = br.center - P1;
-	float distance = glm::dot(distanceVec, unitN); // float, а значит это скаляр именно длина |d|
+	float distance = glm::dot(distanceVec, unitN); // float, а значит это скаляр именно длина |d| * cos(theta)
 
-	if (abs(distance) < br.radius) {
+
+	if (abs(distance) < br.radius) { // abs потому что dot product может получиться и отрицательным
 		glm::vec3 circCenter = br.center + distance * unitN; // |d| * нормаль даст нам всю длину вектора н проекции d.x;d.y;d.z
+		retNorm = unitN;
+
 		return faceContainsPointRange(P2 - P1, P3 - P1, norm, circCenter - P1, br.radius);
 	}
 

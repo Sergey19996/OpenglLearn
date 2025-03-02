@@ -10,6 +10,8 @@
 #include "list.hpp"
 #include "States.hpp"
 #include "bounds.h"
+#include "ray.h"
+
 #include "Trie.hpp"
 #include "../graphics/objects/model.h"
 
@@ -95,7 +97,8 @@ namespace Octree{
 		//check collisiont with all objects in child node
 		void checkCollisionsChildren(BoundingRegion obj);
 
-
+		//check collisions with aa ray
+		BoundingRegion* checkCollisionRay(Ray r, float& tmin);
 
 
 		void destroy();

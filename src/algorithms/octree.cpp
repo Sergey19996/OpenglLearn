@@ -101,7 +101,7 @@ void Octree::node::addToPending(RigidBody* instance, Model* model){
         br.transform();
         queue.push(br);
     }
-    std::cout << "Hello From Panding" << std::endl;
+
 }
 
 void Octree::node::build()
@@ -422,6 +422,9 @@ bool Octree::node::insert(BoundingRegion obj)
 //check collisions with all objects in node
 void Octree::node::checkCollisionsSelf(BoundingRegion obj){
     for (BoundingRegion br : objects) {
+        if (br.instance->instanceId == obj.instance->instanceId) {  // not check collision itself
+            continue;
+        }
         //coarse check for bounding region intersection
         if (br.intersectsWith(obj)) {
           //coarse check passed
@@ -429,6 +432,7 @@ void Octree::node::checkCollisionsSelf(BoundingRegion obj){
             unsigned int noFacesBr = br.collisionMesh ? br.collisionMesh->faces.size() : 0;
             unsigned int noFacesObj = obj.collisionMesh ? obj.collisionMesh->faces.size() : 0;
 
+            glm::vec3 norm;
 
             if (noFacesBr) {
                 unsigned int noFaceBr = br.collisionMesh->faces.size();
@@ -439,12 +443,12 @@ void Octree::node::checkCollisionsSelf(BoundingRegion obj){
                     //check all faces in br agains all faces in obj
                     for (unsigned int i = 0; i < noFaceBr; i++) {
                         for (unsigned int j = 0; j < numFaceObj; j++) {
-                            if (br.collisionMesh->faces[i].collidesWidthFace(br.instance,obj.collisionMesh->faces[j],obj.instance)) {
+                            if (br.collisionMesh->faces[i].collidesWidthFace(br.instance,obj.collisionMesh->faces[j],obj.instance,norm)) {
 
                                 std::cout << "Case 1: Instance" << br.instance->instanceId <<
                                     "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
                                     << " ( " << obj.instance->modelId << ")" << std::endl;
-                              
+                                obj.instance->handleCollision(br.instance,norm );
                                 break;
 
                             }
@@ -457,11 +461,12 @@ void Octree::node::checkCollisionsSelf(BoundingRegion obj){
                     //br has a collision mesh, obj does not
                     //check all faces in br against the obj's sphere
                     for (unsigned int i = 0; i < noFaceBr; i++) {
-                        if (br.collisionMesh->faces[i].collidesWidthSphere(br.instance,obj)){
+                        if (br.collisionMesh->faces[i].collidesWidthSphere(br.instance,obj,norm)){
                             std::cout << "Case 2: Instance" << br.instance->instanceId <<
                                 "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
                                 << " ( " << obj.instance->modelId << ")" << std::endl;
 
+                            obj.instance->handleCollision(br.instance, norm);
                             break;
                         }
                     }
@@ -474,22 +479,27 @@ void Octree::node::checkCollisionsSelf(BoundingRegion obj){
                     unsigned int noFacesObj = obj.collisionMesh->faces.size();
 
                     for (unsigned int i = 0; i < noFacesObj; i++) {
-                        if (obj.collisionMesh->faces[i].collidesWidthSphere(obj.instance, br)) {
+                        if (obj.collisionMesh->faces[i].collidesWidthSphere(obj.instance, br,norm)) {
 
                             std::cout << "Case 3: Instance" << br.instance->instanceId <<
                                 "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
                                 << " ( " << obj.instance->modelId << ")" << std::endl;
 
+                            obj.instance->handleCollision(br.instance, norm);
                             break;
                         }
                     }
                 }
-                else{
+                else{ // collisiong two speheres 
                     //neither have a collision mesh
                     //coarse grain test pass (test collision between spheres)
                     std::cout << "Case 4: Instance" << br.instance->instanceId <<
                         "( " << br.instance->modelId << " )" << " Collides with instance : " << obj.instance->instanceId
                         << " ( " << obj.instance->modelId << ")" << std::endl;
+
+                    norm = obj.center - br.center;
+
+                    obj.instance->handleCollision(br.instance, norm);
                 }
             }
 
@@ -511,6 +521,77 @@ void Octree::node::checkCollisionsChildren(BoundingRegion obj){
         }
     }
 
+}
+//check colliion with a ray
+BoundingRegion* Octree::node::checkCollisionRay(Ray r, float& tmin){
+    float tmin_tmp = std::numeric_limits<float>::max();
+    float tmax_tmp = std::numeric_limits<float>::lowest();
+
+    float t_tmp = std::numeric_limits<float>::max();
+
+    //check current region
+    if (r.intersectsBoundingRegion(region, tmin_tmp, tmax_tmp)) {
+        //know ray collides with the current region 
+        if (tmin_tmp >= tmin) {
+            //found nearer collision
+            return nullptr;
+
+        }
+
+        BoundingRegion* ret = nullptr, * ret_tmp = nullptr;
+
+        //check objects in the node
+        for (BoundingRegion& br : this->objects) {
+            tmin_tmp = std::numeric_limits<float>::max();
+            tmax_tmp = std::numeric_limits<float>::lowest();
+
+            //coarse check -check against br
+            if (r.intersectsBoundingRegion(br, tmin_tmp, tmax_tmp)) {
+                std::cout << "Passed coarse check, ";
+                if (tmin_tmp > tmin) {
+                    continue;
+                }
+                else if (br.collisionMesh) {
+                    //fine grain check with collision mesh
+                    t_tmp = std::numeric_limits<float>::max();
+                    if (r.intersectsMesh(br.collisionMesh, br.instance, t_tmp)) {
+                        if (t_tmp < tmin) {
+                            //found closer collision
+                            tmin = t_tmp;
+                            ret = &br;
+                        }
+                    }
+                }
+                else{
+                    //rely on coarse check
+                    if (tmin_tmp < tmin) {
+                        tmin = tmin_tmp;
+                        ret = &br;
+                    }
+
+
+                }
+
+            }
+            else{
+                std::cout << "Failed coarse check, ";
+
+            }
+        }
+        //check children
+        if (children) {
+            for (unsigned char flags = activeOctants, i = 0; flags; flags >>= 1, i++) {
+                ret_tmp = children[i]->checkCollisionRay(r, tmin);
+                if (ret_tmp) {
+                    ret = ret_tmp;
+                }
+            }
+        }
+        return ret;
+    }
+
+
+    return nullptr;
 }
 
 void Octree::node::destroy()

@@ -17,7 +17,8 @@ bool RigidBody::operator==(std::string id)
 
 
 RigidBody::RigidBody(std::string modelId, glm::vec3 size, float mass, glm::vec3 pos,glm::vec3 rot) :
-	modelId(modelId),size(size),mass(mass),pos(pos),rotation(rot),velocity(0.0f),acceleration(0.0f),state(0){
+	modelId(modelId),size(size),mass(mass),pos(pos),rotation(rot),velocity(0.0f),acceleration(0.0f),state(0),
+	lastCollision(COLLISION_THRESHHOLD),lastCollisionID(""){
 	update(0.0f);
 
 }
@@ -38,6 +39,7 @@ void RigidBody::update(float deltaTime)
 
 	normalModel = glm::transpose(glm::inverse(glm::mat3(model)));
 
+	lastCollision += deltaTime;
 
 }
 
@@ -83,4 +85,13 @@ void RigidBody::transferEnergy(float joules, glm::vec3 direction)
 
 	velocity += joules > 0 ? deltaV : -deltaV;
 
+}
+
+void RigidBody::handleCollision(RigidBody* inst, glm::vec3 norm){
+	if (lastCollision >= COLLISION_THRESHHOLD || lastCollisionID != inst->instanceId) { // что бы избежать лишних проверок 
+		this->velocity = glm::reflect(this->velocity, glm::normalize(norm)); // Reflection R = V - 2 * (V * N) * N от скорости вычитаем 2*спроецированный вектор на нормаль
+		lastCollision = 0.0f; //reset counter
+	}
+
+	lastCollisionID = inst->instanceId;
 }

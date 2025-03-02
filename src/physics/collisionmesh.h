@@ -13,15 +13,15 @@ class RigidBody;
 
 typedef struct Face {
 	CollisionMesh* mesh;
-	unsigned int i1, i2, i3;
+	unsigned int i1, i2, i3; //indexes of vertices
 
 
 	glm::vec3 baseNormal;
 	glm::vec3 norm;
 
 
-	bool collidesWidthFace(RigidBody* thisRB, struct Face& face, RigidBody* faceRB);
-	bool collidesWidthSphere(RigidBody* thisRB, BoundingRegion& br);
+	bool collidesWidthFace(RigidBody* thisRB, struct Face& face, RigidBody* faceRB, glm::vec3& retNorm);
+	bool collidesWidthSphere(RigidBody* thisRB, BoundingRegion& br, glm::vec3& retNorm);
 
 }Face;
 

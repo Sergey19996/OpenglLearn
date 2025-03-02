@@ -58,10 +58,19 @@ public:
 	void bind() {
 		glBindFramebuffer(GL_FRAMEBUFFER, val);
 	}
-
+	void deactivate() {
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
 	void setViewport() {
 		glViewport(0, 0, width, height);
+	
+
 	}
+	void resize(GLuint newWidth, GLuint newHeight) {
+		width = newWidth;
+		height = newHeight;
+	}
+
 	void clear() {
 		glClear(bitCombo); // заменяет все три состояния Gl_DEPTH_BUFFER_BIT | COLOR_BUFFER_BIT | STENCIL_BUFFER_BIT
 	}

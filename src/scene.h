@@ -58,8 +58,8 @@ public:
 	trie::Trie<TextRenderer> fonts;
 
 
-	FramebufferObject defaultFBO;
-	UBO::UBO lightUBO;
+	FramebufferObject defaultFBO;  //рендерим всё в текстуру
+	UBO::UBO lightUBO; // Хранит все uniform для света
 
 
 	//Callbacks
@@ -166,15 +166,15 @@ public:
 	glm::mat4 projection;
 	glm::mat4 textProjection;
 	glm::vec3 cameraPos;
-
+	static unsigned int srcWidth;  //потому что функци callframbufer статик
+	static unsigned int srcHeight;
 
 protected:
 	//window objects
 	GLFWwindow* window;
 	//window values
 	const char* titles;
-	static unsigned int srcWidth;  //потому что функци callframbufer статик
-	static unsigned int srcHeight;
+	
 
 	float bg[4]; //backgroun colors
 
