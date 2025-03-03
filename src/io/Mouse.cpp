@@ -17,6 +17,10 @@ bool Mouse::firstMouse = true;    // Флаг, определяющий первый вызов для коррект
 bool Mouse::buttons[GLFW_MOUSE_BUTTON_LAST] = { 0 };        // Состояние кнопок мыши (нажата/не нажата)
 bool Mouse::buttonsChanged[GLFW_MOUSE_BUTTON_LAST] = { 0 }; // Состояние изменения кнопок (была ли нажата/отпущена)
 
+std::vector<void(*)(GLFWwindow* window, double _x, double _y)> Mouse::cursorPosCallBacks;
+std::vector<void(*)(GLFWwindow* window, int button, int action, int mods)>  Mouse::mouseButtonCallBacks;
+std::vector<void(*)(GLFWwindow* window, double dx, double dy)>  Mouse::mouseWheelCallBacks;
+
 
 void Mouse::cursorPosCallback(GLFWwindow* window, double _x, double _y)
 {
@@ -34,6 +38,9 @@ void Mouse::cursorPosCallback(GLFWwindow* window, double _x, double _y)
 	lastX = x;         // Обновляем последнее положение X
 	lastY = y;         // Обновляем последнее положение Y
 
+	for (void(*func)(GLFWwindow*, double _x, double _y) : Mouse::cursorPosCallBacks) {
+		func(window, _x, _y);
+	}
 
 	
 }
@@ -51,12 +58,22 @@ void Mouse::mouseButtonCallback(GLFWwindow* window, int button, int action, int 
 	}
 
 	buttonsChanged[button] = action != GLFW_REPEAT;  // Обновляем состояние изменения кнопки (только не для повторов)
+
+
+	for (void(*func)(GLFWwindow*, int button, int action, int mods) : Mouse::mouseButtonCallBacks) {
+		func(window, button, action,mods);
+	}
 }
 
 void Mouse::mouseWheelCallback(GLFWwindow* windowm, double dx, double dy)
 {
 	scrollDX = dx;   // Устанавливаем движение колеса по горизонтали
 	scrollDY = dy;   // Устанавливаем движение колеса по вертикали
+
+
+	for (void(*func)(GLFWwindow* windowm, double dx, double dy) : Mouse::mouseWheelCallBacks) {
+		func(windowm, dx, dy);
+	}
 
 }
 

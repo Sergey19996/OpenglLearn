@@ -77,6 +77,71 @@ std::string Shader::defaultDirectory = "Assets/shaders";
 
 #include "physics/collisionmesh.h"
 
+
+void launchItem() {
+    glm::vec3 fixpos = { cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z };
+
+    RigidBody* rb = scene.generateInstance(sphere.id, glm::vec3(0.25f), 1.0f, fixpos);  // передаем индекс сферы, где она хранится в octree в сцене
+    std::cout << rb << std::endl;
+    if (rb) {
+        //instance generated
+        rb->transferEnergy(100.0f, cam.cameraFront);
+        rb->applyAcceleration(Environment::gravityAcc);
+
+    }
+
+}
+
+void emitRay() {
+    Ray r(cam.cameraPos, cam.cameraFront);
+    float tmin = std::numeric_limits<float>::max();
+    BoundingRegion* intersected = scene.octree->checkCollisionRay(r, tmin);
+    if (intersected) {
+        std::cout << " Hits " << intersected->instance->instanceId << "at t = " << tmin << std::endl;
+        scene.markForDeletion(intersected->instance->instanceId);
+    }
+    else {
+        std::cout << "No hit" << std::endl;
+
+    }
+}
+void MousePosChanged(GLFWwindow* window, double _x, double _y) {
+
+}
+void MouseWheelChanged(GLFWwindow* window, double dx, double dy) {
+
+}
+void MouseButtonChanged(GLFWwindow* window, int button, int action, int mods) {
+    if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_1)) {
+        emitRay();
+    }
+}
+void keyChanged(GLFWwindow* window, int key, int scancode, int action, int mods) {
+
+    switch (action)
+    {
+    case GLFW_RELEASE:
+        std::cout << "Release code" << key << std::endl;
+        break;
+    case GLFW_PRESS:
+        std::cout << "Press code" << key << std::endl;
+        break;
+    case GLFW_REPEAT:
+        std::cout << "Repeat code" << key << std::endl;
+        break;
+
+    };
+
+    if (keyboard::KeyWentDown(GLFW_KEY_ESCAPE)) {
+
+        scene.setShouldCloses(true);
+    }
+    if (keyboard::KeyWentDown(GLFW_KEY_F)) {
+        launchItem();
+    }
+    scene.sceneEvents();
+}
+
 int main()
 {
 
@@ -236,8 +301,10 @@ int main()
     // finish preparations (octree, etc)
     scene.prepare(box, { shader });
 
-
-
+    keyboard::keyCallbacks.push_back(keyChanged);
+    Mouse::mouseButtonCallBacks.push_back(MouseButtonChanged);  // определяем тело функции для вызова в ивенте
+    Mouse::mouseWheelCallBacks.push_back(MouseWheelChanged);
+    Mouse::cursorPosCallBacks.push_back(MousePosChanged);
     scene.VariableLog["time"] = (double)0.0;
 
     scene.defaultFBO.bind(); //rebind default framebuffer
@@ -258,7 +325,7 @@ int main()
         lastTime = currentTime;
         scene.VariableLog["time"] += deltaTime;
         scene.VariableLog["fps"] = 1 / deltaTime;
-
+        scene.VariableLog["fdeltaTime"] = deltaTime;
 
         scene.update();
         //input Tracking
@@ -331,8 +398,9 @@ int main()
         scene.renderText("comic", textShader, "Hello, Opengl!", 50.0f, 50.f, glm::vec2(1.0f), glm::vec3(0.5f,0.6f,1.0f));
         scene.renderText("comic", textShader, "Fat Boyes!", Scene::srcWidth -200.0f, 0+70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
 
-        scene.renderText("comic", textShader, "fps: " + scene.VariableLog["fps"].dump(), Scene::srcWidth - 200.0f, Scene::srcWidth - 70.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
-        scene.renderText("comic", textShader, "fps: " + scene.VariableLog["time"].dump(), Scene::srcWidth - 200.0f, Scene::srcHeight - 100.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
+        scene.renderText("comic", textShader, "fps: " + scene.VariableLog["fps"].dump(), Scene::srcWidth - 200.0f, Scene::srcHeight - 150.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
+        scene.renderText("comic", textShader, "timer: " + scene.VariableLog["time"].dump(), Scene::srcWidth - 200.0f, Scene::srcHeight - 100.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
+        scene.renderText("comic", textShader, "deltatime: " + scene.VariableLog["fdeltaTime"].dump(), Scene::srcWidth - 240.0f, Scene::srcHeight - 50.0f, glm::vec2(1.0f), glm::vec3(0.5f, 0.6f, 1.0f));
         glDepthFunc(GL_LESS);  // change depth function so depth test passes when values are equal to depth buffer's content
 
 
@@ -358,32 +426,7 @@ int main()
 
     return 0;
 }
-void launchItem(float fdeltatime) {
-    glm::vec3 fixpos = { cam.cameraPos.x, cam.cameraPos.y, cam.cameraPos.z  };
 
-   RigidBody* rb = scene.generateInstance(sphere.id, glm::vec3(0.25f), 1.0f, fixpos);  // передаем индекс сферы, где она хранится в octree в сцене
-    std::cout << rb << std::endl;
-    if (rb) {
-        //instance generated
-       rb->transferEnergy(100.0f, cam.cameraFront);
-       rb->applyAcceleration(Environment::gravityAcc);
-
-    }
-
-}
-void emitRay() {
-    Ray r(cam.cameraPos, cam.cameraFront);
-    float tmin = std::numeric_limits<float>::max();
-    BoundingRegion* intersected = scene.octree->checkCollisionRay(r, tmin);
-    if (intersected) {
-        std::cout << " Hits " << intersected->instance->instanceId << "at t = " << tmin << std::endl;
-        scene.markForDeletion(intersected->instance->instanceId);
-    }
-    else{
-        std::cout << "No hit" << std::endl;
-
-    }
- }
 void processInput(float fDeltaTime)
 {
     scene.processInput(fDeltaTime);
@@ -395,49 +438,11 @@ void processInput(float fDeltaTime)
         scene.spotLights[0]->up = scene.getActiveCamera()->cameraUp;
         scene.spotLights[0]->updateMatrices();
     }
+   
 
+  
 
-    if (keyboard::KeyWentUp((GLFW_KEY_ESCAPE)))
-    {
-        scene.setShouldCloses(true);
-       // screen.setShouldClose(true);
-       // glfwSetWindowShouldClose(window, true);
-    }
-
-    if (keyboard::KeyWentDown((GLFW_KEY_F)))
-    {
-        flashlight = !flashlight;
-        if (flashlight) {
-            scene.activeSpotLights = 1;
-        }
-        else
-        {
-            scene.activeSpotLights = 0;
-        }
-
-    };
-
-    if (keyboard::KeyWentDown((GLFW_KEY_Q)))
-    {
-        launchItem(fDeltaTime);
-
-    };
-
-    if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_1)) {
-        emitRay();
-    }
-
-    for (int i = 0; i < 4; i++)
-    {
-        if (keyboard::KeyWentDown((GLFW_KEY_1 + i)))
-        {
-            States::toggleIndex(&scene.activePointLights, i);
-            
-        }
-    }
-    if (keyboard::KeyWentDown((GLFW_KEY_T))) {
-        scene.dirLightActive = !scene.dirLightActive;
-    }
+   
 }
 
 void renderScene(Shader shader) {

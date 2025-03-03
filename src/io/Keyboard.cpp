@@ -4,6 +4,8 @@
 bool::keyboard::keys[GLFW_KEY_LAST] = { 0 };  //GLFW_KEY_LAST это константа, котора€ задаЄт максимальное количество клавиш, распознаваемых GLFW.
 bool keyboard::keysChanges[GLFW_KEY_LAST] = { 0 };
 
+std::vector<void(*)(GLFWwindow* windiw, int key, int scancode, int action, int mods)>keyboard::keyCallbacks; 
+
 
 void keyboard::keyCallback(GLFWwindow* window, int key, int scancode, int action, int modes)
 {
@@ -20,6 +22,11 @@ void keyboard::keyCallback(GLFWwindow* window, int key, int scancode, int action
 	}
 
 	keysChanges[key] = action != GLFW_REPEAT; //≈сли событие не повторное (GLFW_PRESS или GLFW_RELEASE), то выражение вернЄт true.
+
+    for (void(*func)(GLFWwindow*, int, int, int, int) : keyboard::keyCallbacks) {
+        func(window, key, scancode, action, modes);
+    }
+
 }
 
 // ¬озвращает текущее состо€ние клавиши (нажата или нет).

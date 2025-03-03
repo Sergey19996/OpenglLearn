@@ -83,6 +83,7 @@ public:
 	//process input
 	void processInput(float dt);
 
+	void sceneEvents();
 	//update screen before each frame 
 	void update();
 

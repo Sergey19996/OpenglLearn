@@ -147,7 +147,7 @@ bool Scene::init()
 	VariableLog["useGamma"] = false;
 	VariableLog["displayOutlines"] = false;
 	VariableLog["noNormalMap"] = false;
-
+	VariableLog["fdeltaTime"] = 0.0f;
 	return true;
 
 	//return false;
@@ -341,16 +341,7 @@ void Scene::processInput(float dt)
 		if (keyboard::Key(GLFW_KEY_LEFT_SHIFT)) {
 			cameras[activeCamera]->updateCameraPos(CameraDirection::DOWN, dt);
 		}
-
-		//update outline parametr if necessary
-		if (keyboard::KeyWentDown(GLFW_KEY_O)) {
-			VariableLog["displayOutlines"] = !VariableLog["displayOutlines"].val<bool>();
-		}
-
-		if (keyboard::KeyWentUp(GLFW_KEY_N)) {
-			VariableLog["noNormalMap"] = !VariableLog["noNormalMap"].val<bool>();
-		}
-
+		
 		//set matrices
 		view = cameras[activeCamera]->getViewMatrix();
 		projection = glm::perspective(glm::radians(cameras[activeCamera]->getZoom()), //Fov
@@ -364,21 +355,36 @@ void Scene::processInput(float dt)
 		//set pos ath the end
 		cameraPos = cameras[activeCamera]->cameraPos;
 
-		//update blinn parameter if necessary
-		if (keyboard::KeyWentDown(GLFW_KEY_K)) {
-
-			VariableLog["useBlinn"] = !VariableLog["useBlinn"].val<bool>();
-
-		}
-
-		//update gamma parametr
-		if (keyboard::KeyWentDown(GLFW_KEY_G)) {
-			VariableLog["useGamma"] = !VariableLog["useGamma"].val<bool>();
-		}
+		
 
 	}
 
 
+}
+
+void Scene::sceneEvents(){
+
+	
+
+	//update outline parametr if necessary
+	if (keyboard::KeyWentDown(GLFW_KEY_O)) {
+		VariableLog["displayOutlines"] = !VariableLog["displayOutlines"].val<bool>();
+	}
+
+	if (keyboard::KeyWentUp(GLFW_KEY_N)) {
+		VariableLog["noNormalMap"] = !VariableLog["noNormalMap"].val<bool>();
+	}
+	//update blinn parameter if necessary
+	if (keyboard::KeyWentDown(GLFW_KEY_K)) {
+
+		VariableLog["useBlinn"] = !VariableLog["useBlinn"].val<bool>();
+
+	}
+
+	//update gamma parametr
+	if (keyboard::KeyWentDown(GLFW_KEY_G)) {
+		VariableLog["useGamma"] = !VariableLog["useGamma"].val<bool>();
+	}
 }
 
 void Scene::update()
@@ -404,7 +410,7 @@ void Scene::newFrame(Box& box)
 	// send new frame to window
 	glfwSwapBuffers(window);
 	glfwPollEvents();
-
+	//glfwWaitEventsTimeout(0.001);
 
 }
 

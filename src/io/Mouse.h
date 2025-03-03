@@ -5,10 +5,21 @@
 #include <GLFW/glfw3.h> // Библиотека для работы с окнами и ввода/вывода
 #include "Camera.h"
 
+#include <vector>
+
 class Mouse {
 public:
+
+	static std::vector<void(*)(GLFWwindow* window, double _x, double _y)> cursorPosCallBacks;
+	static std::vector<void(*)(GLFWwindow* window, int button, int action, int mods)> mouseButtonCallBacks;
+	static std::vector<void(*)(GLFWwindow* window, double dx, double dy)> mouseWheelCallBacks;
+
+	//cursor position changed
 	static void cursorPosCallback(GLFWwindow* window, double _x, double _y);
+	//mouse button state change
 	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
+	//scroll wheel moved
 	static void mouseWheelCallback(GLFWwindow* windowm, double dx, double dy);
 
 
