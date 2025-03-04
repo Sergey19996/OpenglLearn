@@ -31,7 +31,7 @@ in VS_OUT {
 
 uniform bool noTex;
 uniform bool noNormalMap;
-uniform bool skipNormalMap;
+
 
 
 uniform bool useBlinn;
@@ -63,14 +63,18 @@ vec3 sampleOffsetDirections[NUM_SAMPLES] = vec3[]
 void main(){                           
   
 vec3 norm = normalize(fs_in.tanLights.Normal);  //нормализуем нормаль фрагмента  (после изменений в меше, перемещений, скейла ротейта дл€ вертексов
-if(!noNormalMap && !skipNormalMap){
+if(!noNormalMap){
+// take normal vector from texture (in tangent space)
 norm = texture(normal0,fs_in.TexCoord).rgb;
 norm = normalize(norm * 2.0 - 1.0); // map form [0,1] to [-1, 1]
 }
 
+// calculate view vectors in tangent space
 vec3 viewVec = fs_in.tanLights.ViewPos - fs_in.tanLights.FragPos;
 
 vec3 viewDir = normalize(viewVec);  // нормализуем вектор направлени€ от фрагмента к камере 
+
+// diffuse and specular textures
 vec4 diffMap;
 vec4 specMap;
 
@@ -86,27 +90,29 @@ if(noTex == true){  // когда у меша нет текстур
 vec4 result;
 
 //directionlight
-if(useDirLight){
+//if(useDirLight){
 result = calcDirlight(norm,viewVec,viewDir,diffMap,specMap);
+
+//}
+
+
 //spotlights
-for(int i =0; i<noSpotLights; i++){
-result += calcSpotLight(i,norm,viewVec,viewDir,diffMap,specMap);
-};
-}
-
-//pointLight
-for(int i = 0; i<noPointLights; i++)
-{
-result += calcPointLight(i,norm,viewVec,viewDir,diffMap,specMap);
-};
-
-
+//for(int i =0; i<noSpotLights; i++){
+//result += calcSpotLight(i,norm,viewVec,viewDir,diffMap,specMap);
+//};
+////pointLight
+//for(int i = 0; i<noPointLights; i++)
+//{
+//result += calcPointLight(i,norm,viewVec,viewDir,diffMap,specMap);
+//};
+//
+//
 
 //gamma correction
-if(useGamma){
-float gamma = 2.2;
-result.rgb = pow(result.rgb,vec3(1.0/gamma));
-}
+//if(useGamma){
+//float gamma = 2.2;
+//result.rgb = pow(result.rgb,vec3(1.0/gamma));
+//}
 
 // depth testing
 //float near = 0.1;
@@ -135,8 +141,8 @@ vec4 ambient = dirLight.ambient * diffMap;  // каждый пиксель умножаем на свет э
 
 //diffuse
 
-vec3 lightDir =normalize(-fs_in.tanLights.dirLightDirection);   // нормализуем инвертированый вектор света  был (от света к фрагменту) !стал -от фрагмента к свету!!! 
-float diff =max(dot(norm,lightDir), 0.0); // если скал€рное произведение отрицательное пишем 0 (источник света позади поверхности)
+vec3 lightDir = normalize(-fs_in.tanLights.dirLightDirection);   // нормализуем инвертированый вектор света  был (от света к фрагменту) !стал -от фрагмента к свету!!! 
+float diff = max(dot(norm,lightDir), 0.0); // cos(1) = 0 граудсов cos(0) = 90 градусов
 vec4 diffuse = dirLight.diffuse * (diff * diffMap); // если в diff свет не поподает то и diffuse Ѕудет 0
 
 
@@ -148,7 +154,7 @@ if(diff > 0){
 float dotProd = 0.0f;
 if(useBlinn){   //булева операци€
 	//calculate using Blinn-phong model 
-	vec3 halWayDir = normalize(lightDir + viewDir);
+	vec3 halWayDir = normalize(lightDir + viewDir); //сложение двух векторов даЄт нам средний вектор между ними 
 	dotProd = dot(halWayDir,norm);   // по свойствам dot producta расчитываем сопоставленность 
 
 }else{
@@ -175,7 +181,7 @@ return vec4(ambient + (1.0-shadow) * (diffuse + specular));
 }
 float calckDirlightShadow(vec3 norm,vec3 viewVec, vec3 lightDir){
  //                             Projection                   //FragPos only model matrix 
-	vec4 FragPosLightSpace = dirLight.lightSpaceMatrix * vec4(fs_in.FragPos,1.0); 
+	vec4 FragPosLightSpace = dirLight.lightSpaceMatrix * vec4(fs_in.FragPos,1.0);  //позици€ фрагмента в пространстве света (light space).
 
 	//perspective divide (transforming coordinates NDC)
 	vec3 projCoords = FragPosLightSpace.xyz / FragPosLightSpace.w ; // [depth relative to light] => [-1, 1]
@@ -185,7 +191,7 @@ float calckDirlightShadow(vec3 norm,vec3 viewVec, vec3 lightDir){
 
 	//if too far from light, do not return any shadow 
 	if(projCoords.z > 1.0){
-	 return 0.0;
+	 return 0.0f;
 	}
 
 
@@ -200,9 +206,9 @@ float calckDirlightShadow(vec3 norm,vec3 viewVec, vec3 lightDir){
 
 	//PCF
 	float shadowSum = 0.0;
-	vec2 texelSize = 1.0/textureSize(dirLightBuffer,0);
+	vec2 texelSize = 1.0 / textureSize(dirLightBuffer,0);
 	 float viewDist = length(viewVec);
-	 float diskRadius = (1.0 + (viewDist /dirLight.farPlane)) / 30.0;
+	float diskRadius = (1.0 + (currentDepth / dirLight.farPlane)) / 10.0;
 
 	for(int y = -1; y <= 1; y++){
 		for (int x = -1; x<= 1; x++){

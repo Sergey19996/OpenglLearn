@@ -90,11 +90,11 @@ public:
 	void removeInstance(std::string instanced);
 
 	unsigned int getIdx(std::string id);
-
+	void resetRBCalc();
 
 protected:
 	bool noTex;
-
+	
 	std::string directory;
 
 	//list of loaded textures
@@ -120,6 +120,9 @@ protected:
 	//VBOs for model matrices
 	BufferObject modelVBO;
 	BufferObject normalModelVBO;
+
+private:
+	
 
 };
 

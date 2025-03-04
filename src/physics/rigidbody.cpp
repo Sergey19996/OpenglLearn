@@ -41,6 +41,7 @@ void RigidBody::update(float deltaTime)
 
 	lastCollision += deltaTime;
 
+	
 }
 
 void RigidBody::applyForce(glm::vec3 force)

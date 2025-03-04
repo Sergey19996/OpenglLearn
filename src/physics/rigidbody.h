@@ -4,9 +4,9 @@
 #include <glm/glm.hpp>
 #include <string>
 
-#define INSTANCE_DEAD  (unsigned char)0b00000001
-#define INSTANCE_MOVED (unsigned char)0b00000010
-
+#define INSTANCE_DEAD  (unsigned char)     0b00000001
+#define INSTANCE_MOVED (unsigned char)	   0b00000010
+#define INSTANCE_CALCULATED (unsigned char)0b10000010
 #define COLLISION_THRESHHOLD 0.05f
 
 class RigidBody {

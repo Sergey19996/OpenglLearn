@@ -57,9 +57,9 @@ void Vertex::calcTanVectors(std::vector<Vertex>& list, std::vector<unsigned int>
     //iterate thorugh indices and calculate vectors for each face
     for (unsigned int i = 0, len = indices.size(); i < len; i += 3) {
         // 3 vertices  corresponding to the face
-        Vertex v1 = list[indices[i + 0]];
-        Vertex v2 = list[indices[i + 1]];
-        Vertex v3 = list[indices[i + 2]];
+        Vertex& v1 = list[indices[i + 0]];
+        Vertex& v2 = list[indices[i + 1]];
+        Vertex& v3 = list[indices[i + 2]];
 
         //calculate edges
         glm::vec3 edge1 = v2.pos - v1.pos;
@@ -70,7 +70,8 @@ void Vertex::calcTanVectors(std::vector<Vertex>& list, std::vector<unsigned int>
         glm::vec2 deltaUV2 = v3.texCoord - v1.texCoord;
 
         //use inverese of the UV matrix to determine tangent
-        float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x); //это коэффициент, который "возвращает" объем к исходному значению. Если без
+        float det = deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x;
+        float f = (det == 0.0f) ? 1.0f : (1.0f / det);
 
         glm::vec3 tangent = {
             f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x),

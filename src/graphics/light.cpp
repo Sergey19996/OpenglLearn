@@ -92,6 +92,7 @@ void DirLight::render(Shader shader, unsigned int textureIdx)
 }
 
 void DirLight::updateMatrices(){
+
 	glm::mat4 proj = glm::ortho(br.min.x, br.max.x, br.min.y, br.max.y, br.min.z, br.max.z);
 
 	glm::vec3 pos = -2.0f * direction;

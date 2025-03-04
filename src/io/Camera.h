@@ -30,6 +30,7 @@ public:
 	float zoom;
 
 	Camera(glm::vec3 position = glm::vec3(0.0f));
+	Camera(glm::vec3 position, float vertical, float horizont);
 
 	void updateCameraDirection(double dx, double dy);
 	void updateCameraPos(CameraDirection dir, double dt);

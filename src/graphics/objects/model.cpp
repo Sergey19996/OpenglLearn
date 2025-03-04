@@ -73,11 +73,21 @@ void Model::render(Shader shader, float dt, Scene* scene) {
 
         // iterate through each instance
         for (int i = 0; i < currentNoInstances; i++) {
-            if (doUpdate) {
-                // update Rigid Body
+            if (doUpdate ) {
+                // update Rigid Body once per cycle
+                if (!States::isActive(&instances[i]->state, INSTANCE_CALCULATED))
+                {
                 instances[i]->update(dt);
+                //say that in this cycle we calculated
+                States::activate(&instances[i]->state, INSTANCE_CALCULATED);
+                }
+
+                
                 // activate moved switch
                 States::activate(&instances[i]->state, INSTANCE_MOVED);
+              
+                
+             
             }
             else {
                 // deactivate moved switch
@@ -228,6 +238,12 @@ unsigned int Model::getIdx(std::string id) {
         }
     }
     return -1;
+}
+
+void Model::resetRBCalc(){
+    for (int i = 0; i < currentNoInstances; i++) {
+        States::deactivate(&instances[i]->state, INSTANCE_MOVED);
+    }
 }
 
 /*

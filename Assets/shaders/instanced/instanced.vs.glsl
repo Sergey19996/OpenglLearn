@@ -34,7 +34,7 @@ vs_out.tanLights.Normal = normalize(normalModel * aNormal);
 //calculate tangent space matrix
 vec3 T = normalize(normalModel * aTangent);
 vec3 N = vs_out.tanLights.Normal;
-T = normalize(T - dot(T,N) * N); //re-ortogonize T with respect to N   получаем проекцию T на нормаль dot(T,N) * N
+T = normalize(T - dot(T,N) * N); //re-ortogonize T with respect to N    получаем вектор лежащий на плоскости faceа нормали 
 vec3 B = cross(N,T); // get  B perpendicular to T and N
 mat3 TBNinv = transpose(mat3(T,B,N)); // ortogonal matrix => transpose = мировых координат в касательное пространство
 

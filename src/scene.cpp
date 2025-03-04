@@ -22,6 +22,13 @@ std::string Scene::generateId() {
 	}
 	return currenId; // Возвращаем обновленный идентификатор
 }
+void resetRb(avl* node){
+	if (node == NULL || node->val == NULL) return;
+
+	Model* model = (Model*)node->val;
+	model->resetRBCalc(); // Отключаем переменную
+
+}
 void Scene::framebufferSizeCallBack(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -241,7 +248,7 @@ void Scene::prepare(Box& box, std::vector<Shader> shaders){
 	lightUBO.writeElement<glm::vec4>(&dirLight->ambient);
 	lightUBO.writeElement<glm::vec4>(&dirLight->diffuse);
 	lightUBO.writeElement<glm::vec4>(&dirLight->specular);
-	lightUBO.writeElement<float>(&dirLight->br.max.z);
+	lightUBO.writeElement<float>(&dirLight->br.max.z); //far plane 
 	lightUBO.writeArrayContainer<glm::mat4, glm::vec4>(&dirLight->lightSpaceMatrix, 4);
 	//point light
 	noPointLights = std::min<unsigned int>(pointLights.size(), MAX_POINT_LIGHTS);
@@ -394,7 +401,12 @@ void Scene::update()
 	defaultFBO.clear();
 	
 	defaultFBO.resize(srcWidth, srcHeight);
+
+	avl_inorderTraverse(models, resetRb);
+	
+
 }
+
 
 void Scene::newFrame(Box& box)
 {  //process pending
@@ -472,7 +484,7 @@ void Scene::renderShader(Shader shader, bool applyLighting)
 void Scene::renderDirLightShader(Shader shader){
 	shader.activate();
 	shader.setMat4("lightSpaceMatrix", dirLight->lightSpaceMatrix); // замена projections ( теперь смотрит от света) 
-
+	
 }
 
 void Scene::renderPointLightShader(Shader Shader, unsigned int idx){

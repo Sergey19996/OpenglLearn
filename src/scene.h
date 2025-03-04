@@ -40,7 +40,7 @@ public:
 
 	
 	avl* models;
-
+	
 	trie::Trie<RigidBody*> instances;
 	
 
@@ -185,5 +185,5 @@ protected:
 
 
 };
-
+void resetRb(avl* node);
 #endif // ! SCENE_H
